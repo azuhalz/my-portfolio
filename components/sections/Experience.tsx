@@ -1,4 +1,5 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { BriefcaseBusiness } from "lucide-react";
 
 // Data pengalaman kerja ditulis langsung di sini
 const experiences = [
@@ -40,7 +41,10 @@ export default function Experience() {
     // id="experience" agar link /#experience dari Navbar bisa scroll ke sini
     <section id="experience" className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading title="Work Experience" />
+        <SectionHeading
+          title="Work Experience"
+          icon={<BriefcaseBusiness size={24} />}
+        />
 
         {/* Container timeline: posisi relative agar garis vertikal bisa diletakkan di dalamnya */}
         <div className="relative">

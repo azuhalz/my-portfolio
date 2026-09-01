@@ -1,4 +1,5 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Award } from "lucide-react";
 
 // Data sertifikasi ditulis langsung di sini
 const certifications = [
@@ -45,7 +46,7 @@ export default function Certifications() {
     // id="certifications" agar link /#certifications dari Navbar bisa scroll ke sini
     <section id="certifications" className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading title="Certifications" />
+        <SectionHeading title="Certifications" icon={<Award size={24} />} />
 
         {/* Grid 3 kolom untuk daftar sertifikasi */}
         <div className="grid grid-cols-3 gap-4">

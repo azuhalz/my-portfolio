@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { projectsData } from "@/lib/projects-data";
+import { FolderKanban } from "lucide-react";
 
 // Ambil hanya 4 proyek pertama untuk ditampilkan di Home
 const previewProjects = projectsData.slice(0, 4);
@@ -14,7 +15,7 @@ export default function Projects() {
       <div className="max-w-7xl mx-auto">
         {/* Header: Judul di kiri, link "View All" di kanan */}
         <div className="flex items-center justify-between mb-8">
-          <SectionHeading title="Projects" />
+          <SectionHeading title="Projects" icon={<FolderKanban size={24} />} />
           <Link
             href="/projects"
             className="text-primary text-sm hover:underline"

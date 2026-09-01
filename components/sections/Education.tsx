@@ -1,4 +1,5 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { GraduationCap, UsersRound } from "lucide-react";
 
 // Data pendidikan formal
 const educations = [
@@ -47,7 +48,7 @@ export default function Education() {
         {/* ======================== */}
         {/* SUB-SECTION: EDUCATION  */}
         {/* ======================== */}
-        <SectionHeading title="Education" />
+        <SectionHeading title="Education" icon={<GraduationCap size={24} />} />
 
         <div className="space-y-6 mb-16">
           {educations.map((edu, index) => (
@@ -66,7 +67,10 @@ export default function Education() {
         {/* ================================= */}
         {/* SUB-SECTION: ORGANIZATIONAL EXP  */}
         {/* ================================= */}
-        <SectionHeading title="Organizational Experience" />
+        <SectionHeading
+          title="Organizational Experience"
+          icon={<UsersRound size={24} />}
+        />
 
         <div className="relative">
           {/* Garis vertikal ungu */}
