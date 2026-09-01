@@ -4,15 +4,15 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { projectsData } from "@/lib/projects-data";
 import { FolderKanban } from "lucide-react";
+import { Card } from "../ui/Card";
 
 // Ambil hanya 4 proyek pertama untuk ditampilkan di Home
 const previewProjects = projectsData.slice(0, 4);
 
 export default function Projects() {
   return (
-    // id="projects" agar link /#projects dari Navbar bisa scroll ke sini
-    <section id="projects" className="py-20 px-6">
-      <div className="max-w-7xl mx-auto">
+    <section>
+      <Card className="p-6 mt-2">
         {/* Header: Judul di kiri, link "View All" di kanan */}
         <div className="flex items-center justify-between mb-8">
           <SectionHeading title="Projects" icon={<FolderKanban size={24} />} />
@@ -58,7 +58,7 @@ export default function Projects() {
             </Link>
           ))}
         </div>
-      </div>
+      </Card>
     </section>
   );
 }

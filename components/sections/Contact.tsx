@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { Mail } from "lucide-react";
+import { Card } from "../ui/Card";
 
 export default function Contact() {
   // State untuk menyimpan isi form: name, email, dan message
@@ -23,8 +24,8 @@ export default function Contact() {
 
   return (
     // id="contact" agar link /#contact dari Navbar bisa scroll ke sini
-    <section id="contact" className="py-20 px-6">
-      <div className="max-w-7xl mx-auto">
+    <section id="contact">
+      <Card className="p-6 mt-2">
         <SectionHeading title="Contact" icon={<Mail size={24} />} />
 
         {/* Grid 2 kolom: kiri deskripsi, kanan form */}
@@ -99,7 +100,7 @@ export default function Contact() {
             </Button>
           </form>
         </div>
-      </div>
+      </Card>
     </section>
   );
 }
