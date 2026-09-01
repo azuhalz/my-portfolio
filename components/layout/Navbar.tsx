@@ -27,8 +27,8 @@ export default function Navbar() {
     "text-text-secondary hover:text-white px-4 py-2 rounded-full transition-colors text-md";
 
   return (
-    <nav className="sticky top-0 z-50 bg-background border-b border-border">
-      <div className="mx-auto px-6 py-4 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 bg-background">
+      <div className="mx-auto px-6 pt-4 flex items-center justify-between">
         <Link
           href="/"
           onClick={() => setActiveMenu("")}
@@ -37,7 +37,7 @@ export default function Navbar() {
           AZZ<span className="text-primary">.</span>
         </Link>
 
-        <div className="flex gap-2 items-center border border-primary rounded-4xl py-2 px-6">
+        <div className="flex gap-2 items-center border border-primary rounded-4xl py-1.5 px-6">
           <Link
             href="/#about"
             onClick={() => setActiveMenu("about")}

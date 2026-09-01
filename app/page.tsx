@@ -1,42 +1,23 @@
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import Image from "next/image";
+import Hero from "@/components/sections/Hero";
+import AboutMe from "@/components/sections/AboutMe";
+import TechStack from "@/components/sections/TechStack";
+import Projects from "@/components/sections/Projects";
+import Experience from "@/components/sections/Experience";
+import Education from "@/components/sections/Education";
+import Certifications from "@/components/sections/Certifications";
+import Contact from "@/components/sections/Contact";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div>
-      <Card
-        children={
-          <Image
-            src="/images/projects/dashboard-analytics.png"
-            alt="Dashboard Analytics"
-            width={500}
-            height={300}
-          />
-        }
-      />
-      <Card
-        children={
-          <Image
-            src="/images/projects/dashboard-analytics.png"
-            alt="Dashboard Analytics"
-            width={500}
-            height={300}
-          />
-        }
-      />
-      <Card
-        children={
-          <Image
-            src="/images/projects/dashboard-analytics.png"
-            alt="Dashboard Analytics"
-            width={500}
-            height={300}
-          />
-        }
-      />
+    <div className="px-12">
+      <Hero />
+      <AboutMe />
+      <TechStack />
+      <Projects />
+      <Experience />
+      <Education />
+      <Certifications />
+      <Contact />
     </div>
   );
 }
