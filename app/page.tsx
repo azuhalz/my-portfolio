@@ -9,7 +9,7 @@ import Contact from "@/components/sections/Contact";
 
 export default function HomePage() {
   return (
-    <div className="px-12">
+    <div className="mx-20">
       <Hero />
       <AboutMe />
       <TechStack />
