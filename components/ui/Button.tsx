@@ -20,9 +20,9 @@ export function Button({
 
   const variants = {
     primary:
-      "bg-primary hover:bg-primary-hover text-white shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_25px_rgba(139,92,246,0.5)]",
-    outline: "border border-primary text-white hover:bg-primary",
-    ghost: "text-text-secondary hover:text-white hover:bg-card",
+      "bg-primary cursor-pointer hover:bg-primary-hover text-white shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_25px_rgba(139,92,246,0.5)]",
+    outline: "border border-primary text-white hover:bg-primary cursor-pointer",
+    ghost: "cursor-pointer text-text-secondary hover:text-white hover:bg-card",
   };
 
   const combinedClassName = `${baseStyles} ${variants[variant]} ${className}`;

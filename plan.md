@@ -138,13 +138,13 @@ Kerjakan satu per satu secara berurutan. Ubah `[ ]` menjadi `[x]` jika tugas sud
 
 ### 🖼️ Fase 2: Layout Global (Navbar & Footer)
 
-- [ ] **2.1** Buat `components/layout/Navbar.tsx`:
-  - Logo "AZZ." di kiri pakai file public/logo_azz.png.
-  - Link **scroll** (anchor): About, Tech Stack, Experience, Education, Certifications, Contact → `href="#id-section"`.
+- [x] **2.1** Buat `components/layout/Navbar.tsx`:
+  - Logo "AZZ." di kiri.
+  - Link **scroll** (anchor): About, Experience, Education, Certifications, Contact → `href="#id-section"`.
   - Link **pindah halaman**: Projects → `href="/projects"`.
   - Tombol "Download CV" di kanan → `href="/cv-zuhal.pdf"`.
-- [ ] **2.2** Buat `components/layout/Footer.tsx` (copyright, tombol panah ke atas).
-- [ ] **2.3** Import Navbar & Footer ke dalam `app/layout.tsx`.
+- [x] **2.2** Buat `components/layout/Footer.tsx` (copyright, tombol panah ke atas).
+- [x] **2.3** Import Navbar & Footer ke dalam `app/layout.tsx`.
 
 ### 🏠 Fase 3: Halaman Home (`/`)
 
