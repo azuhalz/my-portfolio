@@ -25,10 +25,10 @@ export default function Projects() {
         </div>
 
         {/* Grid 2 kolom untuk menampilkan 4 project card */}
-        <div className="grid grid-cols-2 gap-6 pt-2">
+        <div className="grid grid-cols-2 gap-3 pt-2">
           {previewProjects.map((project) => (
             <Link key={project.slug} href={`/projects/${project.slug}`}>
-              <div className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary transition-colors group">
+              <Card className="p-0! overflow-hidden hover:border-primary transition-colors group">
                 {/* Gambar Thumbnail */}
                 <div className="relative h-48 bg-border">
                   <Image
@@ -54,7 +54,7 @@ export default function Projects() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </Card>
             </Link>
           ))}
         </div>

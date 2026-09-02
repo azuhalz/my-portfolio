@@ -17,7 +17,7 @@ export default function Hero() {
           <p className="text-primary text-2xl mt-2">Fullstack Developer</p>
 
           <div className="flex gap-4 mt-4">
-            <Button href="/#projects" variant="primary">
+            <Button href="/projects" variant="primary">
               View My Work ↗
             </Button>
             <Button href="/#contact" variant="outline">
@@ -56,9 +56,8 @@ export default function Hero() {
 
         <div className="flex justify-center">
           <div className="relative w-96 h-96">
-            <div className="absolute inset-0 rounded-full bg-primary/20 blur-3xl scale-120" />
             <Image
-              src="/heroo.png"
+              src="/profile3.png"
               alt="Zhafran Profile"
               fill
               className="object-cover relative z-10"
