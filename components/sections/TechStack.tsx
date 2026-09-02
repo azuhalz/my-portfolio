@@ -26,8 +26,8 @@ const techStack = [
 
 export default function TechStack() {
   return (
-    <section className="mt-2">
-      <Card className="p-6">
+    <section>
+      <Card className="p-6 mt-2">
         <SectionHeading
           title="My Skills & Tech Stack"
           icon={<Cpu size={24} />}

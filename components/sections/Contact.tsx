@@ -29,7 +29,7 @@ export default function Contact() {
         <SectionHeading title="Contact" icon={<Mail size={24} />} />
 
         {/* Grid 2 kolom: kiri deskripsi, kanan form */}
-        <div className="grid grid-cols-2 gap-12">
+        <div className="grid grid-cols-2 gap-12 pt-2">
           {/* ================================ */}
           {/* KOLOM KIRI: Deskripsi & Sosial   */}
           {/* ================================ */}

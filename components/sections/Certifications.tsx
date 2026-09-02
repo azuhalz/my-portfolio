@@ -50,7 +50,7 @@ export default function Certifications() {
         <SectionHeading title="Certifications" icon={<Award size={24} />} />
 
         {/* Grid 3 kolom untuk daftar sertifikasi */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 pt-2">
           {certifications.map((cert, index) => (
             <div
               key={index}

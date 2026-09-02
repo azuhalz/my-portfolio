@@ -47,7 +47,7 @@ export default function Experience() {
         />
 
         {/* Container timeline: posisi relative agar garis vertikal bisa diletakkan di dalamnya */}
-        <div className="relative">
+        <div className="relative pt-2">
           {/* Garis vertikal ungu di kiri */}
           <div className="absolute left-5 top-0 bottom-0 w-px bg-border" />
 
@@ -59,10 +59,8 @@ export default function Experience() {
                 <div className="absolute -left-7 top-1.5 w-4 h-4 rounded-full bg-primary border-2 border-background" />
 
                 <div className="flex justify-between">
-                  <h3 className="text-white font-semibold">{exp.title}</h3>
-                  <p className="text-text-secondary text-sm mb-1">
-                    {exp.period}
-                  </p>
+                  <h2 className="text-white font-semibold">{exp.title}</h2>
+                  <p className="text-text-secondary text-sm">{exp.period}</p>
                 </div>
                 <p className="text-primary mb-1">{exp.company}</p>
 

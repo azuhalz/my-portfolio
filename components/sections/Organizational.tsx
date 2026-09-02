@@ -34,7 +34,7 @@ export default function Organizational() {
           icon={<UsersRound size={24} />}
         />
 
-        <div className="relative">
+        <div className="relative pt-2">
           <div className="absolute left-2 top-0 bottom-0 w-px bg-border" />
 
           <div className="space-y-10 pl-10">

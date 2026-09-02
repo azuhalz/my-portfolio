@@ -14,7 +14,7 @@ export default function Projects() {
     <section>
       <Card className="p-6 mt-2">
         {/* Header: Judul di kiri, link "View All" di kanan */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between">
           <SectionHeading title="Projects" icon={<FolderKanban size={24} />} />
           <Link
             href="/projects"
@@ -25,7 +25,7 @@ export default function Projects() {
         </div>
 
         {/* Grid 2 kolom untuk menampilkan 4 project card */}
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-6 pt-2">
           {previewProjects.map((project) => (
             <Link key={project.slug} href={`/projects/${project.slug}`}>
               <div className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary transition-colors group">

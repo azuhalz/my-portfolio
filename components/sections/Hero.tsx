@@ -14,9 +14,9 @@ export default function Hero() {
             Zhafran<span className="text-primary">.</span>
           </h1>
 
-          <p className="text-primary mt-4 text-xl">Fullstack Developer</p>
+          <p className="text-primary text-2xl mt-2">Fullstack Developer</p>
 
-          <div className="flex gap-4 mt-8">
+          <div className="flex gap-4 mt-4">
             <Button href="/#projects" variant="primary">
               View My Work ↗
             </Button>
@@ -25,7 +25,7 @@ export default function Hero() {
             </Button>
           </div>
 
-          <div className="flex gap-10 mt-8">
+          <div className="flex gap-10 mt-6">
             <Link
               href="https://github.com/azuhalz"
               target="_blank"
