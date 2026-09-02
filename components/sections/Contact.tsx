@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { Mail } from "lucide-react";
+import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Card } from "../ui/Card";
+import Link from "next/link";
 
 export default function Contact() {
   // State untuk menyimpan isi form: name, email, dan message
@@ -26,7 +27,7 @@ export default function Contact() {
     // id="contact" agar link /#contact dari Navbar bisa scroll ke sini
     <section id="contact">
       <Card className="p-6 mt-2">
-        <SectionHeading title="Contact" icon={<Mail size={24} />} />
+        <SectionHeading title="Contact Me" icon={<FaEnvelope size={24} />} />
 
         {/* Grid 2 kolom: kiri deskripsi, kanan form */}
         <div className="grid grid-cols-2 gap-12 pt-2">
@@ -40,26 +41,34 @@ export default function Contact() {
             </p>
 
             <div className="flex flex-col gap-3">
-              <a
-                href="mailto:mfachmifusuzahalrahs@gmail.com"
-                className="text-text-secondary hover:text-white transition-colors"
+              <Link
+                href="mailto:ahmadzuhalzhafran@gmail.com"
+                className="text-text-secondary hover:text-primary transition-colors"
               >
-                ✉️ mfachmifusuzahalrahs@gmail.com
-              </a>
-              <a
-                href="https://github.com/azuhalzz"
+                <div className="flex gap-2 items-center">
+                  <FaEnvelope size={20} />
+                  ahmadzuhalzhafran@gmail.com
+                </div>
+              </Link>
+              <Link
+                href="https://linkedin.com/in/azuhalz"
                 target="_blank"
-                className="text-text-secondary hover:text-white transition-colors"
+                className="text-text-secondary hover:text-primary transition-colors"
               >
-                🐙 github.com/azuhalzz
-              </a>
-              <a
-                href="https://linkedin.com/in/zuhalzz"
+                <div className="flex gap-2 items-center">
+                  <FaLinkedin size={20} /> linkedin.com/in/azuhalz
+                </div>
+              </Link>
+              <Link
+                href="https://github.com/azuhalz"
                 target="_blank"
-                className="text-text-secondary hover:text-white transition-colors"
+                className="text-text-secondary hover:text-primary transition-colors"
               >
-                💼 linkedin.com/in/zuhalzz
-              </a>
+                <div className="flex gap-2 items-center">
+                  <FaGithub size={20} />
+                  github.com/azuhalz
+                </div>
+              </Link>
             </div>
           </div>
 
