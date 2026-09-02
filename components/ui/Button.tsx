@@ -1,12 +1,20 @@
 import React from "react";
 import Link from "next/link";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+// Gabungkan atribut bawaan Button dan Anchor (Link)
+type ButtonAsButton = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  href?: undefined;
+};
+
+type ButtonAsLink = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+  href: string;
+};
+
+type ButtonProps = (ButtonAsButton | ButtonAsLink) & {
   variant?: "primary" | "outline" | "ghost";
-  href?: string;
   className?: string;
   children: React.ReactNode;
-}
+};
 
 export function Button({
   variant = "primary",
@@ -28,15 +36,23 @@ export function Button({
   const combinedClassName = `${baseStyles} ${variants[variant]} ${className}`;
 
   if (href) {
+    // Cast props ke AnchorHTMLAttributes agar TypeScript tidak komplain
     return (
-      <Link href={href} className={combinedClassName}>
+      <Link
+        href={href}
+        className={combinedClassName}
+        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      >
         {children}
       </Link>
     );
   }
 
   return (
-    <button className={combinedClassName} {...props}>
+    <button
+      className={combinedClassName}
+      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+    >
       {children}
     </button>
   );
