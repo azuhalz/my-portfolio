@@ -18,7 +18,7 @@ export default function Projects() {
           <SectionHeading title="Projects" icon={<FolderKanban size={24} />} />
           <Link
             href="/projects"
-            className="text-primary text-sm hover:underline"
+            className="text-primary text-md hover:underline"
           >
             View All Projects →
           </Link>

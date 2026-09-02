@@ -148,22 +148,22 @@ Kerjakan satu per satu secara berurutan. Ubah `[ ]` menjadi `[x]` jika tugas sud
 
 ### 🏠 Fase 3: Halaman Home (`/`)
 
-- [ ] **3.1** Buat `Hero.tsx` — berikan `id="home"` pada section ini.
-- [ ] **3.2** Buat `AboutMe.tsx` — berikan `id="about"`.
-- [ ] **3.3** Buat `TechStack.tsx` — berikan `id="tech-stack"`.
-- [ ] **3.4** Buat `Projects.tsx` (preview 4 proyek) — berikan `id="projects"`. Tambahkan tombol "View All Projects →" yang mengarah ke `/projects`.
-- [ ] **3.5** Buat `Experience.tsx` — berikan `id="experience"`.
-- [ ] **3.6** Buat `Education.tsx` — berikan `id="education"`.
-- [ ] **3.7** Buat `Certifications.tsx` — berikan `id="certifications"`.
-- [ ] **3.8** Buat `Contact.tsx` — berikan `id="contact"`.
-- [ ] **3.9** Rakit semua section di `app/page.tsx`.
+- [x] **3.1** Buat `Hero.tsx` — berikan `id="home"` pada section ini.
+- [x] **3.2** Buat `AboutMe.tsx` — berikan `id="about"`.
+- [x] **3.3** Buat `TechStack.tsx` — berikan `id="tech-stack"`.
+- [x] **3.4** Buat `Projects.tsx` (preview 4 proyek) — berikan `id="projects"`. Tambahkan tombol "View All Projects →" yang mengarah ke `/projects`.
+- [x] **3.5** Buat `Experience.tsx` — berikan `id="experience"`.
+- [x] **3.6** Buat `Education.tsx` — berikan `id="education"`.
+- [x] **3.7** Buat `Certifications.tsx` — berikan `id="certifications"`.
+- [x] **3.8** Buat `Contact.tsx` — berikan `id="contact"`.
+- [x] **3.9** Rakit semua section di `app/page.tsx`.
 
 ### 📂 Fase 4: Halaman All Projects (`/projects`)
 
-- [ ] **4.1** Buat `components/projects/ProjectCard.tsx`.
-- [ ] **4.2** Buat `components/projects/ProjectFilter.tsx`.
-- [ ] **4.3** Buat `components/projects/ProjectSearch.tsx`.
-- [ ] **4.4** Rakit semuanya di `app/projects/page.tsx`.
+- [x] **4.1** Buat `components/projects/ProjectCard.tsx`.
+- [x] **4.2** Buat `components/projects/ProjectFilter.tsx`.
+- [x] **4.3** Buat `components/projects/ProjectSearch.tsx`.
+- [x] **4.4** Rakit semuanya di `app/projects/page.tsx`.
 
 ### 🔍 Fase 5: Halaman Detail Proyek (`/projects/[slug]`)
 

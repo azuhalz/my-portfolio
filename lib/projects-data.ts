@@ -38,6 +38,8 @@ export const projectsData: Project[] = [
     ],
     image: "/images/projects/dashboard-analytics.png",
     category: "Dashboard",
+    liveDemoLink: "https://github.com/azuhalz/my-portfolio",
+    githubLink: "https://github.com/azuhalz/my-portfolio",
   },
   {
     slug: "travel-explorer-web",
