@@ -13,8 +13,17 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-text-primary);
+  }
+
+  /* Sisakan ruang untuk navbar sticky ketika berpindah ke anchor section. */
+  section[id] {
+    scroll-margin-top: 5rem;
   }
 }
