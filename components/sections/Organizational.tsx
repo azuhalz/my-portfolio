@@ -35,7 +35,7 @@ export default function Organizational() {
         />
 
         <div className="relative pt-2">
-          <div className="absolute left-5 top-4 bottom-27 w-px bg-border" />
+          <div className="absolute left-5 top-4 bottom-24 w-px bg-border" />
 
           <div className="space-y-3 pl-10">
             {organizations.map((organization) => (

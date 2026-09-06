@@ -67,6 +67,8 @@ export default function Certifications() {
     setActivePage((currentPage) => (currentPage - 1 + totalPages) % totalPages);
   }
 
+  const hasManyCerts = certifications.length > 3;
+
   return (
     // id="certifications" agar link /#certifications dari Navbar bisa scroll ke sini
     <section id="certifications">
@@ -76,31 +78,41 @@ export default function Certifications() {
         </div>
 
         {/* Satu halaman menampilkan tiga kartu, lalu bergeser horizontal. */}
-        <div className="flex items-center gap-3 pt-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={showPreviousPage}
-            aria-label="Previous certifications"
-            className="shrink-0 p-2!"
-          >
-            <ChevronLeft size={20} />
-          </Button>
+        <div
+          className={`flex items-center gap-3 pt-2 ${!hasManyCerts ? "justify-center" : ""}`}
+        >
+          {hasManyCerts && (
+            <Button
+              type="button"
+              variant={activePage === 0 ? "disabled" : "outline"}
+              onClick={showPreviousPage}
+              disabled={activePage === 0}
+              aria-label="Previous certifications"
+              className="shrink-0 p-2!"
+            >
+              <ChevronLeft size={20} />
+            </Button>
+          )}
 
           <div className="min-w-0 flex-1 overflow-hidden">
             <div
-              className="flex transition-transform duration-500 ease-in-out"
+              className={`flex transition-transform duration-500 ease-in-out ${!hasManyCerts ? "justify-center" : ""}`}
               style={{ transform: `translateX(-${activePage * 100}%)` }}
             >
               {certificationPages.map((page, pageIndex) => (
                 <div
                   key={pageIndex}
-                  className="grid w-full shrink-0 grid-cols-3 gap-2"
+                  // Jika sertifikat <= 3, pakai flex justify-center agar ke tengah. Jika > 3 pakai grid 3 kolom.
+                  className={`w-full shrink-0 gap-2 ${
+                    !hasManyCerts ? "flex justify-center" : "grid grid-cols-3"
+                  }`}
                 >
                   {page.map((cert) => (
                     <Card
                       key={cert.credentialUrl}
-                      className="p-4 flex flex-col justify-between"
+                      className={`p-4 flex flex-col justify-between ${
+                        !hasManyCerts ? "w-1/3" : ""
+                      }`}
                     >
                       {/* Nama & Info Sertifikasi */}
                       <div>
@@ -127,15 +139,18 @@ export default function Certifications() {
             </div>
           </div>
 
-          <Button
-            type="button"
-            variant="outline"
-            onClick={showNextPage}
-            aria-label="Next certifications"
-            className="shrink-0 p-2!"
-          >
-            <ChevronRight size={20} />
-          </Button>
+          {hasManyCerts && (
+            <Button
+              type="button"
+              variant={activePage === totalPages - 1 ? "disabled" : "outline"}
+              onClick={showNextPage}
+              disabled={activePage === totalPages - 1}
+              aria-label="Next certifications"
+              className="shrink-0 p-2!"
+            >
+              <ChevronRight size={20} />
+            </Button>
+          )}
         </div>
       </Card>
     </section>

@@ -102,7 +102,12 @@ export default function Navbar() {
         </div>
 
         <div>
-          <Button href="/cv-zuhal.pdf" variant="outline">
+          <Button
+            href="/CV_AhmadZuhalZhafran.pdf"
+            variant="outline"
+            target="_blank"
+            rel="noreferrer"
+          >
             <span>Download CV</span>
             <Download className="h-5 w-5" />
           </Button>

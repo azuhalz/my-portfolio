@@ -57,7 +57,7 @@ export default function Hero() {
         <div className="flex justify-center">
           <div className="relative w-96 h-96">
             <Image
-              src="/profile3.png"
+              src="/profile4.png"
               alt="Zhafran Profile"
               fill
               className="object-cover relative z-10"
