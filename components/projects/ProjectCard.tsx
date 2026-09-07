@@ -31,13 +31,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </h2>
             <Badge>{project.type}</Badge>
           </div>
-          <p className="mt-3 text-md leading-6 text-text-secondary">
+          <p className="text-justify mt-3 text-md leading-6 text-text-secondary line-clamp-3">
             {project.overview}
           </p>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          {project.techStack.map((tech) => (
+          {project.techStack.slice(0, 7).map((tech) => (
             <Badge key={tech} variant="default" className="text-primary">
               {tech}
             </Badge>
@@ -86,13 +86,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </Button>
         </div>
       </div>
-
-      <span
-        aria-label={`Add ${project.title} to favourites`}
-        className="absolute right-4 top-4 inline-flex size-9 items-center justify-center rounded-full border border-primary/40 text-text-secondary"
-      >
-        <Heart size={18} />
-      </span>
     </Card>
   );
 }

@@ -19,7 +19,7 @@ import { CardAbout } from "../ui/CardAbout";
 
 export function ProjectDetail({ project }: { project: Project }) {
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-8 max-w-5xl mx-auto">
+    <div className="min-h-screen py-16 px-4 sm:px-8 max-w-7xl mx-auto">
       {/* Breadcrumb sederhana: Portfolio / Nama Project */}
       <div className="flex gap-2 text-sm text-text-secondary mb-6">
         <Link href="/projects" className="hover:text-primary transition-colors">
