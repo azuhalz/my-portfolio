@@ -44,12 +44,12 @@ export default function Projects() {
                   <h3 className="text-white font-semibold group-hover:text-primary transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-text-secondary text-sm mt-1 line-clamp-2">
+                  <p className="text-justify text-text-secondary text-sm mt-1 line-clamp-3">
                     {project.overview}
                   </p>
-                  {/* Hanya tampilkan 3 badge tech pertama */}
+                  {/* Hanya tampilkan 6 badge tech pertama */}
                   <div className="flex flex-wrap gap-2 mt-3">
-                    {project.techStack.slice(0, 3).map((tech) => (
+                    {project.techStack.slice(0, 6).map((tech) => (
                       <Badge key={tech}>{tech}</Badge>
                     ))}
                   </div>

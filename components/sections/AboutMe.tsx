@@ -13,7 +13,7 @@ export default function AboutMe() {
 
         {/* Grid 2 kolom: kiri deskripsi, kanan info card */}
         <div className="grid grid-cols-12 gap-12 pt-2">
-          <p className="text-text-secondary  col-span-5">
+          <p className="text-justify text-text-secondary  col-span-5">
             I am a Computer Science graduate with hands-on experience in
             front-end and mobile development, including building web
             applications using modern technologies and developing iOS

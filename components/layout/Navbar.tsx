@@ -23,8 +23,8 @@ export default function Navbar() {
 
   // Logic simpel untuk Scroll Spy (Mendeteksi kita sedang scroll di bagian mana)
   useEffect(() => {
-    // Kalau sedang di halaman Projects, kita tidak perlu jalankan pendeteksi scroll.
-    if (pathname === "/projects") return;
+    // Semua halaman Projects, termasuk detail `/projects/[slug]`, tidak memakai scroll spy.
+    if (pathname.startsWith("/projects")) return;
 
     const handleScroll = () => {
       // Ambil nilai jarak scroll layar dari atas (scrollY)
@@ -89,12 +89,11 @@ export default function Navbar() {
         {/* MENU */}
         <div className="flex gap-2 items-center border border-primary rounded-4xl py-1.5 px-6">
           {navLinks.map((link) => {
-            // 1. Jika kita sedang di halaman "/projects", maka HANYA menu Projects yang menyala (menu lain mati).
+            // 1. Jika kita sedang di halaman Projects atau detailnya, hanya menu Projects yang menyala.
             // 2. Jika kita di halaman utama "/", maka menu yang menyala murni mengikuti state activeMenu (scroll spy).
-            const isActive =
-              pathname === "/projects"
-                ? link.id === "projects"
-                : activeMenu === link.id;
+            const isActive = pathname.startsWith("/projects")
+              ? link.id === "projects"
+              : activeMenu === link.id;
 
             return (
               <Link

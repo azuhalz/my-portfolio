@@ -167,12 +167,12 @@ Kerjakan satu per satu secara berurutan. Ubah `[ ]` menjadi `[x]` jika tugas sud
 
 ### 🔍 Fase 5: Halaman Detail Proyek (`/projects/[slug]`)
 
-- [ ] **5.1** Buat `components/projects/ProjectDetail.tsx`.
-- [ ] **5.2** Buat `app/projects/[slug]/page.tsx` — baca `slug` dari URL, cari data di `lib/projects-data.ts`, tampilkan `ProjectDetail.tsx`.
+- [x] **5.1** Buat `components/projects/ProjectDetail.tsx`.
+- [x] **5.2** Buat `app/projects/[slug]/page.tsx` — baca `slug` dari URL, cari data di `lib/projects-data.ts`, tampilkan `ProjectDetail.tsx`.
 
 ### ✨ Fase 6: Finalisasi & Responsiveness
 
 - [ ] **6.1** Pastikan semua halaman tampil rapi di layar HP (mobile responsive).
 - [ ] **6.2** Cek smooth scrolling saat link navbar diklik.
 - [ ] **6.3** Cek navigasi antar halaman (Home ↔ All Projects ↔ Detail Proyek) berfungsi.
-- [ ] **6.4** Pastikan tombol "Download CV" mengarah ke file `public/cv-zuhal.pdf`.
+- [ ] **6.4** Pastikan tombol "Download CV" mengarah ke file `public/CV_AhmadZuhalZhafran.pdf`.
