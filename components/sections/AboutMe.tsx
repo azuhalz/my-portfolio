@@ -22,7 +22,7 @@ export default function AboutMe() {
           </p>
 
           {/* KOLOM KANAN: Grid Info Card */}
-          <div className="col-span-1 md:col-span-7 grid grid-cols-1 gap-2">
+          <div className="col-span-1 md:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-2">
             <CardAbout
               icon={<MapPin size={24} />}
               title="Location"
