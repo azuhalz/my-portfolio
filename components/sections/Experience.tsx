@@ -58,9 +58,12 @@ export default function Experience() {
                 {/* Titik bulat ungu di garis vertikal */}
                 <div className="absolute -left-7 top-1.5 w-4 h-4 rounded-full bg-primary border-2 border-background" />
 
-                <div className="flex justify-between">
+                {/* Di mobile: judul dan periode menumpuk, di desktop: sejajar kiri-kanan */}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
                   <h2 className="text-white font-semibold">{exp.title}</h2>
-                  <p className="text-text-secondary text-sm">{exp.period}</p>
+                  <p className="text-text-secondary text-sm shrink-0">
+                    {exp.period}
+                  </p>
                 </div>
                 <p className="text-primary mb-1">{exp.company}</p>
 

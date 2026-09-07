@@ -4,10 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
-import { Download } from "lucide-react";
+import { Download, Menu, X } from "lucide-react";
 
-// Kita kumpulkan semua menu di dalam array seperti yang Anda minta,
-// supaya kode HTML-nya lebih bersih dan bisa memakai `.map()`.
 const navLinks = [
   { name: "About", id: "about", href: "/#about" },
   { name: "Projects", id: "projects", href: "/projects" },
@@ -20,25 +18,20 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState("");
+  // State untuk membuka/menutup menu hamburger di mobile
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Logic simpel untuk Scroll Spy (Mendeteksi kita sedang scroll di bagian mana)
   useEffect(() => {
-    // Semua halaman Projects, termasuk detail `/projects/[slug]`, tidak memakai scroll spy.
     if (pathname.startsWith("/projects")) return;
 
     const handleScroll = () => {
-      // Ambil nilai jarak scroll layar dari atas (scrollY)
       const scrollPosition = window.scrollY;
 
-      // Jika masih di paling atas, otomatis aktifkan "about"
       if (scrollPosition < 100) {
         setActiveMenu("about");
         return;
       }
 
-      // Jika sudah men-scroll mentok sampai paling bawah layar,
-      // paksa menu "contact" yang menyala.
-      // (Memecahkan masalah section contact yang terlalu pendek sehingga kalah dengan certification)
       if (
         window.innerHeight + Math.round(scrollPosition) >=
         document.documentElement.scrollHeight - 50
@@ -47,12 +40,10 @@ export default function Navbar() {
         return;
       }
 
-      // Mengecek semua bagian menu satu persatu
       for (const link of navLinks) {
         const element = document.getElementById(link.id);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // Cek apakah elemen ini sedang berada di tengah layar atau bagian atas layar (misal jaraknya 200px dari atas)
           if (rect.top <= 200 && rect.bottom >= 200) {
             setActiveMenu(link.id);
           }
@@ -60,19 +51,30 @@ export default function Navbar() {
       }
     };
 
-    // Pasang alat pendeteksi scroll setiap kali user menggulir layar
     window.addEventListener("scroll", handleScroll);
-    // Jalankan sekali saat website baru dirender
     handleScroll();
-
-    // Hapus pendeteksi saat komponen Navbar tidak digunakan agar website tidak berat
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
   const activeLinkStyle =
-    "bg-primary/30 text-white px-4 py-2 rounded-full transition-colors text-md";
+    "bg-primary/30 text-white px-4 py-2 rounded-full transition-colors";
   const inactiveLinkStyle =
-    "text-text-secondary hover:text-white px-4 py-2 rounded-full transition-colors text-md";
+    "text-text-secondary hover:text-white px-4 py-2 rounded-full transition-colors";
+
+  function handleNavLinkClick(e: React.MouseEvent, link: (typeof navLinks)[0]) {
+    // Tutup menu hamburger saat link diklik
+    setIsMenuOpen(false);
+
+    if (pathname === "/" && link.href.includes("#")) {
+      e.preventDefault();
+      const element = document.getElementById(link.id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", link.href);
+        setActiveMenu(link.id);
+      }
+    }
+  }
 
   return (
     <nav className="sticky top-0 z-50 bg-background">
@@ -80,17 +82,15 @@ export default function Navbar() {
         {/* LOGO */}
         <Link
           href="/"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} // Supaya kalau logo diklik, scroll pelan ke atas
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="flex items-center text-3xl font-bold border border-primary rounded-4xl py-1.5 px-5"
         >
           AZZ<span className="text-primary">.</span>
         </Link>
 
-        {/* MENU */}
-        <div className="flex gap-2 items-center border border-primary rounded-4xl py-1.5 px-6">
+        {/* MENU DESKTOP — tersembunyi di layar kecil, muncul di layar besar (lg ke atas) */}
+        <div className="hidden lg:flex gap-2 items-center border border-primary rounded-4xl py-1.5 px-6">
           {navLinks.map((link) => {
-            // 1. Jika kita sedang di halaman Projects atau detailnya, hanya menu Projects yang menyala.
-            // 2. Jika kita di halaman utama "/", maka menu yang menyala murni mengikuti state activeMenu (scroll spy).
             const isActive = pathname.startsWith("/projects")
               ? link.id === "projects"
               : activeMenu === link.id;
@@ -99,20 +99,7 @@ export default function Navbar() {
               <Link
                 key={link.id}
                 href={link.href}
-                onClick={(e) => {
-                  // Kalau kita lagi di halaman Home (bukan di /projects) dan yang diklik itu scroll link (ada #),
-                  // kita gulir layarnya secara manual menggunakan javascript.
-                  // Ini memecahkan bug "tombol About tidak bisa diklik" pas lagi di atas.
-                  if (pathname === "/" && link.href.includes("#")) {
-                    e.preventDefault();
-                    const element = document.getElementById(link.id);
-                    if (element) {
-                      element.scrollIntoView({ behavior: "smooth" });
-                      window.history.pushState(null, "", link.href); // Update URL biar tetap bagus
-                      setActiveMenu(link.id);
-                    }
-                  }
-                }}
+                onClick={(e) => handleNavLinkClick(e, link)}
                 className={isActive ? activeLinkStyle : inactiveLinkStyle}
               >
                 {link.name}
@@ -121,19 +108,67 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* TOMBOL */}
-        <div>
-          <Button
-            href="/CV_AhmadZuhalZhafran.pdf"
-            variant="outline"
-            target="_blank"
-            rel="noreferrer"
+        {/* TOMBOL DAN HAMBURGER */}
+        <div className="flex items-center gap-3">
+          {/* Tombol Download CV — tersembunyi di layar kecil */}
+          <div className="hidden lg:block">
+            <Button
+              href="/CV_AhmadZuhalZhafran.pdf"
+              variant="outline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>Download CV</span>
+              <Download className="h-5 w-5" />
+            </Button>
+          </div>
+
+          {/* Ikon hamburger menu — hanya muncul di layar kecil (mobile & tablet) */}
+          <button
+            className="lg:hidden text-white p-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
-            <span>Download CV</span>
-            <Download className="h-5 w-5" />
-          </Button>
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </div>
+
+      {/* MENU MOBILE — hanya muncul saat hamburger diklik */}
+      {isMenuOpen && (
+        <div className="lg:hidden px-6 pb-4 pt-2 flex flex-col gap-2 bg-background border-t border-border">
+          {navLinks.map((link) => {
+            const isActive = pathname.startsWith("/projects")
+              ? link.id === "projects"
+              : activeMenu === link.id;
+
+            return (
+              <Link
+                key={link.id}
+                href={link.href}
+                onClick={(e) => handleNavLinkClick(e, link)}
+                className={`${isActive ? activeLinkStyle : inactiveLinkStyle} block text-left`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+
+          {/* Tombol Download CV di mobile menu */}
+          <div className="mt-2">
+            <Button
+              href="/CV_AhmadZuhalZhafran.pdf"
+              variant="outline"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full"
+            >
+              <span>Download CV</span>
+              <Download className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

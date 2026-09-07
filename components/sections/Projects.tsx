@@ -24,8 +24,8 @@ export default function Projects() {
           </Link>
         </div>
 
-        {/* Grid 2 kolom untuk menampilkan 4 project card */}
-        <div className="grid grid-cols-2 gap-3 pt-2">
+        {/* Di mobile: 1 kolom, di desktop: 2 kolom */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
           {previewProjects.map((project) => (
             <Link key={project.slug} href={`/projects/${project.slug}`}>
               <Card className="p-0! overflow-hidden hover:border-primary transition-colors group">

@@ -19,7 +19,7 @@ import { CardAbout } from "../ui/CardAbout";
 
 export function ProjectDetail({ project }: { project: Project }) {
   return (
-    <div className="min-h-screen py-16 max-w-7xl mx-auto">
+    <div className="min-h-screen py-10 px-4 sm:px-8 max-w-5xl mx-auto">
       {/* Breadcrumb sederhana: Portfolio / Nama Project */}
       <div className="flex gap-2 text-sm text-text-secondary mb-6">
         <Link href="/projects" className="hover:text-primary transition-colors">
@@ -94,7 +94,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           </div>
           <h2 className="text-2xl font-bold text-white">Project Overview</h2>
         </div>
-        <p className="text-justify text-text-secondary leading-relaxed px-12">
+        <p className="text-justify text-text-secondary leading-relaxed pl-0 md:pl-12">
           {project.overview}
         </p>
       </Card>
@@ -107,7 +107,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           </div>
           <h2 className="text-2xl font-bold text-white">Tech Stack</h2>
         </div>
-        <div className="flex flex-wrap gap-3 px-12">
+        <div className="flex flex-wrap gap-3 pl-0 md:pl-12">
           {project.techStack.map((tech, index) => (
             <Badge key={index} className="px-4 py-2 text-sm">
               {tech}
@@ -124,7 +124,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           </div>
           <h2 className="text-2xl font-bold text-white">What I Learned</h2>
         </div>
-        <ul className="space-y-3 px-12">
+        <ul className="space-y-3 pl-0 md:pl-12">
           {project.learnings.map((learning, index) => (
             <li
               key={index}

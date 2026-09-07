@@ -47,7 +47,7 @@ export default function AllProjectsPage() {
   }, [activeCategory, query, sort]);
 
   return (
-    <section className="mx-auto w-full max-w-7xl md:py-16">
+    <section className="mx-auto w-full max-w-7xl px-4 sm:px-8 py-10 md:py-16">
       <p className="text-sm font-medium text-primary">Portfolio</p>
       <h1 className="mt-2 text-4xl font-bold tracking-tight text-white md:text-6xl">
         All <span className="text-primary">Projects</span>

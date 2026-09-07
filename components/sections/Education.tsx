@@ -28,9 +28,11 @@ export default function Education() {
         <div className="space-y-2 pt-2">
           {educations.map((edu, index) => (
             <Card key={index} className="px-6 py-4 hover:border-primary">
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
                 <h2 className="text-white font-semibold">{edu.institution}</h2>
-                <p className="text-text-secondary text-sm">{edu.period}</p>
+                <p className="text-text-secondary text-sm shrink-0">
+                  {edu.period}
+                </p>
               </div>
               <p className="text-primary text-md">{edu.degree}</p>
               <p className="text-text-secondary text-sm mt-1">{edu.gpa}</p>

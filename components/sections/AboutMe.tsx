@@ -11,9 +11,9 @@ export default function AboutMe() {
       <Card className="p-6">
         <SectionHeading title="About Me" icon={<UserRound size={24} />} />
 
-        {/* Grid 2 kolom: kiri deskripsi, kanan info card */}
-        <div className="grid grid-cols-12 gap-12 pt-2">
-          <p className="text-justify text-text-secondary  col-span-5">
+        {/* Di mobile: 1 kolom tumpuk, di desktop: kolom kiri lebih kecil (5 dari 12) dan kanan lebih besar (7 dari 12) */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pt-2">
+          <p className="text-justify text-text-secondary col-span-1 md:col-span-5">
             I am a Computer Science graduate with hands-on experience in
             front-end and mobile development, including building web
             applications using modern technologies and developing iOS
@@ -21,8 +21,8 @@ export default function AboutMe() {
             user-friendly and high-performance experiences.
           </p>
 
-          {/* KOLOM KANAN: Grid Info Card      */}
-          <div className="col-span-7 grid grid-cols-2 gap-2">
+          {/* KOLOM KANAN: Grid Info Card */}
+          <div className="col-span-1 md:col-span-7 grid grid-cols-1 gap-2">
             <CardAbout
               icon={<MapPin size={24} />}
               title="Location"

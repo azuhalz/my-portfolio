@@ -29,8 +29,8 @@ export default function Contact() {
       <Card className="p-6 mt-2">
         <SectionHeading title="Contact Me" icon={<FaEnvelope size={24} />} />
 
-        {/* Grid 2 kolom: kiri deskripsi, kanan form */}
-        <div className="grid grid-cols-2 gap-12 pt-2">
+        {/* Di mobile: 1 kolom tumpuk, di desktop: 2 kolom sejajar */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pt-2">
           {/* ================================ */}
           {/* KOLOM KIRI: Deskripsi & Sosial   */}
           {/* ================================ */}

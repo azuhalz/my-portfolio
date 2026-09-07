@@ -5,18 +5,22 @@ import { Button } from "@/components/ui/Button";
 
 export default function Hero() {
   return (
-    <section id="home" className="flex items-center pt-16 pb-8">
-      <div className="mx-auto w-full grid grid-cols-2 gap-12">
-        <div>
-          <p className="text-primary text-2xl font-medium mb-2">Hi, I&apos;m</p>
+    <section id="home" className="flex items-center pt-10 pb-8">
+      {/* Di mobile: 1 kolom tumpuk (flex-col), di desktop: 2 kolom sejajar (md:grid md:grid-cols-2) */}
+      <div className="mx-auto w-full flex flex-col-reverse gap-10 md:grid md:grid-cols-2 md:gap-12">
+        {/* KOLOM KIRI: Teks */}
+        <div className="flex flex-col justify-center text-center md:text-left">
+          <p className="text-primary text-xl font-medium mb-2">Hi, I&apos;m</p>
 
-          <h1 className="text-7xl font-bold text-white">
+          <h1 className="text-5xl md:text-7xl font-bold text-white">
             Zhafran<span className="text-primary">.</span>
           </h1>
 
-          <p className="text-primary text-2xl mt-2">Fullstack Developer</p>
+          <p className="text-primary text-xl md:text-2xl mt-2">
+            Fullstack Developer
+          </p>
 
-          <div className="flex gap-4 mt-4">
+          <div className="flex gap-4 mt-4 justify-center md:justify-start">
             <Button href="/projects" variant="primary">
               View My Work ↗
             </Button>
@@ -25,7 +29,7 @@ export default function Hero() {
             </Button>
           </div>
 
-          <div className="flex gap-10 mt-6">
+          <div className="flex gap-8 mt-6 justify-center md:justify-start">
             <Link
               href="https://github.com/azuhalz"
               target="_blank"
@@ -54,8 +58,10 @@ export default function Hero() {
           </div>
         </div>
 
+        {/* KOLOM KANAN: Foto Profil */}
         <div className="flex justify-center">
-          <div className="relative w-96 h-96">
+          {/* Di mobile foto lebih kecil, di desktop lebih besar */}
+          <div className="relative w-56 h-56 md:w-96 md:h-96">
             <Image
               src="/profile4.png"
               alt="Zhafran Profile"
