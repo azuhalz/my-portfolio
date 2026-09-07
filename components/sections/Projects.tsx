@@ -11,7 +11,7 @@ const previewProjects = projectsData.slice(0, 4);
 
 export default function Projects() {
   return (
-    <section>
+    <section id="projects">
       <Card className="p-6 mt-2">
         {/* Header: Judul di kiri, link "View All" di kanan */}
         <div className="flex items-center justify-between">

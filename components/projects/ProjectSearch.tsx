@@ -36,9 +36,15 @@ export function ProjectSearch({
           onChange={(event) => onSortChange(event.target.value as ProjectSort)}
           className="cursor-pointer bg-transparent text-white outline-none"
         >
-          <option value="newest">Sort by: Newest</option>
-          <option value="oldest">Sort by: Oldest</option>
-          <option value="title">Sort by: A–Z</option>
+          <option value="newest" className="bg-card text-white">
+            Sort by: Newest
+          </option>
+          <option value="oldest" className="bg-card text-white">
+            Sort by: Oldest
+          </option>
+          <option value="title" className="bg-card text-white">
+            Sort by: A–Z
+          </option>
         </select>
       </label>
     </div>
