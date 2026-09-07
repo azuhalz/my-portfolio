@@ -104,7 +104,9 @@ export default function Certifications() {
                   key={pageIndex}
                   // Jika sertifikat <= 3, pakai flex justify-center agar ke tengah. Jika > 3 pakai grid 3 kolom.
                   className={`w-full shrink-0 gap-2 ${
-                    !hasManyCerts ? "flex justify-center" : "grid grid-cols-3"
+                    !hasManyCerts
+                      ? "flex justify-center"
+                      : "grid grid-cols-1 md:grid-cols-3"
                   }`}
                 >
                   {page.map((cert) => (
