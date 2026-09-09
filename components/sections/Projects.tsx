@@ -25,31 +25,31 @@ export default function Projects() {
         </div>
 
         {/* Di mobile: 1 kolom, di desktop: 2 kolom */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 px-16">
           {previewProjects.map((project) => (
             <Link key={project.slug} href={`/projects/${project.slug}`}>
-              <Card className="p-0! overflow-hidden hover:border-primary transition-colors group">
+              <Card className="h-full overflow-hidden hover:border-primary transition-colors group">
                 {/* Gambar Thumbnail */}
-                <div className="relative h-48 bg-border">
+                <div className="relative h-77.5 bg-border">
                   <Image
-                    src={project.image}
+                    src={project.image[0]}
                     alt={project.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 group-hover:scale-[1.07]"
                   />
                 </div>
 
                 {/* Konten Teks */}
                 <div className="p-4">
-                  <h3 className="text-white font-semibold group-hover:text-primary transition-colors">
+                  <h1 className="text-xl text-white font-semibold group-hover:text-primary transition-colors">
                     {project.title}
-                  </h3>
+                  </h1>
                   <p className="text-justify text-text-secondary text-sm mt-1 line-clamp-3">
                     {project.overview}
                   </p>
                   {/* Hanya tampilkan 6 badge tech pertama */}
                   <div className="flex flex-wrap gap-2 mt-3">
-                    {project.techStack.slice(0, 6).map((tech) => (
+                    {project.techStack.slice(0, 5).map((tech) => (
                       <Badge key={tech}>{tech}</Badge>
                     ))}
                   </div>

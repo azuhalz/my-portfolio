@@ -23,13 +23,11 @@ export default function AllProjectsPage() {
       .filter((project) => {
         const matchesCategory =
           activeCategory === "All" ||
-          project.category === activeCategory ||
           (activeCategory === "Web" && project.type === "Web App") ||
           (activeCategory === "Mobile" && project.type === "Mobile App");
         const searchableProject = [
           project.title,
           project.overview,
-          project.category,
           project.type,
           ...project.techStack,
         ]
