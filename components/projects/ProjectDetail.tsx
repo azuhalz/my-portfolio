@@ -25,14 +25,20 @@ import { CardAbout } from "../ui/CardAbout";
 export function ProjectDetail({ project }: { project: Project }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Logika pembatasan (mentok di awal atau akhir)
+  const isFirstImage = currentImageIndex === 0;
+  const isLastImage = currentImageIndex === project.image.length - 1;
+
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % project.image.length);
+    if (!isLastImage) {
+      setCurrentImageIndex((prev) => prev + 1);
+    }
   };
 
   const prevImage = () => {
-    setCurrentImageIndex(
-      (prev) => (prev - 1 + project.image.length) % project.image.length,
-    );
+    if (!isFirstImage) {
+      setCurrentImageIndex((prev) => prev - 1);
+    }
   };
 
   const goToImage = (index: number) => {
@@ -41,9 +47,10 @@ export function ProjectDetail({ project }: { project: Project }) {
 
   const getImagePosition = (index: number) => {
     if (index === currentImageIndex) return "translate-x-0 opacity-100 z-10";
-    if (index < currentImageIndex) return "-translate-x-full opacity-0";
-    return "translate-x-full opacity-0";
+    if (index < currentImageIndex) return "-translate-x-full";
+    return "translate-x-full";
   };
+
   return (
     <div className="min-h-screen py-16 px-4 sm:px-8 max-w-7xl mx-auto">
       {/* Breadcrumb sederhana: Portfolio / Nama Project */}
@@ -124,7 +131,12 @@ export function ProjectDetail({ project }: { project: Project }) {
           {project.image.length > 1 && (
             <button
               onClick={prevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors z-20"
+              disabled={isFirstImage}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-colors z-20 ${
+                isFirstImage
+                  ? "bg-black/20 text-white/30 cursor-not-allowed"
+                  : "bg-black/50 hover:bg-black/70 text-white cursor-pointer"
+              }`}
             >
               <ChevronLeft size={24} />
             </button>
@@ -134,7 +146,12 @@ export function ProjectDetail({ project }: { project: Project }) {
           {project.image.length > 1 && (
             <button
               onClick={nextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors z-20"
+              disabled={isLastImage}
+              className={`absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-colors z-20 ${
+                isLastImage
+                  ? "bg-black/20 text-white/30 cursor-not-allowed"
+                  : "bg-black/50 hover:bg-black/70 text-white cursor-pointer"
+              }`}
             >
               <ChevronRight size={24} />
             </button>
