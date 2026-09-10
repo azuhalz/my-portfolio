@@ -13,8 +13,9 @@ type ProjectCardProps = {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Link href={`/projects/${project.slug}`}>
-      <Card className="mt-4 group relative flex flex-col gap-5 border border-primary/35 p-4 shadow-[0_0_24px_rgba(139,92,246,0.1)] transition-colors hover:border-primary/70 md:flex-row">
+    <Link href={`/projects/${project.slug}`} className="block w-full">
+      <Card className="mt-4 group relative flex w-full flex-col gap-5 border border-primary/35 p-4 shadow-[0_0_24px_rgba(139,92,246,0.1)] transition-colors hover:border-primary/70 md:flex-row">
+        {/* Gambar Thumbnail */}
         <div className="relative h-56 w-full shrink-0 overflow-hidden rounded-lg border border-border bg-border md:w-96">
           <Image
             src={project.image[0]}
@@ -25,7 +26,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
           />
         </div>
 
-        <div className="flex min-w-0 flex-1 flex-col pr-16 justify-between">
+        {/* Konten Kanan: Dipaksa w-full dan flex-1 penuh */}
+        <div className="flex min-w-0 w-full flex-1 flex-col pr-0 md:pr-16 justify-between">
           <div>
             <div>
               <div className="flex flex-wrap items-center gap-2">
@@ -48,20 +50,21 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {/* Wadah Tombol dengan w-full mutlak */}
+          <div className="mt-5 grid w-full grid-cols-1 gap-2 sm:grid-cols-3">
             {project.liveDemoLink ? (
               <Button
                 href={project.liveDemoLink}
                 target="_blank"
                 rel="noreferrer"
                 variant="outline"
-                className="px-3! py-2! text-sm  z-10"
+                className="w-full px-3! py-2! text-sm"
                 onClick={(e) => e.stopPropagation()}
               >
                 Live Demo <ExternalLink size={16} />
               </Button>
             ) : (
-              <Button variant="disabled" className="text-sm  z-10">
+              <Button variant="disabled" className="w-full text-sm">
                 Live Demo unavailable
               </Button>
             )}
@@ -72,20 +75,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 target="_blank"
                 rel="noreferrer"
                 variant="outline"
-                className="px-3! py-2! text-sm  z-10"
+                className="w-full px-3! py-2! text-sm"
                 onClick={(e) => e.stopPropagation()}
               >
                 GitHub <FaGithub size={16} />
               </Button>
             ) : (
-              <Button variant="disabled" className="text-sm  z-10">
+              <Button variant="disabled" className="w-full text-sm">
                 GitHub unavailable
               </Button>
             )}
 
             <Button
               variant="primary"
-              className="text-sm  z-10"
+              className="w-full text-sm"
               href={`/projects/${project.slug}`}
             >
               Details <ChevronRight size={16} />

@@ -33,7 +33,7 @@ export const projectsData: Project[] = [
     ],
     learnings: [
       "MVVM architecture: separating business logic into dedicated ViewModel classes (ObservableObject + @Published), marked with @MainActor for thread-safe UI updates, and coordinating app-wide navigation state through a central AppFlowViewModel (an enum screen state).",
-      "Bluetooth Low Energy (BLE) integration: implementing CoreBluetooth's CBCentralManagerDelegate/CBPeripheralDelegate protocols to scan, connect, and read/write characteristic data from an external device, then exposing the results to SwiftUI through closure-based callbacks.",
+      "Bluetooth Low Energy (BLE) integration: implementing CoreBluetooth's CBCentralManagerDelegate / CBPeripheralDelegate protocols to scan, connect, and read/write characteristic data from an external device, then exposing the results to SwiftUI through closure-based callbacks.",
       "Advanced SwiftData querying: using FetchDescriptor with #Predicate to filter persisted records by condition (not just fetching everything), plus modeling relational-style data across multiple entities (GoalModel, SavingProgressEntity, RewardEntity).",
       "Automated unit testing: writing tests with Apple's modern Swift Testing framework (@Suite, @Test, #expect) covering both positive and negative cases for view model logic.",
       "Protocol-based dependency injection for testability: defining a protocol (e.g. GoalSaving) that the real ModelContext conforms to, then substituting a MockModelContext in tests — decoupling the view model from SwiftData so its logic can be verified without a real database.",

@@ -24,7 +24,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full font-medium transition-all duration-300";
+    "flex items-center justify-center gap-2 px-5 py-3 rounded-full font-medium transition-all duration-300";
 
   const variants = {
     primary:
