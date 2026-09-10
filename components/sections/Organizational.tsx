@@ -35,14 +35,14 @@ export default function Organizational() {
         />
 
         <div className="relative pt-2">
-          <div className="absolute left-5 top-4 bottom-24 w-px bg-border" />
+          <div className="absolute left-5 top-4 bottom-42 md:bottom-24 w-px bg-border" />
 
           <div className="space-y-3 pl-10">
             {organizations.map((organization) => (
               <div key={organization.role} className="relative">
                 <div className="absolute -left-7 top-1.5 w-4 h-4 rounded-full bg-primary border-2 border-background" />
 
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row justify-between">
                   <h2 className="text-white font-semibold">
                     {organization.role}
                   </h2>

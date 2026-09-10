@@ -2,7 +2,7 @@
 
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Award, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 
@@ -48,26 +48,40 @@ const certifications = [
 
 export default function Certifications() {
   const [activePage, setActivePage] = useState(0);
-  const certificationsPerPage = 3;
-  const totalPages = Math.ceil(certifications.length / certificationsPerPage);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+
+  // Deteksi layar: jika di bawah 768px (HP), jadikan 1 item per halaman.
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(window.innerWidth < 768 ? 1 : 3);
+      setActivePage(0); // Reset ke halaman 1 tiap kali ukuran layar berubah
+    };
+
+    handleResize(); // Jalankan sekali saat web dimuat
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const totalPages = Math.ceil(certifications.length / itemsPerPage);
+
   const certificationPages = Array.from(
     { length: totalPages },
     (_, pageIndex) =>
       certifications.slice(
-        pageIndex * certificationsPerPage,
-        (pageIndex + 1) * certificationsPerPage,
+        pageIndex * itemsPerPage,
+        (pageIndex + 1) * itemsPerPage,
       ),
   );
 
   function showNextPage() {
-    setActivePage((currentPage) => (currentPage + 1) % totalPages);
+    if (activePage < totalPages - 1) setActivePage(activePage + 1);
   }
 
   function showPreviousPage() {
-    setActivePage((currentPage) => (currentPage - 1 + totalPages) % totalPages);
+    if (activePage > 0) setActivePage(activePage - 1);
   }
 
-  const hasManyCerts = certifications.length > 3;
+  const showNavigation = totalPages > 1;
 
   return (
     // id="certifications" agar link /#certifications dari Navbar bisa scroll ke sini
@@ -77,11 +91,9 @@ export default function Certifications() {
           <SectionHeading title="Certifications" icon={<Award size={24} />} />
         </div>
 
-        {/* Satu halaman menampilkan tiga kartu, lalu bergeser horizontal. */}
-        <div
-          className={`flex items-center gap-3 pt-2 ${!hasManyCerts ? "justify-center" : ""}`}
-        >
-          {hasManyCerts && (
+        {/* Satu halaman menampilkan item sesuai ukuran layar, lalu bergeser horizontal. */}
+        <div className="flex items-center gap-3 pt-2">
+          {showNavigation && (
             <Button
               type="button"
               variant={activePage === 0 ? "disabled" : "outline"}
@@ -96,25 +108,19 @@ export default function Certifications() {
 
           <div className="min-w-0 flex-1 overflow-hidden">
             <div
-              className={`flex transition-transform duration-500 ease-in-out ${!hasManyCerts ? "justify-center" : ""}`}
+              className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${activePage * 100}%)` }}
             >
               {certificationPages.map((page, pageIndex) => (
                 <div
                   key={pageIndex}
-                  // Jika sertifikat <= 3, pakai flex justify-center agar ke tengah. Jika > 3 pakai grid 3 kolom.
-                  className={`w-full shrink-0 gap-2 ${
-                    !hasManyCerts
-                      ? "flex justify-center"
-                      : "grid grid-cols-1 md:grid-cols-3"
-                  }`}
+                  // Menggunakan grid statis, isi array otomatis disesuaikan oleh useEffect
+                  className="w-full shrink-0 gap-3 grid grid-cols-1 md:grid-cols-3"
                 >
                   {page.map((cert) => (
                     <Card
                       key={cert.credentialUrl}
-                      className={`p-4 flex flex-col justify-between ${
-                        !hasManyCerts ? "w-1/3" : ""
-                      }`}
+                      className="p-4 flex flex-col justify-between"
                     >
                       {/* Nama & Info Sertifikasi */}
                       <div>
@@ -141,7 +147,7 @@ export default function Certifications() {
             </div>
           </div>
 
-          {hasManyCerts && (
+          {showNavigation && (
             <Button
               type="button"
               variant={activePage === totalPages - 1 ? "disabled" : "outline"}

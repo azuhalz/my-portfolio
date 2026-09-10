@@ -49,7 +49,7 @@ export default function Experience() {
         {/* Container timeline: posisi relative agar garis vertikal bisa diletakkan di dalamnya */}
         <div className="relative pt-2">
           {/* Garis vertikal ungu di kiri */}
-          <div className="absolute left-5 top-4 bottom-21 w-px bg-border" />
+          <div className="absolute left-5 top-4 bottom-43 md:bottom-21 w-px bg-border" />
 
           {/* Daftar pengalaman, diberi jarak ke kiri agar tidak tertimpa garis */}
           <div className="space-y-3 pl-10">
