@@ -55,12 +55,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 target="_blank"
                 rel="noreferrer"
                 variant="outline"
-                className="px-3! py-2! text-sm"
+                className="px-3! py-2! text-sm  z-10"
+                onClick={(e) => e.stopPropagation()}
               >
                 Live Demo <ExternalLink size={16} />
               </Button>
             ) : (
-              <Button variant="disabled" className="text-sm">
+              <Button variant="disabled" className="text-sm  z-10">
                 Live Demo unavailable
               </Button>
             )}
@@ -71,19 +72,20 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 target="_blank"
                 rel="noreferrer"
                 variant="outline"
-                className="px-3! py-2! text-sm"
+                className="px-3! py-2! text-sm  z-10"
+                onClick={(e) => e.stopPropagation()}
               >
                 GitHub <FaGithub size={16} />
               </Button>
             ) : (
-              <Button variant="disabled" className="text-sm">
+              <Button variant="disabled" className="text-sm  z-10">
                 GitHub unavailable
               </Button>
             )}
 
             <Button
               variant="primary"
-              className="text-sm"
+              className="text-sm  z-10"
               href={`/projects/${project.slug}`}
             >
               Details <ChevronRight size={16} />
