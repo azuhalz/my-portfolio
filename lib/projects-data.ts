@@ -90,7 +90,7 @@ export const projectsData: Project[] = [
       "ML inference with Core ML: integrating the trained model into the app to run predictions in real time and score how closely a player's drawing matches the target word/dataset.",
       "Freehand drawing input with PencilKit: using PKCanvasView to capture smooth, natural sketch input from the user, which then gets converted into the image fed into the Core ML model for scoring.",
     ],
-    image: ["/images/challenge4/5.jpeg"],
+    image: ["/images/challenge4/banner.png"],
     liveDemoLink: "https://youtube.com/shorts/dxpuoyMNEXk",
     githubLink: "",
   },
