@@ -1,29 +1,47 @@
-# Rencana Slicing UI Login CMS
+# Refactoring Plan
 
-Tujuan: buat halaman UI login CMS yang mirip referensi. Fokus pada tampilan saja, tanpa autentikasi atau API.
+## Refactor `certifications.tsx`
 
-1. Baca panduan Next.js yang relevan di `node_modules/next/dist/docs/` sebelum mengubah kode. Cek struktur folder proyek terlebih dahulu.
+Saya ingin melakukan refactor pada file:
 
-2. Buat route login CMS, misalnya `app/cms/login/page.tsx`. Jangan mengubah halaman portofolio yang sudah selesai.
+`sections/certifications.tsx`
 
-3. Buat halaman dengan tiga kolom di desktop:
-   - Kiri: logo `AZZ.`, teks `Portfolio CMS`, judul “Manage. Build. Grow.”, deskripsi, tiga poin keunggulan, dan copyright.
-   - Tengah: kartu login berborder ungu dengan logo bulat, judul “Welcome Back”, input email, input password, checkbox, link lupa password, tombol Sign In, dan link kembali ke portofolio.
-   - Kanan: ilustrasi dashboard sederhana. Gunakan elemen HTML/CSS seperti card, garis grafik, kotak transparan, dan glow ungu; tidak perlu gambar atau library baru.
+Tujuan:
 
-4. Gunakan warna gelap, teks putih/abu-abu, aksen ungu, border tipis, gradient, dan shadow/glow agar mendekati referensi. Gunakan class Tailwind yang sederhana dan konsisten.
+- Membuat code lebih sederhana dan modular.
+- Memisahkan data dari UI.
+- Menggunakan reusable component yang sudah tersedia.
+- Menghindari duplicate component, UI, dan logic.
+- Mempertahankan UI dan functionality yang sudah ada.
 
-5. Gunakan `lucide-react` untuk ikon yang diperlukan: mail, lock, eye/eye-off, arrow-left, zap, shield, dan chart. Jangan menambahkan dependensi.
+### Requirements
 
-6. Buat interaksi kecil saja:
-   - Tombol mata mengubah tampilan password.
-   - Checkbox Remember me dapat dicentang.
-   - Form tidak perlu memproses login; saat submit cukup `preventDefault()`.
-   - Link Back to Portfolio mengarah ke `/`.
+1. **Inspect terlebih dahulu**
+   - Baca dan pahami `certifications.tsx`.
+   - Periksa struktur project dan existing components.
+   - Periksa `global.css` serta styling/design token yang sudah tersedia.
+   - Identifikasi component, utility, data, dan logic yang sudah dapat digunakan kembali.
 
-7. Buat responsif:
-   - Desktop menampilkan tiga kolom.
-   - Tablet menyembunyikan atau mengecilkan ilustrasi kanan.
-   - Mobile hanya menampilkan kartu login, dengan logo singkat di atasnya.
+2. **Refactor**
+   - Pisahkan data dari component ke `lib/certifications-data.ts`.
+   - Gunakan existing component jika sudah tersedia.
+   - Jika diperlukan, buat component baru hanya untuk responsibility yang jelas dan reusable.
+   - Jangan membuat duplicate component.
+   - Sederhanakan logic dan struktur code.
+   - Ikuti architecture dan pattern yang sudah digunakan project.
+   - Gunakan styling/design system yang sudah tersedia.
 
-8. Jalankan `npm run lint` setelah selesai. Perbaiki error yang muncul tanpa mengubah fitur portofolio yang ada.
+3. **Constraints**
+   - Hanya refactor `certifications.tsx` dan file yang benar-benar diperlukan untuk section ini.
+   - Jangan mengubah section lain.
+   - Jangan mengubah UI atau functionality.
+   - Jangan melakukan over-engineering.
+
+4. **Verification**
+   - Pastikan UI dan functionality tetap sama.
+   - Pastikan data sudah terpisah dari UI.
+   - Pastikan existing components digunakan kembali jika memungkinkan.
+   - Pastikan tidak ada duplicate component atau logic.
+   - Jalankan type-check/lint/build jika tersedia.
+
+**STOP setelah Step 1 selesai. Jangan mengerjakan step berikutnya sebelum saya memberikan instruksi.**
