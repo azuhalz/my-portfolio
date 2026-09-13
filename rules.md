@@ -25,18 +25,26 @@
 - Jangan mengubah architecture secara besar-besaran tanpa alasan yang jelas.
 - Jangan membuat pattern baru jika pattern yang sudah ada masih sesuai.
 
-## 5. Avoid Duplication
+## 5. Follow Existing Design System
+
+- Sebelum membuat UI, periksa `global.css` dan file styling/configuration yang relevan.
+- Gunakan warna, typography, spacing, radius, shadow, dan design token yang sudah tersedia.
+- Jangan membuat warna atau design token baru jika nilai yang sesuai sudah tersedia.
+- Jangan menggunakan nilai hardcoded jika sudah ada variable atau token yang dapat digunakan.
+- Pastikan UI baru tetap konsisten dengan design system dan visual style project.
+
+## 6. Avoid Duplication
 
 - Jangan menduplikasi UI, component, logic, styling, atau data structure.
 - Jika terdapat bagian yang sama, gunakan abstraction atau component yang sudah ada.
 
-## 6. Code Quality
+## 7. Code Quality
 
 - Prioritaskan code yang sederhana, readable, maintainable, dan mudah dikembangkan.
 - Hindari over-engineering dan abstraction yang tidak diperlukan.
 - Jangan melakukan perubahan di luar scope yang ditentukan dalam `plan.md`.
 
-## 7. Implementation Discipline
+## 8. Implementation Discipline
 
 - Kerjakan **satu step dalam `plan.md` pada satu waktu**.
 - Setelah selesai, verifikasi bahwa step tersebut berjalan dengan benar sebelum lanjut ke step berikutnya.

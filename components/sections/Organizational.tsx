@@ -7,7 +7,7 @@ const organizations = [
   {
     role: "Head of Basketball Division",
     organization: "Badan Internal Olahraga & Seni",
-    period: "Jan 2022 – Dec 2022",
+    period: "January – December 2022",
     points: [
       "Led basketball division, building a structured training system.",
       "Organized and supervised training sessions and events.",
@@ -17,7 +17,7 @@ const organizations = [
   {
     role: "Basketball Division Staff",
     organization: "Badan Internal Olahraga & Seni",
-    period: "Jan 2021 – Dec 2021",
+    period: "January – December 2021",
     points: [
       "Assisted in organizing and managing basketball division activities.",
       "Supported event preparation and coordination on-site.",

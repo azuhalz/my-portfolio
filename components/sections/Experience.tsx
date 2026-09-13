@@ -7,7 +7,7 @@ const experiences = [
   {
     title: "iOS Developer",
     company: "Apple Developer Academy @ UC",
-    period: "Mar 2025 – Dec 2025",
+    period: "March – December 2025",
     points: [
       "Developed iOS applications using SwiftUI and Swift.",
       "Implemented MVVM architecture with clear separation of concerns.",
@@ -18,7 +18,7 @@ const experiences = [
   {
     title: "Software Quality Assurance",
     company: "PT. Telkom Indonesia",
-    period: "Apr 2024 – Sep 2024",
+    period: "April – September 2024",
     points: [
       "Manual testing, automation testing, API testing and performance testing.",
       "Reported bugs and defects accurately.",
@@ -28,7 +28,7 @@ const experiences = [
   {
     title: "Mobile Development Student",
     company: "Bangkit Academy led by Google, Tokopedia, Gojek, & Traveloka",
-    period: "Feb 2023 – Jul 2023",
+    period: "February – July 2023",
     points: [
       "Developed Android applications using Kotlin.",
       "Improved soft skills and English proficiency with professional mentors.",

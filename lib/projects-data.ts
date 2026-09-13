@@ -64,7 +64,7 @@ export const projectsData: Project[] = [
       "Real-time game loop & timing: combining Timer.publish().autoconnect() with .onReceive() for the countdown, Timer.scheduledTimer for per-frame knife position updates, and DispatchQueue.main.asyncAfter to sequence multi-step animations.",
       "Custom Shape & manual particle effects: building custom shapes (Triangle, DashedLine) with Path, and creating a fish-cutting particle effect using trigonometry (cos/sin) for randomized motion instead of a ready-made animation library.",
     ],
-    image: ["/images/challenge5/6.jpeg"],
+    image: ["/images/challenge5/banner1.png"],
     liveDemoLink: "https://youtu.be/BGy4RXHXQDA",
     githubLink: "https://github.com/Filleeeee/Fille",
   },
