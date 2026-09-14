@@ -18,11 +18,15 @@ function getIcon(iconName: string) {
 
 export default function CmsLoginPage() {
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#030615] text-white [background-image:radial-gradient(circle_at_50%_25%,rgba(88,28,135,0.16),transparent_26%),radial-gradient(circle_at_88%_80%,rgba(76,29,149,0.1),transparent_22%)]">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#030615] text-white .\[background-image\:radial-gradient\(circle_at_50\%_25\%\,rgba\(88\,28\,135\,0\.16\)\,transparent_26\%\)\,radial-gradient\(circle_at_88\%_80\%\,rgba\(76\,29\,149\,0\.1\)\,transparent_22\%\)\] {
+ background-image: radial-gradient(circle at 50% 25%,rgba(88,28,135,0.16),transparent 26%),radial-gradient(circle at 88% 80%,rgba(76,29,149,0.1),transparent 22%);
+}"
+    >
       <div className="mx-auto grid min-h-full max-w-[1540px] grid-cols-1 gap-10 px-6 py-8 sm:px-10 lg:grid-cols-[minmax(220px,0.8fr)_minmax(430px,1.15fr)_minmax(310px,0.9fr)] lg:items-center lg:gap-12 lg:px-11 xl:gap-16">
         <LoginSidebar getIcon={getIcon} />
 
-        <section className="mx-auto flex w-full max-w-[490px] flex-col justify-center lg:max-w-none">
+        <section className="mx-auto flex w-full max-w-122.5 flex-col justify-center lg:max-w-none">
           <MobileHeader />
           <LoginCard />
         </section>
