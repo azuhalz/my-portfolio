@@ -2,11 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Button } from "@/components/ui/Button";
+import { contactInfo, SocialLink } from "@/lib/contact-data";
+
+const iconMap: Record<SocialLink["iconType"], React.ReactNode> = {
+  github: <FaGithub size={28} />,
+  linkedin: <FaLinkedin size={28} />,
+  email: <FaEnvelope size={28} />,
+};
 
 export default function Hero() {
   return (
     <section id="home" className="flex items-center pt-10 pb-8">
-      {/* Di mobile: 1 kolom tumpuk (flex-col), di desktop: 2 kolom sejajar (md:grid md:grid-cols-2) */}
       <div className="mx-auto w-full flex flex-col-reverse gap-10 md:grid md:grid-cols-2 md:gap-12">
         {/* KOLOM KIRI: Teks */}
         <div className="flex flex-col justify-center text-center md:text-left">
@@ -30,37 +36,27 @@ export default function Hero() {
           </div>
 
           <div className="flex gap-8 mt-6 justify-center md:justify-start">
-            <Link
-              href="https://github.com/azuhalz"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="text-text-secondary hover:text-white transition-colors"
-            >
-              <FaGithub size={28} />
-            </Link>
-            <Link
-              href="https://linkedin.com/in/azuhalz"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="text-text-secondary hover:text-white transition-colors"
-            >
-              <FaLinkedin size={28} />
-            </Link>
-            <Link
-              href="mailto:ahmadzuhalzhafran@gmail.com"
-              aria-label="Kirim email"
-              className="text-text-secondary hover:text-white transition-colors"
-            >
-              <FaEnvelope size={28} />
-            </Link>
+            {contactInfo.socials.map((social) => (
+              <Link
+                key={social.name}
+                href={social.href}
+                target={social.iconType !== "email" ? "_blank" : undefined}
+                rel={
+                  social.iconType !== "email"
+                    ? "noopener noreferrer"
+                    : undefined
+                }
+                aria-label={social.name}
+                className="text-text-secondary hover:text-white transition-colors"
+              >
+                {iconMap[social.iconType]}
+              </Link>
+            ))}
           </div>
         </div>
 
         {/* KOLOM KANAN: Foto Profil */}
         <div className="flex justify-center">
-          {/* Di mobile foto lebih kecil, di desktop lebih besar */}
           <div className="relative w-56 h-56 md:w-96 md:h-96">
             <Image
               src="/profile4.png"

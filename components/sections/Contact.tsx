@@ -1,113 +1,66 @@
-"use client"; // Butuh "use client" karena menggunakan useState (state form)
+"use client";
 
 import { useState } from "react";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Button } from "@/components/ui/Button";
-import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
-import { Card } from "../ui/Card";
 import Link from "next/link";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Card } from "../ui/Card";
+import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import { contactInfo, SocialLink } from "@/lib/contact-data";
+import { ContactForm } from "@/components/contact/ContactForm";
 
 export default function Contact() {
-  // State untuk menyimpan isi form: name, email, dan message
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  // Fungsi yang dijalankan saat tombol "Send Message" diklik
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault(); // Mencegah halaman refresh saat form di-submit
-    alert("Pesan terkirim! (dummy)"); // Untuk sekarang hanya tampilkan pesan alert
+    e.preventDefault();
+    alert("Pesan terkirim! (dummy)");
   }
 
-  // Class CSS untuk semua input agar tampilannya konsisten
   const inputClass =
     "w-full bg-card border border-border rounded-lg px-4 py-3 text-white placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors";
 
+  const renderSocialIcon = (type: SocialLink["iconType"]) => {
+    switch (type) {
+      case "email":
+        return <FaEnvelope size={20} />;
+      case "linkedin":
+        return <FaLinkedin size={20} />;
+      case "github":
+        return <FaGithub size={20} />;
+    }
+  };
+
   return (
-    // id="contact" agar link /#contact dari Navbar bisa scroll ke sini
     <section id="contact">
       <Card className="p-6 mt-2">
         <SectionHeading title="Contact Me" icon={<FaEnvelope size={24} />} />
 
-        {/* Di mobile: 1 kolom tumpuk, di desktop: 2 kolom sejajar */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pt-2">
-          {/* ================================ */}
-          {/* KOLOM KIRI: Deskripsi & Sosial   */}
-          {/* ================================ */}
           <div>
             <p className="text-text-secondary leading-relaxed mb-6">
-              Have a project in mind or just want to say hi? Feel free to reach
-              out! I&apos;m always open to new opportunities and collaborations.
+              {contactInfo.description}
             </p>
 
             <div className="flex flex-col gap-3">
-              <Link
-                href="mailto:ahmadzuhalzhafran@gmail.com"
-                className="text-text-secondary hover:text-primary transition-colors"
-              >
-                <div className="flex gap-2 items-center">
-                  <FaEnvelope size={20} />
-                  ahmadzuhalzhafran@gmail.com
-                </div>
-              </Link>
-              <Link
-                href="https://linkedin.com/in/azuhalz"
-                target="_blank"
-                className="text-text-secondary hover:text-primary transition-colors"
-              >
-                <div className="flex gap-2 items-center">
-                  <FaLinkedin size={20} /> linkedin.com/in/azuhalz
-                </div>
-              </Link>
-              <Link
-                href="https://github.com/azuhalz"
-                target="_blank"
-                className="text-text-secondary hover:text-primary transition-colors"
-              >
-                <div className="flex gap-2 items-center">
-                  <FaGithub size={20} />
-                  github.com/azuhalz
-                </div>
-              </Link>
+              {contactInfo.socials.map((social) => (
+                <Link
+                  key={social.name}
+                  href={social.href}
+                  target={social.iconType !== "email" ? "_blank" : undefined}
+                  className="text-text-secondary hover:text-primary transition-colors"
+                >
+                  <div className="flex gap-2 items-center">
+                    {renderSocialIcon(social.iconType)}
+                    {social.displayValue}
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* ================================ */}
-          {/* KOLOM KANAN: Form Kontak         */}
-          {/* ================================ */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {/* Input Nama */}
-            <input
-              type="text"
-              placeholder="Your Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className={inputClass}
-            />
-
-            {/* Input Email */}
-            <input
-              type="email"
-              placeholder="Your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={inputClass}
-            />
-
-            {/* Input Pesan (textarea karena multiline) */}
-            <textarea
-              placeholder="Your Message"
-              rows={5}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className={inputClass}
-            />
-
-            {/* Tombol Submit */}
-            <Button type="submit" variant="primary" className="w-full">
-              Send Message →
-            </Button>
-          </form>
+          <ContactForm />
         </div>
       </Card>
     </section>

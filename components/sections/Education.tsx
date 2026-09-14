@@ -2,21 +2,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GraduationCap } from "lucide-react";
 import { Card } from "../ui/Card";
 
-// Data pendidikan formal
-const educations = [
-  {
-    institution: "University of Brawijaya",
-    degree: "Bachelor of Computer Science",
-    period: "August 2020 – July 2024",
-    gpa: "GPA: 3.60 / 4.00 (Cum Laude)",
-  },
-  {
-    institution: "SMA Negeri 4 Malang",
-    degree: "Natural Science",
-    period: "July 2017 – June 2020",
-    gpa: "",
-  },
-];
+import { educationsData as educations } from "@/lib/education-data";
 
 export default function Education() {
   return (
