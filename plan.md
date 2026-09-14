@@ -1,10 +1,10 @@
 # Refactoring Plan
 
-## Refactor `certifications.tsx`
+## Refactor `Contact.tsx`
 
 Saya ingin melakukan refactor pada file:
 
-`sections/certifications.tsx`
+`sections/Contact.tsx`
 
 Tujuan:
 
@@ -17,13 +17,13 @@ Tujuan:
 ### Requirements
 
 1. **Inspect terlebih dahulu**
-   - Baca dan pahami `certifications.tsx`.
+   - Baca dan pahami `Contact.tsx`.
    - Periksa struktur project dan existing components.
-   - Periksa `global.css` serta styling/design token yang sudah tersedia.
+   - Periksa `global.css` yang sudah tersedia.
    - Identifikasi component, utility, data, dan logic yang sudah dapat digunakan kembali.
 
 2. **Refactor**
-   - Pisahkan data dari component ke `lib/certifications-data.ts`.
+   - Pisahkan data dari component ke `lib/Contact-data.ts`.
    - Gunakan existing component jika sudah tersedia.
    - Jika diperlukan, buat component baru hanya untuk responsibility yang jelas dan reusable.
    - Jangan membuat duplicate component.
@@ -32,7 +32,7 @@ Tujuan:
    - Gunakan styling/design system yang sudah tersedia.
 
 3. **Constraints**
-   - Hanya refactor `certifications.tsx` dan file yang benar-benar diperlukan untuk section ini.
+   - Hanya refactor `Contact.tsx` dan file yang benar-benar diperlukan untuk section ini.
    - Jangan mengubah section lain.
    - Jangan mengubah UI atau functionality.
    - Jangan melakukan over-engineering.
@@ -42,6 +42,3 @@ Tujuan:
    - Pastikan data sudah terpisah dari UI.
    - Pastikan existing components digunakan kembali jika memungkinkan.
    - Pastikan tidak ada duplicate component atau logic.
-   - Jalankan type-check/lint/build jika tersedia.
-
-**STOP setelah Step 1 selesai. Jangan mengerjakan step berikutnya sebelum saya memberikan instruksi.**

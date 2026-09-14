@@ -2,28 +2,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "../ui/Card";
 import { UsersRound } from "lucide-react";
 
-// Data pengalaman organisasi
-const organizations = [
-  {
-    role: "Head of Basketball Division",
-    organization: "Badan Internal Olahraga & Seni",
-    period: "January – December 2022",
-    points: [
-      "Led basketball division, building a structured training system.",
-      "Organized and supervised training sessions and events.",
-      "Improved team communication and division organization.",
-    ],
-  },
-  {
-    role: "Basketball Division Staff",
-    organization: "Badan Internal Olahraga & Seni",
-    period: "January – December 2021",
-    points: [
-      "Assisted in organizing and managing basketball division activities.",
-      "Supported event preparation and coordination on-site.",
-    ],
-  },
-];
+import { organizationsData as organizations } from "@/lib/organizational-data";
 
 export default function Organizational() {
   return (
