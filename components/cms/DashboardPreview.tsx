@@ -3,18 +3,18 @@ import { MetricCard } from "@/components/cms/MetricCard";
 export function DashboardPreview() {
   return (
     <div
-      className="relative mx-auto h-[570px] w-full max-w-[500px]"
+      className="relative mx-auto h-142.5 w-full max-w-125"
       aria-hidden="true"
     >
       <div className="absolute right-0 top-0 h-72 w-72 rounded-full border border-violet-500/45 bg-violet-700/10 blur-[0.2px]" />
       <div className="absolute right-6 top-8 h-64 w-64 rounded-full bg-violet-600/10 blur-3xl" />
-      <div className="absolute left-5 top-16 w-[365px] -rotate-[-6deg] overflow-hidden rounded-2xl border border-violet-400/55 bg-[#090b1c]/85 shadow-[0_20px_60px_rgba(65,22,137,0.35)] backdrop-blur">
+      <div className="absolute left-5 top-16 w-91.25 rotate-6 overflow-hidden rounded-2xl border border-violet-400/55 bg-[#090b1c]/85 shadow-[0_20px_60px_rgba(65,22,137,0.35)] backdrop-blur">
         <div className="flex h-10 items-center gap-1.5 border-b border-violet-300/15 px-4">
           <span className="size-2 rounded-full bg-violet-500" />
           <span className="size-2 rounded-full bg-violet-500/60" />
           <span className="size-2 rounded-full bg-indigo-500/60" />
         </div>
-        <div className="flex min-h-[310px]">
+        <div className="flex min-h-77.5">
           <aside className="w-20 border-r border-violet-300/10 p-3">
             <div className="mb-4 rounded-md bg-violet-500/15 p-2 text-violet-400">
               ⌂
@@ -63,13 +63,13 @@ export function DashboardPreview() {
         </div>
       </div>
       <div className="absolute bottom-16 left-14 h-32 w-24 border border-violet-500/45 bg-violet-500/5 shadow-[16px_16px_0_-1px_rgba(139,92,246,0.12)]" />
-      <div className="absolute bottom-8 right-9 flex h-24 w-32 rotate-[10deg] items-center justify-center gap-2 rounded-xl border border-violet-400/40 bg-[#0c0d20]/80 text-sm text-violet-200 shadow-lg">
+      <div className="absolute bottom-8 right-9 flex h-24 w-32 rotate-10 items-center justify-center gap-2 rounded-xl border border-violet-400/40 bg-[#0c0d20]/80 text-sm text-violet-200 shadow-lg">
         <span className="flex size-7 items-center justify-center rounded-full border border-violet-400 text-violet-300">
           ✓
         </span>
         Published
       </div>
-      <div className="absolute bottom-0 left-10 h-28 w-[390px] rotate-[-2deg] border border-violet-500/25 [clip-path:polygon(0_30%,50%_0,100%_30%,100%_70%,50%_100%,0_70%)]" />
+      <div className="absolute bottom-0 left-10 h-28 w-97.5 -rotate-2 border border-violet-500/25 [clip-path:polygon(0_30%,50%_0,100%_30%,100%_70%,50%_100%,0_70%)]" />
     </div>
   );
 }

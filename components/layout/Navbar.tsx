@@ -2,66 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Download, Menu, X } from "lucide-react";
-
-const navLinks = [
-  { name: "About", id: "about", href: "/#about" },
-  { name: "Projects", id: "projects", href: "/projects" },
-  { name: "Experience", id: "experience", href: "/#experience" },
-  { name: "Education", id: "education", href: "/#education" },
-  { name: "Certifications", id: "certifications", href: "/#certifications" },
-  { name: "Contact", id: "contact", href: "/#contact" },
-];
+import { useScrollSpy } from "@/hooks/useScrollSpy";
+import { navLinks, type NavLink } from "./nav-links";
+import { NavLinks } from "./NavLinks";
+import { MobileMenu } from "./MobileMenu";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [activeMenu, setActiveMenu] = useState("");
+  const isProjectsRoute = pathname.startsWith("/projects");
+  const [activeMenu, setActiveMenu] = useScrollSpy(navLinks, isProjectsRoute);
   // State untuk membuka/menutup menu hamburger di mobile
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    if (pathname.startsWith("/projects")) return;
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-
-      if (scrollPosition < 100) {
-        setActiveMenu("about");
-        return;
-      }
-
-      if (
-        window.innerHeight + Math.round(scrollPosition) >=
-        document.documentElement.scrollHeight - 50
-      ) {
-        setActiveMenu("contact");
-        return;
-      }
-
-      for (const link of navLinks) {
-        const element = document.getElementById(link.id);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
-            setActiveMenu(link.id);
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [pathname]);
-
-  const activeLinkStyle =
-    "bg-primary/30 text-white px-4 py-2 rounded-full transition-colors";
-  const inactiveLinkStyle =
-    "text-text-secondary hover:text-white px-4 py-2 rounded-full transition-colors";
-
-  function handleNavLinkClick(e: React.MouseEvent, link: (typeof navLinks)[0]) {
+  function handleNavLinkClick(e: React.MouseEvent, link: NavLink) {
     // Tutup menu hamburger saat link diklik
     setIsMenuOpen(false);
 
@@ -90,22 +46,11 @@ export default function Navbar() {
 
         {/* MENU DESKTOP — tersembunyi di layar kecil, muncul di layar besar (lg ke atas) */}
         <div className="hidden lg:flex gap-2 items-center border border-primary rounded-4xl py-1.5 px-6">
-          {navLinks.map((link) => {
-            const isActive = pathname.startsWith("/projects")
-              ? link.id === "projects"
-              : activeMenu === link.id;
-
-            return (
-              <Link
-                key={link.id}
-                href={link.href}
-                onClick={(e) => handleNavLinkClick(e, link)}
-                className={isActive ? activeLinkStyle : inactiveLinkStyle}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
+          <NavLinks
+            pathname={pathname}
+            activeMenu={activeMenu}
+            onLinkClick={handleNavLinkClick}
+          />
         </div>
 
         {/* TOMBOL DAN HAMBURGER */}
@@ -135,40 +80,12 @@ export default function Navbar() {
       </div>
 
       {/* MENU MOBILE — hanya muncul saat hamburger diklik */}
-      {isMenuOpen && (
-        <div className="lg:hidden px-6 pb-4 pt-2 flex flex-col gap-2 bg-background border-t border-border">
-          {navLinks.map((link) => {
-            const isActive = pathname.startsWith("/projects")
-              ? link.id === "projects"
-              : activeMenu === link.id;
-
-            return (
-              <Link
-                key={link.id}
-                href={link.href}
-                onClick={(e) => handleNavLinkClick(e, link)}
-                className={`${isActive ? activeLinkStyle : inactiveLinkStyle} block text-left`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
-
-          {/* Tombol Download CV di mobile menu */}
-          <div className="mt-2">
-            <Button
-              href="/CV_AhmadZuhalZhafran.pdf"
-              variant="outline"
-              target="_blank"
-              rel="noreferrer"
-              className="w-full"
-            >
-              <span>Download CV</span>
-              <Download className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-      )}
+      <MobileMenu
+        isOpen={isMenuOpen}
+        pathname={pathname}
+        activeMenu={activeMenu}
+        onLinkClick={handleNavLinkClick}
+      />
     </nav>
   );
 }
