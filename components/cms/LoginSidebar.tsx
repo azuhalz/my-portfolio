@@ -20,15 +20,13 @@ export function LoginSidebar({ getIcon }: LoginSidebarProps) {
           <br />
           <span className="text-violet-400">Grow.</span>
         </h1>
-        <p className="mt-4 max-w-[290px] text-base leading-6 text-white/55">
+        <p className="mt-4 max-w-72.5 text-base leading-6 text-white/55">
           AZZ Portfolio CMS helps you manage projects, content, and your
           portfolio website — all in one powerful platform.
         </p>
         <BenefitsList getIcon={getIcon} />
       </div>
-      <p className="text-sm text-white/40">
-        © 2025 AZZ. All rights reserved.
-      </p>
+      <p className="text-sm text-white/40">© 2025 AZZ. All rights reserved.</p>
     </aside>
   );
 }

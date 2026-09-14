@@ -35,7 +35,7 @@ export function InputField({
         value={value}
         onChange={onChange}
         name={name}
-        className="h-13 w-full rounded-lg border border-white/15 bg-white/[0.025] px-12 text-white outline-none transition placeholder:text-white/35 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
+        className="h-13 w-full rounded-lg border border-white/15 bg-white/2.5 px-12 text-white outline-none transition placeholder:text-white/35 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
       />
       {showPasswordToggle && onTogglePassword && (
         <button
