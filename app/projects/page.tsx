@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { ProjectFilter } from "@/components/projects/ProjectFilter";
 import {
@@ -8,13 +8,43 @@ import {
   type ProjectSort,
 } from "@/components/projects/ProjectSearch";
 import { projectsData } from "@/lib/projects-data";
+import { useInView } from "@/hooks/useInView";
 
 const categories = ["All", "Web", "Mobile"];
+
+function AnimatedProjectCard({
+  project,
+  index,
+}: {
+  project: any;
+  index: number;
+}) {
+  const { ref, isVisible } = useInView();
+  const isEven = index % 2 === 0;
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-3000 ease-out ${
+        isVisible
+          ? "opacity-100 translate-x-0"
+          : `opacity-0 ${isEven ? "-translate-x-12" : "translate-x-12"}`
+      }`}
+    >
+      <ProjectCard project={project} />
+    </div>
+  );
+}
 
 export default function AllProjectsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<ProjectSort>("newest");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const projects = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -46,15 +76,25 @@ export default function AllProjectsPage() {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 sm:px-8 py-10 md:py-16">
-      <p className="text-sm font-medium text-primary">Portfolio</p>
-      <h1 className="mt-2 text-4xl font-bold tracking-tight text-white md:text-6xl">
-        All <span className="text-primary">Projects</span>
-      </h1>
-      <p className="mt-3 max-w-xl text-text-secondary">
-        A collection of my web, mobile, and backend projects.
-      </p>
+      <div
+        className={`transition-all duration-3000 ease-out ${
+          isMounted ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-12"
+        }`}
+      >
+        <p className="text-sm font-medium text-primary">Portfolio</p>
+        <h1 className="mt-2 text-4xl font-bold tracking-tight text-white md:text-6xl">
+          All <span className="text-primary">Projects</span>
+        </h1>
+        <p className="mt-3 max-w-xl text-text-secondary">
+          A collection of my web, mobile, and backend projects.
+        </p>
+      </div>
 
-      <div className="mt-10 space-y-5">
+      <div
+        className={`mt-10 space-y-5 transition-all duration-3000 ease-out ${
+          isMounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+        }`}
+      >
         <ProjectSearch
           query={query}
           onQueryChange={setQuery}
@@ -70,8 +110,12 @@ export default function AllProjectsPage() {
 
       <div className="mt-6 space-y-4">
         {projects.length > 0 ? (
-          projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+          projects.map((project, index) => (
+            <AnimatedProjectCard
+              key={project.slug}
+              project={project}
+              index={index}
+            />
           ))
         ) : (
           <div className="rounded-xl border border-border bg-card/30 px-6 py-12 text-center text-text-secondary">

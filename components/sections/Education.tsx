@@ -1,13 +1,24 @@
+"use client";
+
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GraduationCap } from "lucide-react";
 import { Card } from "../ui/Card";
+import { useInView } from "@/hooks/useInView";
 
 import { educationsData as educations } from "@/lib/education-data";
 
 export default function Education() {
+  const { ref, isVisible } = useInView();
+
   return (
     // id="education" agar link /#education dari Navbar bisa scroll ke sini
-    <section id="education">
+    <section
+      id="education"
+      ref={ref}
+      className={`transition-all duration-3000 ease-out ${
+        isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-16"
+      }`}
+    >
       <Card className="p-6 mt-2">
         <SectionHeading title="Education" icon={<GraduationCap size={24} />} />
 

@@ -1,15 +1,25 @@
+"use client";
+
 import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { projectsData } from "@/lib/projects-data";
 import { FolderKanban } from "lucide-react";
 import { Card } from "../ui/Card";
 import { ProjectGridCard } from "@/components/projects/ProjectGridCard";
+import { useInView } from "@/hooks/useInView";
 
 export default function Projects() {
   const projects = projectsData.slice(0, 4);
+  const { ref, isVisible } = useInView();
 
   return (
-    <section id="projects">
+    <section
+      id="projects"
+      ref={ref}
+      className={`transition-all duration-3000 ease-out ${
+        isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-16"
+      }`}
+    >
       <Card className="p-6 mt-2">
         {/* Header: Judul di kiri, link "View All" di kanan */}
         <div className="flex items-center justify-between">

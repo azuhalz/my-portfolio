@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/Button";
 import { useResponsivePagination } from "@/hooks/useResponsivePagination";
 import { certificationsData as certifications } from "@/lib/certifications-data";
 import { CertificationCard } from "./CertificationCard";
+import { useInView } from "@/hooks/useInView";
 
 export default function Certifications() {
+  const { ref, isVisible } = useInView();
   const {
     activePage,
     totalPages,
@@ -23,7 +25,13 @@ export default function Certifications() {
 
   return (
     // id="certifications" agar link /#certifications dari Navbar bisa scroll ke sini
-    <section id="certifications">
+    <section
+      id="certifications"
+      ref={ref}
+      className={`transition-all duration-3000 ease-out ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+      }`}
+    >
       <Card className="p-6 mt-2">
         <div className="flex items-center justify-between">
           <SectionHeading title="Certifications" icon={<Award size={24} />} />

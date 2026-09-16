@@ -10,7 +10,7 @@ import Contact from "@/components/sections/Contact";
 
 export default function HomePage() {
   return (
-    <div className="px-4 sm:px-8 lg:px-20">
+    <div className="px-4 sm:px-8 lg:px-20 relative">
       <Hero />
       <AboutMe />
       <TechStack />
