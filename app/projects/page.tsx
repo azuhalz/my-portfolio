@@ -7,7 +7,7 @@ import {
   ProjectSearch,
   type ProjectSort,
 } from "@/components/projects/ProjectSearch";
-import { projectsData } from "@/lib/projects-data";
+import { projectsData } from "@/lib/data/projects-data";
 import { useInView } from "@/hooks/useInView";
 
 const categories = ["All", "Web", "Mobile"];

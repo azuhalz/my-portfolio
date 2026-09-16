@@ -55,7 +55,7 @@ Setiap komponen detail proyek dianimasikan dari arah yang berbeda saat halaman d
 - Alternatif yang sangat bersih dan terstruktur adalah membuat komponen pembungkus animasi reusable atau menerapkan `useInView` / `isMounted` pada section detail:
   ```tsx
   <div
-    className={`transition-all duration-[3000ms] ease-out ${
+    className={`transition-all duration-3000 ease-out ${
       isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
     }`}
   >

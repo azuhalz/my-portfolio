@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Download, Menu, X } from "lucide-react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
-import { navLinks, type NavLink } from "./nav-links";
+import { navLinks, type NavLink } from "../../lib/data/nav-links";
 import { NavLinks } from "./NavLinks";
 import { MobileMenu } from "./MobileMenu";
 
@@ -33,7 +33,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-background">
+    <nav className="sticky top-0 z-10 bg-background">
       <div className="mx-auto px-6 pt-4 flex items-center justify-between">
         {/* LOGO */}
         <Link

@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/Card";
 import { CardAbout } from "../ui/CardAbout";
 import { MapPin, Phone, UserRound } from "lucide-react";
 import { FaEnvelope, FaGithub, FaLinkedin, FaBriefcase } from "react-icons/fa";
-import { aboutData } from "@/lib/about-data";
+import { aboutData } from "@/lib/data/about-data";
 import { useInView } from "@/hooks/useInView";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -24,7 +24,7 @@ export default function AboutMe() {
     <section
       id="about"
       ref={ref}
-      className={`transition-all duration-3000 ease-out ${
+      className={`transition-all duration-5000 ease-out ${
         isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-16"
       }`}
     >

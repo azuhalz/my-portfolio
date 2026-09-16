@@ -19,7 +19,7 @@ export function MouseBackground() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-0"
+      className="pointer-events-none fixed inset-0 z-50"
       style={{
         background: `
           radial-gradient(

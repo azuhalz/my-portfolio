@@ -5,7 +5,7 @@ import { GraduationCap } from "lucide-react";
 import { Card } from "../ui/Card";
 import { useInView } from "@/hooks/useInView";
 
-import { educationsData as educations } from "@/lib/education-data";
+import { educationsData as educations } from "@/lib/data/education-data";
 
 export default function Education() {
   const { ref, isVisible } = useInView();
@@ -15,7 +15,7 @@ export default function Education() {
     <section
       id="education"
       ref={ref}
-      className={`transition-all duration-3000 ease-out ${
+      className={`transition-all duration-5000 ease-out ${
         isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-16"
       }`}
     >

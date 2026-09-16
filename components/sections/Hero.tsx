@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Button } from "@/components/ui/Button";
-import { contactInfo, SocialLink } from "@/lib/contact-data";
+import { contactInfo, SocialLink } from "@/lib/data/contact-data";
 import { useInView } from "@/hooks/useInView";
 
 const iconMap: Record<SocialLink["iconType"], React.ReactNode> = {
@@ -20,7 +20,7 @@ export default function Hero() {
     <section
       id="home"
       ref={ref}
-      className={`flex items-center pt-10 pb-8 transition-all duration-3000 ease-out ${
+      className={`flex items-center pt-10 pb-8 transition-all duration-5000 ease-out ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-16"
       }`}
     >

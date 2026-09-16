@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import type { Certification } from "@/lib/certifications-data";
+import type { Certification } from "@/lib/data/certifications-data";
 
 type CertificationCardProps = {
   certification: Certification;

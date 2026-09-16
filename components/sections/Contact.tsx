@@ -1,28 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "../ui/Card";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
-import { contactInfo, SocialLink } from "@/lib/contact-data";
+import { contactInfo, SocialLink } from "@/lib/data/contact-data";
 import { ContactForm } from "@/components/contact/ContactForm";
 
 import { useInView } from "@/hooks/useInView";
 
 export default function Contact() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const { ref, isVisible } = useInView();
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    alert("Pesan terkirim! (dummy)");
-  }
-
-  const inputClass =
-    "w-full bg-card border border-border rounded-lg px-4 py-3 text-white placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors";
 
   const renderSocialIcon = (type: SocialLink["iconType"]) => {
     switch (type) {
@@ -39,7 +27,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={ref}
-      className={`transition-all duration-3000 ease-out ${
+      className={`transition-all duration-5000 ease-out ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
