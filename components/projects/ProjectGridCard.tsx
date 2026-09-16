@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import type { Project } from "@/lib/projects-data";
+import type { Project } from "@/lib/data/projects-data";
 
 export function ProjectGridCard({ project }: { project: Project }) {
   return (

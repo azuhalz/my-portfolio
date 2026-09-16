@@ -5,7 +5,7 @@ import { Card } from "../ui/Card";
 import { UsersRound } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 
-import { organizationsData as organizations } from "@/lib/organizational-data";
+import { organizationsData as organizations } from "@/lib/data/organizational-data";
 
 export default function Organizational() {
   const { ref, isVisible } = useInView();
@@ -14,7 +14,7 @@ export default function Organizational() {
     <section
       id="organizational"
       ref={ref}
-      className={`transition-all duration-3000 ease-out ${
+      className={`transition-all duration-5000 ease-out ${
         isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-16"
       }`}
     >

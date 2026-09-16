@@ -1,7 +1,7 @@
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { NavLinks } from "./NavLinks";
-import type { NavLink } from "./nav-links";
+import type { NavLink } from "../../lib/data/nav-links";
 
 type MobileMenuProps = {
   isOpen: boolean;

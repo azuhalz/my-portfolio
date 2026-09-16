@@ -4,7 +4,7 @@ import { ExternalLink, ChevronRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import type { Project } from "@/lib/projects-data";
+import type { Project } from "@/lib/data/projects-data";
 import { Card } from "../ui/Card";
 
 type ProjectCardProps = {

@@ -1,7 +1,7 @@
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { Button } from "@/components/ui/Button";
-import type { Project } from "@/lib/projects-data";
+import type { Project } from "@/lib/data/projects-data";
 
 type ProjectHeaderProps = {
   project: Project;

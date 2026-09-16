@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { projectsData } from "@/lib/projects-data";
+import { projectsData } from "@/lib/data/projects-data";
 import { FolderKanban } from "lucide-react";
 import { Card } from "../ui/Card";
 import { ProjectGridCard } from "@/components/projects/ProjectGridCard";
@@ -16,7 +16,7 @@ export default function Projects() {
     <section
       id="projects"
       ref={ref}
-      className={`transition-all duration-3000 ease-out ${
+      className={`transition-all duration-5000 ease-out ${
         isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-16"
       }`}
     >

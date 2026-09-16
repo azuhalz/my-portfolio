@@ -5,7 +5,7 @@ import { Award, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useResponsivePagination } from "@/hooks/useResponsivePagination";
-import { certificationsData as certifications } from "@/lib/certifications-data";
+import { certificationsData as certifications } from "@/lib/data/certifications-data";
 import { CertificationCard } from "./CertificationCard";
 import { useInView } from "@/hooks/useInView";
 
@@ -28,7 +28,7 @@ export default function Certifications() {
     <section
       id="certifications"
       ref={ref}
-      className={`transition-all duration-3000 ease-out ${
+      className={`transition-all duration-5000 ease-out ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
       }`}
     >

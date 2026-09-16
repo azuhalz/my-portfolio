@@ -1,6 +1,6 @@
 "use client";
 
-import type { Project } from "@/lib/projects-data";
+import type { Project } from "@/lib/data/projects-data";
 import { ProjectBreadcrumb } from "./ProjectBreadcrumb";
 import { ProjectHeader } from "./ProjectHeader";
 import { ProjectInfoCards } from "./ProjectInfoCards";
@@ -23,7 +23,7 @@ function AnimatedWrapper({
   return (
     <div
       ref={ref}
-      className={`transition-all duration-3000 ease-out ${
+      className={`transition-all duration-5000 ease-out ${
         isVisible
           ? "opacity-100 translate-x-0 translate-y-0"
           : `opacity-0 ${className}`

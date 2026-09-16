@@ -1,6 +1,6 @@
 import { LayoutGrid, User, Calendar } from "lucide-react";
 import { CardAbout } from "@/components/ui/CardAbout";
-import type { Project } from "@/lib/projects-data";
+import type { Project } from "@/lib/data/projects-data";
 
 type ProjectInfoCardsProps = {
   project: Project;

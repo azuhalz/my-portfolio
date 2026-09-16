@@ -5,7 +5,7 @@ import { BriefcaseBusiness } from "lucide-react";
 import { Card } from "../ui/Card";
 import { useInView } from "@/hooks/useInView";
 
-import { experiencesData as experiences } from "@/lib/experience-data";
+import { experiencesData as experiences } from "@/lib/data/experience-data";
 
 export default function Experience() {
   const { ref, isVisible } = useInView();
@@ -15,7 +15,7 @@ export default function Experience() {
     <section
       id="experience"
       ref={ref}
-      className={`transition-all duration-3000 ease-out ${
+      className={`transition-all duration-5000 ease-out ${
         isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-16"
       }`}
     >

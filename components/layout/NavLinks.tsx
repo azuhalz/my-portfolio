@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { navLinks, type NavLink } from "./nav-links";
+import { navLinks, type NavLink } from "../../lib/data/nav-links";
 
 const activeLinkStyle =
   "bg-primary/30 text-white px-4 py-2 rounded-full transition-colors";
