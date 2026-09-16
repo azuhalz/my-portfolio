@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "../ui/Button";
 
 export default function Footer() {
@@ -16,7 +15,7 @@ export default function Footer() {
         <Button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           variant="outline"
-          className="text-xl"
+          className="text-xl px-4.5! py-3! rounded-full"
         >
           ↑
         </Button>
