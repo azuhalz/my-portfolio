@@ -1,9 +1,12 @@
+"use client";
+
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "@/components/ui/Card";
 import { CardAbout } from "../ui/CardAbout";
 import { MapPin, Phone, UserRound } from "lucide-react";
 import { FaEnvelope, FaGithub, FaLinkedin, FaBriefcase } from "react-icons/fa";
 import { aboutData } from "@/lib/about-data";
+import { useInView } from "@/hooks/useInView";
 
 const iconMap: Record<string, React.ReactNode> = {
   MapPin: <MapPin size={24} />,
@@ -15,8 +18,16 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 export default function AboutMe() {
+  const { ref, isVisible } = useInView();
+
   return (
-    <section id="about">
+    <section
+      id="about"
+      ref={ref}
+      className={`transition-all duration-3000 ease-out ${
+        isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-16"
+      }`}
+    >
       <Card className="p-6">
         <SectionHeading title="About Me" icon={<UserRound size={24} />} />
 

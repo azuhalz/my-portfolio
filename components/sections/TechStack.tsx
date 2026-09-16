@@ -1,6 +1,9 @@
+"use client";
+
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "../ui/Card";
 import { Cpu } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
 import {
   SiGo,
   SiNextdotjs,
@@ -25,8 +28,15 @@ const techStack = [
 ];
 
 export default function TechStack() {
+  const { ref, isVisible } = useInView();
+
   return (
-    <section>
+    <section
+      ref={ref}
+      className={`transition-all duration-3000 ease-out ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+      }`}
+    >
       <Card className="p-6 mt-2">
         <SectionHeading
           title="My Skills & Tech Stack"

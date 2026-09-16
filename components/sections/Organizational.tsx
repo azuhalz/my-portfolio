@@ -1,12 +1,23 @@
+"use client";
+
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "../ui/Card";
 import { UsersRound } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
 
 import { organizationsData as organizations } from "@/lib/organizational-data";
 
 export default function Organizational() {
+  const { ref, isVisible } = useInView();
+
   return (
-    <section id="organizational">
+    <section
+      id="organizational"
+      ref={ref}
+      className={`transition-all duration-3000 ease-out ${
+        isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-16"
+      }`}
+    >
       <Card className="p-6 mt-2">
         <SectionHeading
           title="Organizational Experience"

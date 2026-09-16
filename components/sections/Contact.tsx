@@ -8,10 +8,13 @@ import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { contactInfo, SocialLink } from "@/lib/contact-data";
 import { ContactForm } from "@/components/contact/ContactForm";
 
+import { useInView } from "@/hooks/useInView";
+
 export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const { ref, isVisible } = useInView();
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -33,7 +36,13 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact">
+    <section
+      id="contact"
+      ref={ref}
+      className={`transition-all duration-3000 ease-out ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      }`}
+    >
       <Card className="p-6 mt-2">
         <SectionHeading title="Contact Me" icon={<FaEnvelope size={24} />} />
 

@@ -1,13 +1,24 @@
+"use client";
+
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { BriefcaseBusiness } from "lucide-react";
 import { Card } from "../ui/Card";
+import { useInView } from "@/hooks/useInView";
 
 import { experiencesData as experiences } from "@/lib/experience-data";
 
 export default function Experience() {
+  const { ref, isVisible } = useInView();
+
   return (
     // id="experience" agar link /#experience dari Navbar bisa scroll ke sini
-    <section id="experience">
+    <section
+      id="experience"
+      ref={ref}
+      className={`transition-all duration-3000 ease-out ${
+        isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-16"
+      }`}
+    >
       <Card className="p-6 mt-2">
         <SectionHeading
           title="Work Experience"
