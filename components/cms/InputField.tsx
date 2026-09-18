@@ -26,7 +26,7 @@ export function InputField({
   return (
     <span className="relative mt-2 block">
       <Icon
-        className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/50"
+        className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary/50"
         size={21}
       />
       <input
@@ -35,14 +35,14 @@ export function InputField({
         value={value}
         onChange={onChange}
         name={name}
-        className="h-13 w-full rounded-lg border border-white/15 bg-white/2.5 px-12 text-white outline-none transition placeholder:text-white/35 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
+        className="h-13 w-full rounded-lg border border-border bg-background/25 px-12 text-text-primary outline-none transition placeholder:text-text-secondary/35 focus:border-primary focus:ring-2 focus:ring-primary/20"
       />
       {showPasswordToggle && onTogglePassword && (
         <button
           type="button"
           onClick={onTogglePassword}
           aria-label={showPassword ? "Hide password" : "Show password"}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 transition hover:text-violet-300"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary/50 transition hover:text-primary"
         >
           {showPassword ? <EyeOff size={21} /> : <Eye size={21} />}
         </button>

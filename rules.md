@@ -46,7 +46,7 @@
 
 ## 8. Implementation Discipline
 
-- Kerjakan **satu step dalam `plan.md` pada satu waktu**.
+- Kerjakan `plan.md` pada satu waktu.
 - Setelah selesai, verifikasi bahwa step tersebut berjalan dengan benar sebelum lanjut ke step berikutnya.
 - Jangan mengerjakan step berikutnya tanpa instruksi.
 - Jika menemukan masalah atau konflik dengan architecture yang ada, jelaskan terlebih dahulu sebelum mengambil keputusan besar.
