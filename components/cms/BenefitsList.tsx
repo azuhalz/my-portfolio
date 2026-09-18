@@ -29,12 +29,12 @@ export function BenefitsList({ getIcon }: BenefitsListProps) {
         const Icon = getIcon(iconName);
         return (
           <div className="flex gap-4" key={title}>
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-violet-500/30 bg-violet-700/15 text-violet-400 shadow-[0_0_20px_rgba(124,58,237,0.12)]">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-border bg-primary/15 text-primary shadow-[0_0_20px_rgba(139,92,246,0.12)]">
               <Icon size={22} />
             </span>
             <div>
-              <p className="font-medium text-white/85">{title}</p>
-              <p className="mt-1 text-sm leading-5 text-white/45">
+              <p className="font-medium text-text-primary/85">{title}</p>
+              <p className="mt-1 text-sm leading-5 text-text-secondary/75">
                 {description}
               </p>
             </div>

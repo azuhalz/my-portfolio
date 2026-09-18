@@ -14,11 +14,11 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="mt-7 space-y-5">
-      <label className="block text-sm font-medium text-white/80">
+      <label className="block text-sm font-medium text-text-primary/80">
         Email
         <InputField type="email" placeholder="you@example.com" icon={Mail} />
       </label>
-      <label className="block text-sm font-medium text-white/80">
+      <label className="block text-sm font-medium text-text-primary/80">
         Password
         <InputField
           type="password"
@@ -30,25 +30,25 @@ export function LoginForm() {
         />
       </label>
       <div className="flex items-center justify-between text-sm">
-        <label className="flex cursor-pointer items-center gap-2 text-white/60">
+        <label className="flex cursor-pointer items-center gap-2 text-text-secondary/60">
           <input
             type="checkbox"
             checked={rememberMe}
             onChange={(event) => setRememberMe(event.target.checked)}
-            className="size-4 appearance-none rounded border border-violet-500 bg-transparent checked:bg-violet-600 checked:after:block checked:after:text-center checked:after:text-xs checked:after:leading-3.5 checked:after:text-white checked:after:content-['✓']"
+            className="size-4 appearance-none rounded border border-primary bg-transparent checked:bg-primary checked:after:block checked:after:text-center checked:after:text-xs checked:after:leading-3.5 checked:after:text-text-primary checked:after:content-['✓']"
           />
           Remember me
         </label>
         <button
           type="button"
-          className="font-medium text-violet-400 transition hover:text-violet-300"
+          className="font-medium text-primary transition hover:text-primary-hover"
         >
           Forgot password?
         </button>
       </div>
       <button
         type="submit"
-        className="h-12 w-full rounded-lg bg-linear-to-r from-violet-600 to-purple-700 font-semibold shadow-[0_8px_24px_rgba(124,58,237,0.4)] transition hover:from-violet-500 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:ring-offset-2 focus:ring-offset-[#080b1b]"
+        className="h-12 w-full rounded-lg bg-linear-to-r from-primary to-primary-hover font-semibold shadow-[0_8px_24px_rgba(124,58,237,0.4)] transition hover:from-primary-hover hover:to-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
       >
         Sign In
       </button>
