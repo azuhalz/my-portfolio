@@ -10,7 +10,11 @@ type NavLinksProps = {
   pathname: string;
   activeMenu: string;
   variant?: "desktop" | "mobile";
-  onLinkClick: (event: React.MouseEvent, link: NavLink) => void;
+  onLinkClick: (
+    event: React.MouseEvent,
+    link: NavLink,
+    isMobile: boolean,
+  ) => void;
 };
 
 export function NavLinks({
@@ -30,7 +34,7 @@ export function NavLinks({
           <Link
             key={link.id}
             href={link.href}
-            onClick={(e) => onLinkClick(e, link)}
+            onClick={(e) => onLinkClick(e, link, variant === "mobile")}
             className={`${isActive ? activeLinkStyle : inactiveLinkStyle}${
               variant === "mobile" ? " block text-left" : ""
             }`}

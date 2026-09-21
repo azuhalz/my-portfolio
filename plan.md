@@ -1,82 +1,57 @@
-# Plan: Transisi & Animasi Halaman Projects & Project Detail
+# Plan: Perbaikan Navigasi Anchor Navbar di Mobile
 
-## 1. Tujuan
+## Tujuan
 
-Menambahkan transisi animasi masuk (enter animation) yang halus, jelas, dan interaktif ketika user membuka halaman **All Projects (`/projects`)** dan halaman **Project Detail (`/projects/[slug]`)**:
+Memastikan setiap link section di menu hamburger (`About`, `Experience`, `Education`, `Certifications`, dan `Contact`) selalu berhenti pada section dengan `id` yang sesuai setelah diketuk pada viewport mobile/tablet. Perilaku navbar desktop yang sudah benar tidak diubah.
 
-- Arah animasi bervariasi: **Atas, Bawah, Kiri, Kanan**.
-- Durasi animasi: **3000ms (3 detik)** agar transisinya terlihat jelas dan elegan (`duration-[3000ms] ease-out`).
-- Kode tetap sederhana, bersih (_clean code_), dan menggunakan Tailwind CSS serta native React hooks (`useInView` / `useState` + `useEffect`).
+## Temuan Awal
 
----
+- `Navbar.tsx` memakai satu handler untuk navigasi desktop dan mobile.
+- Pada handler itu, `setIsMenuOpen(false)` dan `element.scrollIntoView()` dipanggil dalam klik yang sama.
+- Pada mobile, menutup `MobileMenu` menghapus tinggi menu dari navbar sticky. Scroll dapat dihitung ketika menu masih terbuka, kemudian posisi halaman bergeser setelah React merender menu tertutup. Ini menjelaskan hasil yang tidak konsisten (misalnya target Certifications tampak berada di sekitar Organizational), sedangkan desktop tidak terdampak karena menu tidak berubah tinggi.
+- Semua target yang dirujuk navbar telah tersedia (`about`, `experience`, `education`, `certifications`, `contact`), dan `app/globals.css` sudah memiliki `scroll-margin-top` untuk section ber-id. Jadi fokus perbaikan adalah urutan render dan scroll, bukan menambah atau mengganti `id`.
 
-## 2. Rincian Animasi Halaman All Projects (`app/projects/page.tsx`)
+## Rencana Implementasi
 
-Durasi: `duration-[3000ms] ease-out`
+1. Di `components/layout/Navbar.tsx`, pisahkan aksi scroll ke helper tunggal, misalnya `scrollToSection(id, href)`.
+   - Helper mengambil elemen berdasarkan `id`.
+   - Jalankan `scrollIntoView({ behavior: "smooth", block: "start" })` setelah layout stabil.
+   - Perbarui hash URL dan state menu aktif hanya setelah target valid ditemukan.
 
-| Bagian Elemen                                                     | Arah Masuk                                                            | Class Awal (Hidden)                                                      | Class Akhir (Muncul)        |
-| ----------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------ | --------------------------- |
-| **Header Halaman** (`Portfolio`, judul `All Projects`, deskripsi) | Dari **Atas**                                                         | `opacity-0 -translate-y-12`                                              | `opacity-100 translate-y-0` |
-| **Search & Filter Bar** (`ProjectSearch`, `ProjectFilter`)        | Dari **Kanan**                                                        | `opacity-0 translate-x-12`                                               | `opacity-100 translate-x-0` |
-| **Project Cards List** (`ProjectCard`)                            | Bergantian **Kiri & Kanan** (Card genap dari Kiri, ganjil dari Kanan) | Genap: `opacity-0 -translate-x-12`<br>Ganjil: `opacity-0 translate-x-12` | `opacity-100 translate-x-0` |
+2. Tambahkan state sementara untuk menyimpan `id` link mobile yang menunggu di-scroll.
+   - Jika link anchor ditekan dari menu hamburger pada halaman utama, cegah navigasi default, simpan target tersebut, lalu tutup menu.
+   - Jangan melakukan scroll pada handler klik yang masih menjalankan `setIsMenuOpen(false)`.
+   - Saat render berikutnya mengonfirmasi `isMenuOpen === false`, gunakan `useEffect` dan satu frame render (`requestAnimationFrame`) untuk menjalankan helper scroll. Dengan begitu, posisi target dihitung sesudah tinggi menu mobile hilang dari dokumen.
+   - Bersihkan state target setelah scroll agar efek tidak terulang saat render berikutnya.
 
-### Mekanisme Implementasi di `app/projects/page.tsx`:
+3. Pertahankan jalur desktop dan navigasi antarhalaman.
+   - Untuk navbar desktop di halaman utama, tetap lakukan smooth scroll langsung karena tidak ada perubahan tinggi menu.
+   - Untuk link `Projects` dan link yang diklik dari route selain `/`, biarkan perilaku `next/link` yang ada menangani perubahan route/hash. Jangan memaksa scroll ke elemen yang belum dirender.
+   - Bila perlu membedakan sumber klik desktop/mobile, teruskan `variant` dari `NavLinks` atau sediakan callback khusus dari `MobileMenu`, dengan tipe TypeScript yang tetap eksplisit.
 
-- Menggunakan state `isMounted` dengan `useEffect` untuk memicu animasi bagian atas saat halaman pertama kali dibuka:
-  ```tsx
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  ```
-- Setiap `ProjectCard` dibungkus container transisi (atau memanfaatkan `useInView` per item) dengan transisi `duration-[3000ms]`.
+4. Pertahankan offset navbar saat validasi.
+   - Gunakan aturan `section[id] { scroll-margin-top: 5rem; }` yang sudah ada sebagai sumber offset tunggal.
+   - Jangan menambahkan offset JavaScript kedua, supaya posisi tidak terdorong ganda dan hasil desktop tetap konsisten.
 
----
+## File yang Direncanakan Berubah
 
-## 3. Rincian Animasi Halaman Project Detail (`components/projects/detail/ProjectDetail.tsx`)
+1. `components/layout/Navbar.tsx`
+   - Mengatur urutan: tutup menu mobile → tunggu layout stabil → scroll ke target.
+   - Memisahkan helper scroll dan sinkronisasi hash/active link.
 
-Durasi: `duration-[3000ms] ease-out`
+2. `components/layout/MobileMenu.tsx` dan/atau `components/layout/NavLinks.tsx` (hanya jika dibutuhkan)
+   - Menyediakan penanda/callback bahwa klik berasal dari varian mobile, tanpa mengubah markup atau gaya navigasi desktop.
 
-Setiap komponen detail proyek dianimasikan dari arah yang berbeda saat halaman dibuka / di-scroll:
+## Verifikasi Setelah Implementasi
 
-| Komponen Detail          | Arah Masuk     | Class Awal (Hidden)         | Class Akhir (Muncul)        | Keterangan                                |
-| ------------------------ | -------------- | --------------------------- | --------------------------- | ----------------------------------------- |
-| **ProjectBreadcrumb**    | Dari **Atas**  | `opacity-0 -translate-y-10` | `opacity-100 translate-y-0` | Navigasi breadcrumb atas                  |
-| **ProjectHeader**        | Dari **Kiri**  | `opacity-0 -translate-x-12` | `opacity-100 translate-x-0` | Judul proyek, link Demo & GitHub          |
-| **ProjectInfoCards**     | Dari **Kanan** | `opacity-0 translate-x-12`  | `opacity-100 translate-x-0` | Kartu informasi timeline, peran, kategori |
-| **ProjectImageCarousel** | Dari **Bawah** | `opacity-0 translate-y-12`  | `opacity-100 translate-y-0` | Gambar/carousel preview proyek            |
-| **ProjectOverview**      | Dari **Kiri**  | `opacity-0 -translate-x-12` | `opacity-100 translate-x-0` | Penjelasan ringkasan proyek               |
-| **ProjectTechStack**     | Dari **Kanan** | `opacity-0 translate-x-12`  | `opacity-100 translate-x-0` | Badge teknologi yang digunakan            |
-| **ProjectLearnings**     | Dari **Bawah** | `opacity-0 translate-y-12`  | `opacity-100 translate-y-0` | Poin pembelajaran proyek                  |
+1. Uji pada viewport di bawah breakpoint `lg` dengan menu hamburger terbuka.
+2. Dari beberapa posisi awal berbeda (dekat atas, tengah, dan bawah halaman), ketuk `About`, `Experience`, `Education`, `Certifications`, lalu `Contact`.
+3. Pastikan setiap klik menutup menu dan heading section target muncul di bawah navbar sticky, bukan di section sebelum/berikutnya.
+4. Uji ulang klik cepat antar-link untuk memastikan hanya target terakhir yang dijalankan dan tidak ada scroll lama yang tertinggal.
+5. Uji desktop pada semua anchor serta link `/projects`; pastikan smooth scroll, highlight aktif, hash URL, dan navigasi route tetap berfungsi.
+6. Jalankan lint/build proyek setelah perubahan untuk memeriksa tipe callback dan aturan React hook.
 
-### Mekanisme Implementasi di `ProjectDetail.tsx`:
+## Batasan
 
-- Mengubah `ProjectDetail.tsx` menjadi `"use client"` (atau membungkus masing-masing komponen dengan wrapper / `useInView`).
-- Alternatif yang sangat bersih dan terstruktur adalah membuat komponen pembungkus animasi reusable atau menerapkan `useInView` / `isMounted` pada section detail:
-  ```tsx
-  <div
-    className={`transition-all duration-3000 ease-out ${
-      isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
-    }`}
-  >
-    {/* Child Component */}
-  </div>
-  ```
-
----
-
-## 4. File yang Akan Diubah (Untuk Dikerjakan Nanti)
-
-1. **`app/projects/page.tsx`**
-   - Menambahkan state mount / trigger animasi `duration-[3000ms]`.
-   - Mengatur arah transisi header (atas), search & filter (kanan), dan card list (kiri/kanan bergantian).
-
-2. **`components/projects/detail/ProjectDetail.tsx`**
-   - Menambahkan client wrapper atau memetakan transisi arah berbeda (atas, kiri, kanan, bawah) dengan `duration-[3000ms]` untuk masing-masing 7 komponen detail.
-
----
-
-## 5. Catatan & Batasan
-
-- **Tanpa library tambahan**: Murni Tailwind CSS + hooks bawaan React / `useInView`.
-- **Tidak merusak fungsionalitas**: Filter, search, carousel, pagination, dan navigasi detail tetap berfungsi normal.
+- Tidak ada perubahan konten section, data navigasi, animasi section, atau styling desain selain yang benar-benar diperlukan untuk sinkronisasi scroll mobile.
+- Tidak menambahkan library baru.
