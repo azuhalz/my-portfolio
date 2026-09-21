@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { Lock, Mail } from "lucide-react";
-import { InputField } from "@/components/cms/InputField";
+import { InputField } from "@/components/cms/login/InputField";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
