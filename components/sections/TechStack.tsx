@@ -2,7 +2,7 @@
 
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "../ui/Card";
-import { Cpu } from "lucide-react";
+import { Layers3 } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 import {
   SiGo,
@@ -40,7 +40,7 @@ export default function TechStack() {
       <Card className="p-6 mt-2">
         <SectionHeading
           title="My Skills & Tech Stack"
-          icon={<Cpu size={24} />}
+          icon={<Layers3 size={24} />}
         />
 
         {/* Daftar ikon teknologi berjajar dan bisa wrap ke baris baru (flex-wrap) */}

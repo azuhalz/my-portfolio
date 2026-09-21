@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { LoginForm } from "@/components/cms/LoginForm";
+import { LoginForm } from "@/components/cms/login/LoginForm";
 
 export function LoginCard() {
   return (

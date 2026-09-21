@@ -1,57 +1,31 @@
-# Plan: Perbaikan Navigasi Anchor Navbar di Mobile
+# Plan: Implementasi Dashboard CMS
 
 ## Tujuan
 
-Memastikan setiap link section di menu hamburger (`About`, `Experience`, `Education`, `Certifications`, dan `Contact`) selalu berhenti pada section dengan `id` yang sesuai setelah diketuk pada viewport mobile/tablet. Perilaku navbar desktop yang sudah benar tidak diubah.
+Membuat halaman dashboard CMS desktop di route `/cms` yang meniru referensi: sidebar permanen, top bar, empat kartu metrik, daftar proyek dan pesan terbaru, panel analytics, serta kumpulan quick actions. Halaman merupakan dashboard visual dengan data demo lokal; tidak mencakup autentikasi, penyimpanan data, CRUD, maupun halaman manajemen lanjutan. Tidak ada pekerjaan responsivitas—layout mempertahankan kanvas desktop dengan `min-width` dan overflow horizontal bila viewport lebih kecil.
 
-## Temuan Awal
+## Arsitektur & Data
 
-- `Navbar.tsx` memakai satu handler untuk navigasi desktop dan mobile.
-- Pada handler itu, `setIsMenuOpen(false)` dan `element.scrollIntoView()` dipanggil dalam klik yang sama.
-- Pada mobile, menutup `MobileMenu` menghapus tinggi menu dari navbar sticky. Scroll dapat dihitung ketika menu masih terbuka, kemudian posisi halaman bergeser setelah React merender menu tertutup. Ini menjelaskan hasil yang tidak konsisten (misalnya target Certifications tampak berada di sekitar Organizational), sedangkan desktop tidak terdampak karena menu tidak berubah tinggi.
-- Semua target yang dirujuk navbar telah tersedia (`about`, `experience`, `education`, `certifications`, `contact`), dan `app/globals.css` sudah memiliki `scroll-margin-top` untuk section ber-id. Jadi fokus perbaikan adalah urutan render dan scroll, bukan menambah atau mengganti `id`.
+- Tambahkan `app/cms/page.tsx` sebagai entry point dashboard. Gunakan container `fixed inset-0 z-50 overflow-auto` seperti halaman login CMS agar dashboard menutupi `Navbar`, `Footer`, dan `MouseBackground` portofolio tanpa mengubah root layout.
+- Buat `lib/data/cms-dashboard-data.ts` sebagai satu sumber data statis dan typed untuk item sidebar, empat metrik, proyek terbaru, titik chart/summary analytics, pesan, dan quick action. Gunakan empat asset proyek yang sudah ada di `public/images` sebagai thumbnail; gunakan avatar berbasis inisial untuk pesan karena repo tidak memiliki asset foto pengirim.
+- Pertahankan data portofolio asli tidak berubah. Data dashboard mengikuti copy dan angka referensi (`12`, `2,543`, `7`, `May 25, 2025`, serta summary analytics) agar preview konsisten.
 
-## Rencana Implementasi
+## Komponen Dashboard
 
-1. Di `components/layout/Navbar.tsx`, pisahkan aksi scroll ke helper tunggal, misalnya `scrollToSection(id, href)`.
-   - Helper mengambil elemen berdasarkan `id`.
-   - Jalankan `scrollIntoView({ behavior: "smooth", block: "start" })` setelah layout stabil.
-   - Perbarui hash URL dan state menu aktif hanya setelah target valid ditemukan.
+- Buat komponen modular di `components/cms/dashboard/`: `CmsSidebar`, `DashboardHeader`, `RecentProjects`, `AnalyticsPanel`, `RecentMessages`, dan `QuickActions`. Halaman `/cms` hanya mengomposisikan komponen tersebut dalam grid desktop.
+- Ekstrak `MetricCard` dari folder login ke `components/cms/MetricCard.tsx` sebagai komponen bersama, bukan membuat kartu metrik duplikat. Pertahankan props `label` dan `value` untuk `DashboardPreview`, lalu tambahkan props opsional untuk ikon, trend, label trend, dan sparkline. Dashboard memakai varian lengkap; preview login tetap tampak dan bekerja seperti sekarang.
+- Implementasikan grafik analytics sebagai SVG inline reusable di `AnalyticsPanel`: area fill gradient, polyline/kurva, titik data, serta label sumbu/tanggal berasal dari data lokal. Jangan menambahkan library chart.
+- Sidebar menampilkan logo AZZ., seluruh item navigasi dari referensi dengan `Dashboard` aktif, footer `AZZ. CMS v2.0.0`, dan ikon Lucide. Top bar berisi judul/subjudul, link `View Website` ke `/`, tombol notifikasi dengan badge `3`, avatar admin, nama/email, dan tombol dropdown visual.
+- Jadikan `View All` proyek sebagai link ke `/projects` dan `View Website` ke `/`. Kontrol periode analytics, notifikasi, dropdown admin, sidebar item tanpa route CMS tujuan, serta quick action tetap visual/nonaktif pada tahap ini agar tidak menghasilkan navigasi atau CRUD palsu.
 
-2. Tambahkan state sementara untuk menyimpan `id` link mobile yang menunggu di-scroll.
-   - Jika link anchor ditekan dari menu hamburger pada halaman utama, cegah navigasi default, simpan target tersebut, lalu tutup menu.
-   - Jangan melakukan scroll pada handler klik yang masih menjalankan `setIsMenuOpen(false)`.
-   - Saat render berikutnya mengonfirmasi `isMenuOpen === false`, gunakan `useEffect` dan satu frame render (`requestAnimationFrame`) untuk menjalankan helper scroll. Dengan begitu, posisi target dihitung sesudah tinggi menu mobile hilang dari dokumen.
-   - Bersihkan state target setelah scroll agar efek tidak terulang saat render berikutnya.
+## Desain
 
-3. Pertahankan jalur desktop dan navigasi antarhalaman.
-   - Untuk navbar desktop di halaman utama, tetap lakukan smooth scroll langsung karena tidak ada perubahan tinggi menu.
-   - Untuk link `Projects` dan link yang diklik dari route selain `/`, biarkan perilaku `next/link` yang ada menangani perubahan route/hash. Jangan memaksa scroll ke elemen yang belum dirender.
-   - Bila perlu membedakan sumber klik desktop/mobile, teruskan `variant` dari `NavLinks` atau sediakan callback khusus dari `MobileMenu`, dengan tipe TypeScript yang tetap eksplisit.
+- Gunakan token yang telah ada di `app/globals.css`: `background`, `card`, `border`, `primary`, dan token teks. Tambahkan satu token semantik `success` hanya untuk indikator kenaikan hijau karena belum ada padanannya di design system.
+- Ikuti gaya referensi: latar navy/black, border redup, radius kartu konsisten, aksen ungu untuk ikon, active nav, sparkline, dan link; gunakan efek glow/shadow transparan berbasis warna `primary` yang sudah dipakai komponen CMS login.
+- Susun desktop canvas dengan sidebar sekitar 224px, header sekitar 84px, area konten ber-grid: metrik 4 kolom; proyek dan analytics berdampingan; messages dan quick actions di bawahnya. Quick action berisi delapan kartu, masing-masing dengan ikon, judul, dan deskripsi referensi.
 
-4. Pertahankan offset navbar saat validasi.
-   - Gunakan aturan `section[id] { scroll-margin-top: 5rem; }` yang sudah ada sebagai sumber offset tunggal.
-   - Jangan menambahkan offset JavaScript kedua, supaya posisi tidak terdorong ganda dan hasil desktop tetap konsisten.
+## Batasan yang Disepakati
 
-## File yang Direncanakan Berubah
-
-1. `components/layout/Navbar.tsx`
-   - Mengatur urutan: tutup menu mobile → tunggu layout stabil → scroll ke target.
-   - Memisahkan helper scroll dan sinkronisasi hash/active link.
-
-2. `components/layout/MobileMenu.tsx` dan/atau `components/layout/NavLinks.tsx` (hanya jika dibutuhkan)
-   - Menyediakan penanda/callback bahwa klik berasal dari varian mobile, tanpa mengubah markup atau gaya navigasi desktop.
-
-## Verifikasi Setelah Implementasi
-
-1. Uji pada viewport di bawah breakpoint `lg` dengan menu hamburger terbuka.
-2. Dari beberapa posisi awal berbeda (dekat atas, tengah, dan bawah halaman), ketuk `About`, `Experience`, `Education`, `Certifications`, lalu `Contact`.
-3. Pastikan setiap klik menutup menu dan heading section target muncul di bawah navbar sticky, bukan di section sebelum/berikutnya.
-4. Uji ulang klik cepat antar-link untuk memastikan hanya target terakhir yang dijalankan dan tidak ada scroll lama yang tertinggal.
-5. Uji desktop pada semua anchor serta link `/projects`; pastikan smooth scroll, highlight aktif, hash URL, dan navigasi route tetap berfungsi.
-6. Jalankan lint/build proyek setelah perubahan untuk memeriksa tipe callback dan aturan React hook.
-
-## Batasan
-
-- Tidak ada perubahan konten section, data navigasi, animasi section, atau styling desain selain yang benar-benar diperlukan untuk sinkronisasi scroll mobile.
-- Tidak menambahkan library baru.
+- Dashboard hanya UI statis dengan data lokal; tidak ada API, database, login enforcement, chart real-time, atau implementasi CRUD.
+- Tidak ada breakpoint atau adaptasi mobile/tablet untuk dashboard CMS pada tahap ini.
+- Tidak menambahkan package baru dan tidak mengubah fitur portofolio di luar isolasi tampilan route `/cms`.
