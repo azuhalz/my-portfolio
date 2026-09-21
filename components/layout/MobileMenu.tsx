@@ -7,7 +7,11 @@ type MobileMenuProps = {
   isOpen: boolean;
   pathname: string;
   activeMenu: string;
-  onLinkClick: (event: React.MouseEvent, link: NavLink) => void;
+  onLinkClick: (
+    event: React.MouseEvent,
+    link: NavLink,
+    isMobile: boolean,
+  ) => void;
 };
 
 export function MobileMenu({

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Download, Menu, X } from "lucide-react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
@@ -16,20 +16,63 @@ export default function Navbar() {
   const [activeMenu, setActiveMenu] = useScrollSpy(navLinks, isProjectsRoute);
   // State untuk membuka/menutup menu hamburger di mobile
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [pendingMobileLink, setPendingMobileLink] = useState<NavLink | null>(
+    null,
+  );
 
-  function handleNavLinkClick(e: React.MouseEvent, link: NavLink) {
-    // Tutup menu hamburger saat link diklik
-    setIsMenuOpen(false);
-
-    if (pathname === "/" && link.href.includes("#")) {
-      e.preventDefault();
+  const scrollToSection = useCallback(
+    (link: NavLink) => {
       const element = document.getElementById(link.id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", link.href);
-        setActiveMenu(link.id);
+      if (!element) return;
+
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.pushState(null, "", link.href);
+      setActiveMenu(link.id);
+    },
+    [setActiveMenu],
+  );
+
+  useEffect(() => {
+    if (isMenuOpen || !pendingMobileLink) return;
+
+    const animationFrame = window.requestAnimationFrame(() => {
+      scrollToSection(pendingMobileLink);
+      setPendingMobileLink(null);
+    });
+
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [isMenuOpen, pendingMobileLink, scrollToSection]);
+
+  function handleNavLinkClick(
+    e: React.MouseEvent,
+    link: NavLink,
+    isMobile: boolean,
+  ) {
+    if (pathname !== "/" || !link.href.includes("#")) {
+      if (isMobile) {
+        setIsMenuOpen(false);
       }
+
+      return;
     }
+
+    e.preventDefault();
+
+    if (isMobile) {
+      setPendingMobileLink(link);
+      setIsMenuOpen(false);
+      return;
+    }
+
+    scrollToSection(link);
+  }
+
+  function handleMenuToggle() {
+    if (!isMenuOpen) {
+      setPendingMobileLink(null);
+    }
+
+    setIsMenuOpen((currentValue) => !currentValue);
   }
 
   return (
@@ -71,7 +114,7 @@ export default function Navbar() {
           {/* Ikon hamburger menu — hanya muncul di layar kecil (mobile & tablet) */}
           <button
             className="lg:hidden text-white p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={handleMenuToggle}
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
