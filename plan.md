@@ -1,31 +1,49 @@
-# Plan: Implementasi Dashboard CMS
+# Plan: Layout Bersama dan Routing Konten CMS
 
 ## Tujuan
 
-Membuat halaman dashboard CMS desktop di route `/cms` yang meniru referensi: sidebar permanen, top bar, empat kartu metrik, daftar proyek dan pesan terbaru, panel analytics, serta kumpulan quick actions. Halaman merupakan dashboard visual dengan data demo lokal; tidak mencakup autentikasi, penyimpanan data, CRUD, maupun halaman manajemen lanjutan. Tidak ada pekerjaan responsivitas—layout mempertahankan kanvas desktop dengan `min-width` dan overflow horizontal bila viewport lebih kecil.
+Menjadikan sidebar CMS dan dashboard header sebagai shell bersama untuk seluruh halaman pengelolaan CMS. Setiap item sidebar dapat diklik, memiliki URL sendiri, dan diberi state aktif ungu berdasarkan route saat ini. Konten route baru sengaja kosong pada tahap ini.
 
-## Arsitektur & Data
+`/cms/login` tetap menjadi pengecualian: halaman autentikasi tidak memakai sidebar/header dashboard. Semua route administrasi lain memakai shell yang sama.
 
-- Tambahkan `app/cms/page.tsx` sebagai entry point dashboard. Gunakan container `fixed inset-0 z-50 overflow-auto` seperti halaman login CMS agar dashboard menutupi `Navbar`, `Footer`, dan `MouseBackground` portofolio tanpa mengubah root layout.
-- Buat `lib/data/cms-dashboard-data.ts` sebagai satu sumber data statis dan typed untuk item sidebar, empat metrik, proyek terbaru, titik chart/summary analytics, pesan, dan quick action. Gunakan empat asset proyek yang sudah ada di `public/images` sebagai thumbnail; gunakan avatar berbasis inisial untuk pesan karena repo tidak memiliki asset foto pengirim.
-- Pertahankan data portofolio asli tidak berubah. Data dashboard mengikuti copy dan angka referensi (`12`, `2,543`, `7`, `May 25, 2025`, serta summary analytics) agar preview konsisten.
+## Struktur Route
 
-## Komponen Dashboard
+Gunakan route group `app/cms/(dashboard)/` agar layout hanya membungkus halaman administrasi, tanpa mengubah URL dan tanpa membungkus login:
 
-- Buat komponen modular di `components/cms/dashboard/`: `CmsSidebar`, `DashboardHeader`, `RecentProjects`, `AnalyticsPanel`, `RecentMessages`, dan `QuickActions`. Halaman `/cms` hanya mengomposisikan komponen tersebut dalam grid desktop.
-- Ekstrak `MetricCard` dari folder login ke `components/cms/MetricCard.tsx` sebagai komponen bersama, bukan membuat kartu metrik duplikat. Pertahankan props `label` dan `value` untuk `DashboardPreview`, lalu tambahkan props opsional untuk ikon, trend, label trend, dan sparkline. Dashboard memakai varian lengkap; preview login tetap tampak dan bekerja seperti sekarang.
-- Implementasikan grafik analytics sebagai SVG inline reusable di `AnalyticsPanel`: area fill gradient, polyline/kurva, titik data, serta label sumbu/tanggal berasal dari data lokal. Jangan menambahkan library chart.
-- Sidebar menampilkan logo AZZ., seluruh item navigasi dari referensi dengan `Dashboard` aktif, footer `AZZ. CMS v2.0.0`, dan ikon Lucide. Top bar berisi judul/subjudul, link `View Website` ke `/`, tombol notifikasi dengan badge `3`, avatar admin, nama/email, dan tombol dropdown visual.
-- Jadikan `View All` proyek sebagai link ke `/projects` dan `View Website` ke `/`. Kontrol periode analytics, notifikasi, dropdown admin, sidebar item tanpa route CMS tujuan, serta quick action tetap visual/nonaktif pada tahap ini agar tidak menghasilkan navigasi atau CRUD palsu.
+| URL | File page | Label sidebar |
+| --- | --- | --- |
+| `/cms/dashboard` | `dashboard/page.tsx` | Dashboard |
+| `/cms/hero` | `hero/page.tsx` | Hero Section |
+| `/cms/about` | `about/page.tsx` | About |
+| `/cms/tech-stack` | `tech-stack/page.tsx` | Tech Stack |
+| `/cms/projects` | `projects/page.tsx` | Projects |
+| `/cms/work-experience` | `work-experience/page.tsx` | Work Experience |
+| `/cms/education` | `education/page.tsx` | Education |
+| `/cms/organizational-experience` | `organizational-experience/page.tsx` | Organizational Experience |
+| `/cms/certifications` | `certifications/page.tsx` | Certifications |
+| `/cms/contact` | `contact/page.tsx` | Contact |
+| `/cms/settings` | `settings/page.tsx` | Settings |
 
-## Desain
+Pindahkan dashboard page yang ada ke dalam route group tersebut; URL `/cms/dashboard` tetap sama. Buat page placeholder untuk sepuluh route lainnya dengan komponen `EmptyCmsPage` reusable yang hanya memberi struktur semantik tanpa tampilan konten.
 
-- Gunakan token yang telah ada di `app/globals.css`: `background`, `card`, `border`, `primary`, dan token teks. Tambahkan satu token semantik `success` hanya untuk indikator kenaikan hijau karena belum ada padanannya di design system.
-- Ikuti gaya referensi: latar navy/black, border redup, radius kartu konsisten, aksen ungu untuk ikon, active nav, sparkline, dan link; gunakan efek glow/shadow transparan berbasis warna `primary` yang sudah dipakai komponen CMS login.
-- Susun desktop canvas dengan sidebar sekitar 224px, header sekitar 84px, area konten ber-grid: metrik 4 kolom; proyek dan analytics berdampingan; messages dan quick actions di bawahnya. Quick action berisi delapan kartu, masing-masing dengan ikon, judul, dan deskripsi referensi.
+## Implementasi Layout dan Navigasi
 
-## Batasan yang Disepakati
+- Tambahkan `app/cms/(dashboard)/layout.tsx` sebagai layout server untuk shell CMS: container fixed desktop yang sudah dipakai dashboard, grid sidebar 224px, header sticky, lalu `<main>{children}</main>`. Pindahkan wrapper shell dari page dashboard ke layout ini agar tidak ada sidebar/header ganda.
+- Ubah `CmsSidebar` menjadi client component dan gunakan `next/link` + `usePathname()`. Sidebar membaca data navigasi tunggal dan membandingkan pathname secara exact dengan `href`; hanya route aktif yang memakai border, background, shadow, dan teks/ikon ungu.
+- Perbarui `DashboardHeader` agar dapat dipakai layout pada semua route. Pertahankan View Website, notification badge, profile, dan menu account; judul serta subjudul diturunkan dari item navigasi aktif sehingga Hero, About, dan halaman lain tidak tetap berjudul “Dashboard”.
+- Perluas `dashboardNavItems` menjadi source of truth typed dengan `label`, `href`, `icon`, serta subtitle header. Hapus flag `active` statis agar state tidak pernah salah setelah navigasi.
+- Pertahankan layout desktop tanpa breakpoint tambahan. Semua page placeholder tetap mewarisi ukuran kanvas, scrollbar, background, sidebar, dan header yang sama.
 
-- Dashboard hanya UI statis dengan data lokal; tidak ada API, database, login enforcement, chart real-time, atau implementasi CRUD.
-- Tidak ada breakpoint atau adaptasi mobile/tablet untuk dashboard CMS pada tahap ini.
-- Tidak menambahkan package baru dan tidak mengubah fitur portofolio di luar isolasi tampilan route `/cms`.
+## Kompatibilitas dan Batasan
+
+- `app/cms/login/page.tsx` dan komponen login tetap berada di luar route group. Hapus directive client dari page login bila hanya dipakai untuk metadata; interaktivitas form tetap berada di komponen client yang sudah ada, sehingga export metadata tetap valid.
+- Jangan buat CRUD, form editor, API, autentikasi, dropdown aktif, atau konten detail untuk route placeholder. Link sidebar adalah satu-satunya interaksi baru yang diperlukan.
+- Gunakan komponen, token warna, dan data CMS yang ada; tidak ada dependency baru atau perubahan pada route portofolio.
+
+## Verifikasi
+
+1. Buka setiap URL pada tabel dan pastikan route merender tanpa 404 dengan sidebar/header yang sama.
+2. Pastikan link sidebar menuju URL tepat dan hanya item route saat ini yang berwarna ungu, termasuk setelah refresh langsung pada URL tersebut.
+3. Pastikan `/cms/login` tetap menampilkan layout login tanpa sidebar atau dashboard header.
+4. Pastikan `/cms/dashboard` mempertahankan semua panel dashboard yang sudah ada setelah wrapper dipindahkan ke layout.
+5. Jalankan lint spesifik file CMS baru/diubah, `tsc --noEmit`, lalu build; catat terpisah kegagalan lama atau kegagalan environment yang tidak terkait.
