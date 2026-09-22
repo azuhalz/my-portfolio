@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
 import { MetricCard } from "@/components/cms/MetricCard";
 import { QuickActions } from "@/components/cms/dashboard/QuickActions";
 import { RecentMessages } from "@/components/cms/dashboard/RecentMessages";
 import { dashboardMetrics } from "@/lib/data/cms-dashboard-data";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "CMS | Dashboard",
@@ -11,7 +11,10 @@ export const metadata: Metadata = {
 export default function CmsDashboardPage() {
   return (
     <div className="space-y-4 px-6 py-5">
-      <section className="grid grid-cols-4 gap-4" aria-label="Portfolio summary">
+      <section
+        className="grid grid-cols-4 gap-4"
+        aria-label="Portfolio summary"
+      >
         {dashboardMetrics.map((metric) => (
           <MetricCard key={metric.label} {...metric} />
         ))}
