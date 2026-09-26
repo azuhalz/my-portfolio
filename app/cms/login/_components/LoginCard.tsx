@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { LoginForm } from "@/components/cms/login/LoginForm";
+import { LoginForm } from "./LoginForm";
+import { Button } from "@/components/ui/Button";
 
 export function LoginCard() {
   return (
@@ -20,13 +20,10 @@ export function LoginCard() {
         or
         <span className="h-px flex-1 bg-border" />
       </div>
-      <Link
-        href="/"
-        className="flex h-12 items-center justify-center gap-2 rounded-lg border border-border text-primary transition hover:border-primary/50 hover:bg-primary/10"
-      >
+      <Button href="/" variant="outline" className="w-full">
         <ArrowLeft size={19} />
         Back to Portfolio
-      </Link>
+      </Button>
     </div>
   );
 }

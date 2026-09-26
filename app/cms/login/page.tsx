@@ -1,10 +1,10 @@
 "use client";
 
 import { ChartLine, Shield, Zap } from "lucide-react";
-import { DashboardPreview } from "@/components/cms/login/DashboardPreview";
-import { LoginSidebar } from "@/components/cms/login/LoginSidebar";
-import { LoginCard } from "@/components/cms/login/LoginCard";
-import { MobileHeader } from "@/components/cms/login/MobileHeader";
+import { DashboardPreview } from "./_components/DashboardPreview";
+import { LoginSidebar } from "./_components/LoginSidebar";
+import { LoginCard } from "./_components/LoginCard";
+import { MobileHeader } from "./_components/MobileHeader";
 
 const iconMap = {
   Zap,

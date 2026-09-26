@@ -10,15 +10,15 @@ export function DashboardHeader() {
   const pathname = usePathname();
   const currentPage = dashboardNavItems.find((item) => item.href === pathname);
   const title = currentPage?.label ?? "Dashboard";
-  const description =
-    currentPage?.description ?? "Here's what's happening with your portfolio.";
+  const description = currentPage?.description;
 
   return (
     <header className="sticky top-0 z-10 flex h-21 items-center justify-between border-b border-border bg-background/95 px-8 backdrop-blur">
       <div>
         <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
         <p className="mt-1 text-sm text-text-secondary">
-          Welcome back, Zhafran! <span aria-hidden="true">👋</span> {description}
+          Welcome back, Zhafran! <span aria-hidden="true">👋</span>{" "}
+          {description}
         </p>
       </div>
 

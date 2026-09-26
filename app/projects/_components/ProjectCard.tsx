@@ -5,7 +5,7 @@ import { FaGithub } from "react-icons/fa";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import type { Project } from "@/lib/data/projects-data";
-import { Card } from "../ui/Card";
+import { Card } from "@/components/ui/Card";
 
 type ProjectCardProps = {
   project: Project;

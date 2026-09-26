@@ -1,5 +1,5 @@
 import { LucideIcon } from "lucide-react";
-import { BenefitsList } from "@/components/cms/login/BenefitsList";
+import { BenefitsList } from "./BenefitsList";
 
 interface LoginSidebarProps {
   getIcon: (iconName: string) => LucideIcon;
@@ -27,7 +27,7 @@ export function LoginSidebar({ getIcon }: LoginSidebarProps) {
         <BenefitsList getIcon={getIcon} />
       </div>
       <p className="text-sm text-text-secondary/40">
-        © 2025 AZZ. All rights reserved.
+        © 2026 Zhafran. All rights reserved.
       </p>
     </aside>
   );
