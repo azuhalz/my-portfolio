@@ -1,4 +1,4 @@
-import { MetricCard } from "@/components/ui/MetricCard";
+import { MetricCard } from "@/components/cms/MetricCard";
 import { QuickActions } from "@/app/cms/(dashboard)/dashboard/_components/QuickActions";
 import { RecentMessages } from "@/app/cms/(dashboard)/dashboard/_components/RecentMessages";
 import { dashboardMetrics } from "@/lib/data/cms-dashboard-data";

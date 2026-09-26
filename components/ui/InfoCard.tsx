@@ -1,13 +1,13 @@
 import React from "react";
 import { Card } from "./Card";
 
-interface CardAboutProps {
+interface InfoCardProps {
   icon: React.ReactNode;
   title: string;
   value: string;
 }
 
-export function CardAbout({ icon, title, value }: CardAboutProps) {
+export function InfoCard({ icon, title, value }: InfoCardProps) {
   return (
     <Card className="flex items-center gap-4">
       {/* Container untuk Ikon */}

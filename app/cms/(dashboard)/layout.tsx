@@ -1,5 +1,5 @@
-import { CmsSidebar } from "@/app/cms/(dashboard)/dashboard/_components/CmsSidebar";
-import { DashboardHeader } from "@/app/cms/(dashboard)/dashboard/_components/DashboardHeader";
+import { CmsSidebar } from "@/app/cms/(dashboard)/_components/CmsSidebar";
+import { DashboardHeader } from "@/app/cms/(dashboard)/_components/CmsHeader";
 
 export default function CmsDashboardLayout({
   children,

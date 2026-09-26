@@ -1,5 +1,5 @@
 import { LayoutGrid, User, Calendar } from "lucide-react";
-import { CardAbout } from "@/components/ui/CardAbout";
+import { InfoCard } from "@/components/ui/InfoCard";
 import type { Project } from "@/lib/data/projects-data";
 
 type ProjectInfoCardsProps = {
@@ -9,15 +9,15 @@ type ProjectInfoCardsProps = {
 export function ProjectInfoCards({ project }: ProjectInfoCardsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-      <CardAbout
+      <InfoCard
         icon={<LayoutGrid size={24} />}
         title="Project Type"
         value={project.type}
       />
 
-      <CardAbout icon={<User size={24} />} title="Role" value={project.role} />
+      <InfoCard icon={<User size={24} />} title="Role" value={project.role} />
 
-      <CardAbout
+      <InfoCard
         icon={<Calendar size={24} />}
         title="Timeline"
         value={project.timeline}

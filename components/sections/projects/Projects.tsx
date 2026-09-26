@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { projectsData } from "@/lib/data/projects-data";
 import { FolderKanban } from "lucide-react";
 import { Card } from "../../ui/Card";
-import { ProjectGridCard } from "@/components/sections/projects/ProjectGridCard";
+import { ProjectGridCard } from "@/components/sections/projects/ProjectCard";
 import { useInView } from "@/hooks/useInView";
 
 export default function Projects() {

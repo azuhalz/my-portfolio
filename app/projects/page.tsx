@@ -5,7 +5,7 @@ import { ProjectFilter } from "./_components/ProjectFilter";
 import { ProjectSearch, type ProjectSort } from "./_components/ProjectSearch";
 import { projectsData, type Project } from "@/lib/data/projects-data";
 import { useInView } from "@/hooks/useInView";
-import { ProjectCard } from "./_components/ProjectCard";
+import { ProjectCard } from "./_components/ProjectListItem";
 
 const categories = ["All", "Web", "Mobile"];
 

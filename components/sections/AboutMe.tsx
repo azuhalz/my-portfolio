@@ -2,7 +2,7 @@
 
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "@/components/ui/Card";
-import { CardAbout } from "../ui/CardAbout";
+import { InfoCard } from "../ui/InfoCard";
 import { MapPin, Phone, UserRound } from "lucide-react";
 import { FaEnvelope, FaGithub, FaLinkedin, FaBriefcase } from "react-icons/fa";
 import { aboutData } from "@/lib/data/about-data";
@@ -38,7 +38,7 @@ export default function AboutMe() {
 
           <div className="hidden md:grid md:col-span-7 md:grid-cols-2 gap-2">
             {aboutData.details.map((item) => (
-              <CardAbout
+              <InfoCard
                 key={item.title}
                 icon={iconMap[item.iconName]}
                 title={item.title}
