@@ -1,6 +1,6 @@
-import { MetricCard } from "@/components/cms/MetricCard";
-import { QuickActions } from "@/components/cms/dashboard/QuickActions";
-import { RecentMessages } from "@/components/cms/dashboard/RecentMessages";
+import { MetricCard } from "@/components/ui/MetricCard";
+import { QuickActions } from "@/app/cms/(dashboard)/dashboard/_components/QuickActions";
+import { RecentMessages } from "@/app/cms/(dashboard)/dashboard/_components/RecentMessages";
 import { dashboardMetrics } from "@/lib/data/cms-dashboard-data";
 import type { Metadata } from "next";
 

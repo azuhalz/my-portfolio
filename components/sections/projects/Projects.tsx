@@ -4,8 +4,8 @@ import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { projectsData } from "@/lib/data/projects-data";
 import { FolderKanban } from "lucide-react";
-import { Card } from "../ui/Card";
-import { ProjectGridCard } from "@/components/projects/ProjectGridCard";
+import { Card } from "../../ui/Card";
+import { ProjectGridCard } from "@/components/sections/projects/ProjectGridCard";
 import { useInView } from "@/hooks/useInView";
 
 export default function Projects() {

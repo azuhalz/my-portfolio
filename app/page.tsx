@@ -1,12 +1,12 @@
 import Hero from "@/components/sections/Hero";
 import AboutMe from "@/components/sections/AboutMe";
 import TechStack from "@/components/sections/TechStack";
-import Projects from "@/components/sections/Projects";
+import Projects from "@/components/sections/projects/Projects";
 import Experience from "@/components/sections/Experience";
 import Education from "@/components/sections/Education";
 import Organizational from "@/components/sections/Organizational";
 import Certifications from "@/components/sections/certifications/Certifications";
-import Contact from "@/components/sections/Contact";
+import Contact from "@/components/sections/contact/Contact";
 
 export default function HomePage() {
   return (

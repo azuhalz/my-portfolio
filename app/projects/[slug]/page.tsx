@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { projectsData } from "@/lib/data/projects-data";
-import { ProjectDetail } from "@/components/projects/detail/ProjectDetail";
+import { ProjectDetail } from "./_components//ProjectDetail";
 
 // Next.js params types for dynamic routes
 type Props = {

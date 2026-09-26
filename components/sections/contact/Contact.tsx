@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Card } from "../ui/Card";
+import { Card } from "../../ui/Card";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import { contactInfo, SocialLink } from "@/lib/data/contact-data";
-import { ContactForm } from "@/components/contact/ContactForm";
+import { ContactForm } from "@/components/sections/contact/ContactForm";
 
 import { useInView } from "@/hooks/useInView";
 

@@ -2,7 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { Lock, Mail } from "lucide-react";
-import { InputField } from "@/components/cms/login/InputField";
+import { InputField } from "@/components/form/InputField";
+import { Button } from "@/components/ui/Button";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,12 +47,9 @@ export function LoginForm() {
           Forgot password?
         </button>
       </div>
-      <button
-        type="submit"
-        className="h-12 w-full rounded-lg bg-linear-to-r from-primary to-primary-hover font-semibold shadow-[0_8px_24px_rgba(124,58,237,0.4)] transition hover:from-primary-hover hover:to-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
-      >
+      <Button href="/cms/dashboard" variant="primary" className="w-full">
         Sign In
-      </button>
+      </Button>
     </form>
   );
 }

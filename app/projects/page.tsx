@@ -1,14 +1,11 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { ProjectCard } from "@/components/projects/ProjectCard";
-import { ProjectFilter } from "@/components/projects/ProjectFilter";
-import {
-  ProjectSearch,
-  type ProjectSort,
-} from "@/components/projects/ProjectSearch";
-import { projectsData } from "@/lib/data/projects-data";
+import { ProjectFilter } from "./_components/ProjectFilter";
+import { ProjectSearch, type ProjectSort } from "./_components/ProjectSearch";
+import { projectsData, type Project } from "@/lib/data/projects-data";
 import { useInView } from "@/hooks/useInView";
+import { ProjectCard } from "./_components/ProjectCard";
 
 const categories = ["All", "Web", "Mobile"];
 
@@ -16,7 +13,7 @@ function AnimatedProjectCard({
   project,
   index,
 }: {
-  project: any;
+  project: Project;
   index: number;
 }) {
   const { ref, isVisible } = useInView();
@@ -43,7 +40,8 @@ export default function AllProjectsPage() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    const timer = setTimeout(() => setIsMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const projects = useMemo(() => {
