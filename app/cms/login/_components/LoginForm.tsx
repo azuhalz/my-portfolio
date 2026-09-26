@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { Lock, Mail } from "lucide-react";
-import { InputField } from "@/components/form/InputField";
+import { InputField } from "@/app/cms/login/_components/LoginInput";
 import { Button } from "@/components/ui/Button";
 
 export function LoginForm() {
