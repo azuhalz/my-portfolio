@@ -7,7 +7,7 @@ interface LoginSidebarProps {
 
 export function LoginSidebar({ getIcon }: LoginSidebarProps) {
   return (
-    <aside className="hidden h-full flex-col justify-between py-1 lg:flex">
+    <aside className="flex h-full flex-col justify-between py-1">
       <div>
         <div className="mb-24">
           <p className="text-4xl font-black tracking-[-0.07em]">

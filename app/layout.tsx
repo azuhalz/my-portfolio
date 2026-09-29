@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio - Ahmad Zuhal Zhafran",
+  title: "Portfolio - Zhafran",
   description: "Fullstack Developer",
 };
 
