@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 
 export function LoginCard() {
   return (
-    <div className="rounded-2xl border border-primary/65 bg-background/80 px-6 py-9 shadow-[0_0_35px_rgba(139,92,246,0.2),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur md:px-11 md:py-10">
+    <div className="rounded-2xl border border-primary/65 bg-background/80 px-11 py-10 shadow-[0_0_35px_rgba(139,92,246,0.2),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur">
       <div className="mx-auto flex size-25 items-center justify-center rounded-full border border-primary text-4xl font-bold shadow-[0_0_30px_rgba(139,92,246,0.35)]">
         AZZ<span className="text-primary">.</span>
       </div>
