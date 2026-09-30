@@ -33,8 +33,8 @@ export default function TechStack() {
   return (
     <section
       ref={ref}
-      className={`transition-all duration-5000 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+      className={`transition-all duration-2000 ease-out ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-52"
       }`}
     >
       <Card className="p-6 mt-2">

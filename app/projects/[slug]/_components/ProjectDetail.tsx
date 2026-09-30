@@ -23,7 +23,7 @@ function AnimatedWrapper({
   return (
     <div
       ref={ref}
-      className={`transition-all duration-5000 ease-out ${
+      className={`transition-all duration-2000 ease-out ${
         isVisible
           ? "opacity-100 translate-x-0 translate-y-0"
           : `opacity-0 ${className}`
