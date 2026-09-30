@@ -24,8 +24,8 @@ export default function AboutMe() {
     <section
       id="about"
       ref={ref}
-      className={`transition-all duration-5000 ease-out ${
-        isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-16"
+      className={`transition-all duration-2000 ease-out ${
+        isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-52"
       }`}
     >
       <Card className="p-6">

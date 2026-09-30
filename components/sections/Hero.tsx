@@ -20,8 +20,8 @@ export default function Hero() {
     <section
       id="home"
       ref={ref}
-      className={`flex items-center pt-10 pb-8 transition-all duration-5000 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-16"
+      className={`flex items-center pt-10 pb-8 transition-all duration-2000 ease-out ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-52"
       }`}
     >
       <div className="mx-auto w-full flex flex-col-reverse gap-10 md:grid md:grid-cols-2 md:gap-12">

@@ -22,7 +22,7 @@ function AnimatedProjectCard({
   return (
     <div
       ref={ref}
-      className={`transition-all duration-3000 ease-out ${
+      className={`transition-all duration-2000 ease-out ${
         isVisible
           ? "opacity-100 translate-x-0"
           : `opacity-0 ${isEven ? "-translate-x-12" : "translate-x-12"}`
@@ -75,7 +75,7 @@ export default function AllProjectsPage() {
   return (
     <section className="mx-auto w-full max-w-7xl px-4 sm:px-8 py-10 md:py-16">
       <div
-        className={`transition-all duration-3000 ease-out ${
+        className={`transition-all duration-2000 ease-out ${
           isMounted ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-12"
         }`}
       >
@@ -89,7 +89,7 @@ export default function AllProjectsPage() {
       </div>
 
       <div
-        className={`mt-10 space-y-5 transition-all duration-3000 ease-out ${
+        className={`mt-10 space-y-5 transition-all duration-2000 ease-out ${
           isMounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
         }`}
       >
