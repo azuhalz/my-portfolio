@@ -29,7 +29,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-background text-white antialiased md:max-w-[1600px] mx-auto">
         <MouseBackground />
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 overflow-x-hidden overflow-y-hidden">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
