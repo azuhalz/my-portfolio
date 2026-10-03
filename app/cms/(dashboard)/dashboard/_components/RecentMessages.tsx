@@ -46,7 +46,7 @@ export function RecentMessages() {
       </div>
 
       <Link
-        href="/cms/contacts"
+        href="/cms/contact"
         className="flex items-center justify-center gap-2 border-t border-border px-4 py-3 text-sm text-primary"
       >
         View All Messages <ArrowRight size={17} />
