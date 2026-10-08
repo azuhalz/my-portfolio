@@ -4,7 +4,7 @@ import { NavbarLogo } from "./NavbarLogo";
 import { NavbarLinks } from "./NavbarLinks";
 import { NavbarActions } from "./NavbarActions";
 import { NavbarMobileMenu } from "./NavbarMobileMenu";
-import { useNavbarLogic } from "./useNavbarLogic";
+import { useNavbarLogic } from "@/hooks/useNavbarLogic";
 
 export function Navbar() {
   const {
