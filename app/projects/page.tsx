@@ -84,7 +84,7 @@ export default function AllProjectsPage() {
           All <span className="text-primary">Projects</span>
         </h1>
         <p className="mt-3 max-w-xl text-text-secondary">
-          A collection of my web, mobile, and backend projects.
+          A collection of my web and mobile app projects.
         </p>
       </div>
 
