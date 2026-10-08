@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { projectsData } from "@/lib/data/projects-data";
 import { FolderKanban } from "lucide-react";
 import { Card } from "../../ui/Card";
-import { ProjectGridCard } from "@/components/sections/projects/ProjectCard";
+import { ProjectCard } from "@/components/sections/projects/ProjectCard";
 import { useInView } from "@/hooks/useInView";
 
 export default function Projects() {
@@ -35,14 +35,14 @@ export default function Projects() {
         {/* 1. Versi Mobile: Hanya tampil 1 proyek pertama (hidden di md ke atas) */}
         <div className="block md:hidden pt-2 px-4">
           {projects.slice(0, 1).map((project) => (
-            <ProjectGridCard key={project.slug} project={project} />
+            <ProjectCard key={project.slug} project={project} />
           ))}
         </div>
 
         {/* 2. Versi Desktop: Tampil 4 proyek (grid 2x2) (hidden di bawah md) */}
         <div className="hidden md:grid grid-cols-2 gap-4 pt-2 px-16">
           {projects.map((project) => (
-            <ProjectGridCard key={project.slug} project={project} />
+            <ProjectCard key={project.slug} project={project} />
           ))}
         </div>
       </Card>

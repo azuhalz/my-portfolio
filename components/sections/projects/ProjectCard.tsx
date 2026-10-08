@@ -4,12 +4,12 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import type { Project } from "@/lib/data/projects-data";
 
-export function ProjectGridCard({ project }: { project: Project }) {
+export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link href={`/projects/${project.slug}`}>
       <Card className="h-full overflow-hidden hover:border-primary transition-colors group">
         {/* Gambar Thumbnail */}
-        <div className="relative h-50 md:h-77.5 bg-border">
+        <div className="relative h-35 md:h-77.5 bg-border">
           <Image
             src={project.image[0]}
             alt={project.title}
