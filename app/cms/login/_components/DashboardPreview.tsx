@@ -1,4 +1,4 @@
-import { MetricCard } from "@/components/cms/MetricCard";
+import { LoginMetricPreview } from "@/app/cms/login/_components/LoginMetricPreview";
 
 export function DashboardPreview() {
   return (
@@ -31,8 +31,8 @@ export function DashboardPreview() {
               Dashboard
             </p>
             <div className="mb-4 grid grid-cols-2 gap-3">
-              <MetricCard label="Projects" value="12" />
-              <MetricCard label="Views" value="2,543" />
+              <LoginMetricPreview label="Projects" value="12" />
+              <LoginMetricPreview label="Views" value="2,543" />
             </div>
             <div className="rounded-lg border border-primary/10 bg-card/80 p-3">
               <p className="text-[10px] text-text-secondary/45">

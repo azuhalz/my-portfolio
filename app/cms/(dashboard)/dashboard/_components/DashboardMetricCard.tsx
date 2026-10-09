@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 
-interface MetricCardProps {
+interface DashboardMetricCardProps {
   label: string;
   value: string;
   icon?: LucideIcon;
@@ -10,7 +10,7 @@ interface MetricCardProps {
   detail?: string;
 }
 
-export function MetricCard({
+export function DashboardMetricCard({
   label,
   value,
   icon: Icon,
@@ -18,19 +18,7 @@ export function MetricCard({
   trendLabel,
   sparkline,
   detail,
-}: MetricCardProps) {
-  const isDashboardCard = Boolean(Icon || trend || sparkline || detail);
-
-  if (!isDashboardCard) {
-    return (
-      <div className="rounded-lg border border-border bg-card/80 p-2.5">
-        <p className="text-[9px] text-text-secondary/40">{label}</p>
-        <p className="mt-1 text-lg font-medium text-text-primary/85">{value}</p>
-        <div className="mt-2 h-4 w-full bg-[linear-gradient(135deg,transparent_40%,rgba(139,92,246,.85)_41%,transparent_43%,transparent_58%,rgba(139,92,246,.85)_59%,transparent_61%)]" />
-      </div>
-    );
-  }
-
+}: DashboardMetricCardProps) {
   return (
     <article className="relative min-h-49 overflow-hidden rounded-xl border border-border bg-card/65 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.025)]">
       <div className="flex items-start gap-4">
@@ -39,13 +27,13 @@ export function MetricCard({
             <Icon size={25} strokeWidth={1.8} />
           </span>
         )}
+
         <div className="flex-1">
           <p className="text-sm text-text-secondary">{label}</p>
           <p className="mt-1 text-2xl font-medium tracking-tight text-text-primary">
             {value}
           </p>
 
-          {/* Sparkline & Trend disatukan tepat di bawah nilai/value */}
           {(sparkline || trend) && (
             <div className="mt-3 flex flex-col gap-1.5">
               {sparkline && (
