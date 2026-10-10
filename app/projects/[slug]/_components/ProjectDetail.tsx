@@ -9,7 +9,7 @@ import { ProjectOverview } from "./ProjectOverview";
 import { ProjectTechStack } from "./ProjectTechStack";
 import { ProjectLearnings } from "./ProjectLearnings";
 import { useInView } from "@/hooks/useInView";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 function AnimatedWrapper({
   children,

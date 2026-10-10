@@ -14,7 +14,11 @@ type PaginationOptions = {
  */
 export function useResponsivePagination<T>(
   items: T[],
-  { mobileCount = 1, desktopCount = 3, breakpoint = 768 }: PaginationOptions = {},
+  {
+    mobileCount = 1,
+    desktopCount = 3,
+    breakpoint = 768,
+  }: PaginationOptions = {},
 ) {
   const [activePage, setActivePage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(desktopCount);
@@ -35,20 +39,24 @@ export function useResponsivePagination<T>(
 
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
+  // Pastikan halaman aktif tidak melebihi batas total halaman
+  // Ini menghindari error jika jumlah item berkurang (misalnya karena pencarian/filter)
+  const safeActivePage = Math.min(activePage, Math.max(totalPages - 1, 0));
+
   const pages = Array.from({ length: totalPages }, (_, pageIndex) =>
     items.slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage),
   );
 
   const goToNextPage = () => {
-    setActivePage((page) => Math.min(page + 1, totalPages - 1));
+    setActivePage(Math.min(safeActivePage + 1, totalPages - 1));
   };
 
   const goToPreviousPage = () => {
-    setActivePage((page) => Math.max(page - 1, 0));
+    setActivePage(Math.max(safeActivePage - 1, 0));
   };
 
   return {
-    activePage,
+    activePage: safeActivePage,
     totalPages,
     pages,
     goToNextPage,

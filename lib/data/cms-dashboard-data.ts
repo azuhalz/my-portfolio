@@ -6,21 +6,12 @@ import {
   CircleUserRound,
   FolderKanban,
   GraduationCap,
-  House,
   Layers3,
   Mail,
   Plus,
   Settings,
   UserPen,
-  UsersRound,
 } from "lucide-react";
-
-export type DashboardNavItem = {
-  label: string;
-  href: string;
-  description: string;
-  icon: LucideIcon;
-};
 
 export type DashboardMetric = {
   label: string;
@@ -30,14 +21,6 @@ export type DashboardMetric = {
   trendLabel?: string;
   sparkline?: string;
   detail?: string;
-};
-
-export type RecentProject = {
-  title: string;
-  type: string;
-  image: string;
-  date: string;
-  time: string;
 };
 
 export type RecentMessage = {
@@ -53,75 +36,6 @@ export type QuickAction = {
   description: string;
   icon: LucideIcon;
 };
-
-export const dashboardNavItems: DashboardNavItem[] = [
-  {
-    label: "Dashboard",
-    href: "/cms/dashboard",
-    description: "Here's what's happening with your portfolio.",
-    icon: House,
-  },
-  {
-    label: "Hero Section",
-    href: "/cms/hero",
-    description: "Manage your portfolio introduction.",
-    icon: CircleUserRound,
-  },
-  {
-    label: "About",
-    href: "/cms/about",
-    description: "Manage your personal information.",
-    icon: UserPen,
-  },
-  {
-    label: "Tech Stack",
-    href: "/cms/tech-stack",
-    description: "Manage the technologies you use.",
-    icon: Layers3,
-  },
-  {
-    label: "Projects",
-    href: "/cms/projects",
-    description: "Manage your portfolio projects.",
-    icon: FolderKanban,
-  },
-  {
-    label: "Work Experience",
-    href: "/cms/work-experience",
-    description: "Manage your professional experience.",
-    icon: BriefcaseBusiness,
-  },
-  {
-    label: "Education",
-    href: "/cms/education",
-    description: "Manage your educational background.",
-    icon: GraduationCap,
-  },
-  {
-    label: "Organizational Experience",
-    href: "/cms/organizational-experience",
-    description: "Manage your organizational experience.",
-    icon: UsersRound,
-  },
-  {
-    label: "Certifications",
-    href: "/cms/certifications",
-    description: "Manage your certifications.",
-    icon: Award,
-  },
-  {
-    label: "Contact",
-    href: "/cms/contact",
-    description: "Manage your contact information.",
-    icon: Mail,
-  },
-  {
-    label: "Settings",
-    href: "/cms/settings",
-    description: "Configure your CMS preferences.",
-    icon: Settings,
-  },
-];
 
 const upwardSparkline =
   "M4 38 C16 31, 20 42, 33 36 S51 39, 62 29 S76 34, 87 15 S102 25, 108 7";
@@ -158,51 +72,6 @@ export const dashboardMetrics: DashboardMetric[] = [
     detail: "10:42 PM",
   },
 ];
-
-export const recentProjects: RecentProject[] = [
-  {
-    title: "Travel Explorer Web",
-    type: "Web Application",
-    image: "/images/challenge7/ban1.jpeg",
-    date: "May 25, 2025",
-    time: "10:42 PM",
-  },
-  {
-    title: "Dashboard Analytics",
-    type: "Web Application",
-    image: "/images/challenge4/banner.png",
-    date: "May 24, 2025",
-    time: "08:30 PM",
-  },
-  {
-    title: "eCommerce Website",
-    type: "Web Application",
-    image: "/images/challenge5/banner2.png",
-    date: "May 23, 2025",
-    time: "06:15 PM",
-  },
-  {
-    title: "iOS Task Manager App",
-    type: "Mobile Application",
-    image: "/images/challenge3/banner1.png",
-    date: "May 22, 2025",
-    time: "07:40 PM",
-  },
-];
-
-export const analyticsSummary = [
-  { label: "Visitors", value: "1,802", trend: "12.5%" },
-  { label: "Page Views", value: "4,672", trend: "15.3%" },
-  { label: "Bounce Rate", value: "32.8%", trend: "5.2%" },
-  { label: "Avg. Time", value: "2m 45s", trend: "8.7%" },
-];
-
-export const analyticsValues = [
-  620, 510, 760, 1090, 810, 570, 920, 710, 820, 825, 1280, 1510, 1810, 1600,
-  1050, 1490, 1890, 1770, 1420, 1310, 1450, 1800,
-];
-export const analyticsYAxis = ["2K", "1.5K", "1K", "500", "0"];
-export const analyticsXAxis = ["Apr 26", "May 3", "May 10", "May 17", "May 24"];
 
 export const recentMessages: RecentMessage[] = [
   {

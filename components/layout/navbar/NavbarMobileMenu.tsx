@@ -1,4 +1,5 @@
 import { Download } from "lucide-react";
+import type { MouseEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { NavbarLinks } from "./NavbarLinks";
 import type { NavLink } from "@/lib/data/nav-links";
@@ -8,7 +9,7 @@ type NavbarMobileMenuProps = {
   pathname: string;
   activeMenu: string;
   onLinkClick: (
-    event: React.MouseEvent,
+    event: MouseEvent<HTMLAnchorElement>,
     link: NavLink,
     isMobile: boolean,
   ) => void;

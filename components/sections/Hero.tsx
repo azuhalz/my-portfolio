@@ -67,7 +67,7 @@ export default function Hero() {
         </div>
 
         {/* KOLOM KANAN: Foto Profil */}
-        <div className="flex justify-center">
+        <div className="flex justify-center md:justify-end">
           <div className="relative w-56 h-56 md:w-96 md:h-96">
             <Image
               src="/profile4.png"

@@ -15,9 +15,9 @@ export function ProjectLearnings({ learnings }: ProjectLearningsProps) {
         <h2 className="text-2xl font-bold text-white">What I Learned</h2>
       </div>
       <ul className="space-y-3 pl-10 md:pl-12">
-        {learnings.map((learning, index) => (
+        {learnings.map((learning) => (
           <li
-            key={index}
+            key={learning}
             className="flex gap-3 items-center text-text-secondary"
           >
             <span className="text-primary mt-1">✓</span>

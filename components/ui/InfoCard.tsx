@@ -9,7 +9,7 @@ interface InfoCardProps {
 
 export function InfoCard({ icon, title, value }: InfoCardProps) {
   return (
-    <Card className="flex items-center gap-4">
+    <Card className="flex items-center gap-4 transition-all duration-300 hover:-translate-y-1">
       {/* Container untuk Ikon */}
       <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/8 text-primary border border-primary/20">
         {icon}

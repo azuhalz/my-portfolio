@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Bell, ChevronDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { usePathname } from "next/navigation";
-import { dashboardNavItems } from "@/lib/data/cms-dashboard-data";
+import { dashboardNavItems } from "@/lib/data/cms-navigation-data";
 
 export function DashboardHeader() {
   const pathname = usePathname();
