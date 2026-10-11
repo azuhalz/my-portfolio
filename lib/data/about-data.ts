@@ -1,9 +1,17 @@
+export type AboutIconName =
+  | "MapPin"
+  | "Phone"
+  | "Envelope"
+  | "Linkedin"
+  | "Github"
+  | "Briefcase";
+
 export type AboutInfo = {
   description: string;
   details: {
     title: string;
     value: string;
-    iconName: string;
+    iconName: AboutIconName;
   }[];
 };
 

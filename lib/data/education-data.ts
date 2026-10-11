@@ -2,7 +2,7 @@ export type Education = {
   institution: string;
   degree: string;
   period: string;
-  gpa: string;
+  gpa?: string;
 };
 
 export const educationsData: Education[] = [
@@ -16,6 +16,5 @@ export const educationsData: Education[] = [
     institution: "SMA Negeri 4 Malang",
     degree: "Natural Science",
     period: "July 2017 – June 2020",
-    gpa: "",
   },
 ];

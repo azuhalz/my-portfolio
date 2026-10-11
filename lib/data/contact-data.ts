@@ -27,5 +27,5 @@ export const contactInfo = {
       iconType: "github",
       displayValue: "github.com/azuhalz",
     },
-  ] as SocialLink[],
+  ] satisfies SocialLink[],
 };

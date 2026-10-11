@@ -1,8 +1,8 @@
 import { LucideIcon } from "lucide-react";
-import { BenefitsList } from "./BenefitsList";
+import { BenefitsList, LoginBenefitIconName } from "./BenefitsList";
 
 interface LoginSidebarProps {
-  getIcon: (iconName: string) => LucideIcon;
+  getIcon: (iconName: LoginBenefitIconName) => LucideIcon;
 }
 
 export function LoginSidebar({ getIcon }: LoginSidebarProps) {

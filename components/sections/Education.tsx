@@ -23,8 +23,11 @@ export default function Education() {
         <SectionHeading title="Education" icon={<GraduationCap size={24} />} />
 
         <div className="space-y-2 pt-2">
-          {educations.map((edu, index) => (
-            <Card key={index} className="px-6 py-4 hover:border-primary">
+          {educations.map((edu) => (
+            <Card
+              key={edu.institution}
+              className="px-6 py-4 hover:border-primary"
+            >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
                 <h2 className="text-white font-semibold">{edu.institution}</h2>
                 <p className="text-text-secondary text-sm shrink-0">
@@ -32,7 +35,9 @@ export default function Education() {
                 </p>
               </div>
               <p className="text-primary text-md">{edu.degree}</p>
-              <p className="text-text-secondary text-sm mt-1">{edu.gpa}</p>
+              {edu.gpa && (
+                <p className="text-text-secondary text-sm mt-1">{edu.gpa}</p>
+              )}
             </Card>
           ))}
         </div>
