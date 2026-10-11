@@ -16,8 +16,8 @@ export function ProjectTechStack({ techStack }: ProjectTechStackProps) {
         <h2 className="text-2xl font-bold text-white">Tech Stack</h2>
       </div>
       <div className="flex flex-wrap gap-3 pl-0 md:pl-12">
-        {techStack.map((tech, index) => (
-          <Badge key={index} className="px-4 py-2 text-sm">
+        {techStack.map((tech) => (
+          <Badge key={tech} className="px-4 py-2 text-sm">
             {tech}
           </Badge>
         ))}

@@ -48,7 +48,7 @@ export default function TechStack() {
           {techStack.map((tech) => (
             <div
               key={tech.name}
-              className="flex flex-col items-center gap-2 bg-card border border-border rounded-xl p-4 w-32 hover:border-primary transition-colors"
+              className="flex flex-col items-center gap-2 bg-card border border-border rounded-xl p-4 w-32 hover:border-primary transition-all duration-300 hover:-translate-y-2"
             >
               <span className="text-5xl">{tech.icon}</span>
               <span className="text-text-secondary text-md text-center">

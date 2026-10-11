@@ -1,4 +1,4 @@
-import { MetricCard } from "@/components/cms/MetricCard";
+import { DashboardMetricCard } from "@/app/cms/(dashboard)/dashboard/_components/DashboardMetricCard";
 import { QuickActions } from "@/app/cms/(dashboard)/dashboard/_components/QuickActions";
 import { RecentMessages } from "@/app/cms/(dashboard)/dashboard/_components/RecentMessages";
 import { dashboardMetrics } from "@/lib/data/cms-dashboard-data";
@@ -16,7 +16,7 @@ export default function CmsDashboardPage() {
         aria-label="Portfolio summary"
       >
         {dashboardMetrics.map((metric) => (
-          <MetricCard key={metric.label} {...metric} />
+          <DashboardMetricCard key={metric.label} {...metric} />
         ))}
       </section>
       <section className="grid grid-cols-[0.76fr_1.34fr] gap-4">

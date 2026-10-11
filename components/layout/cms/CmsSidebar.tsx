@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { dashboardNavItems } from "@/lib/data/cms-dashboard-data";
+import { dashboardNavItems } from "@/lib/data/cms-navigation-data";
 
 export function CmsSidebar() {
   const pathname = usePathname();

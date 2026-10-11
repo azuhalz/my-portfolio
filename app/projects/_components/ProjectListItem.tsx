@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/Button";
 import type { Project } from "@/lib/data/projects-data";
 import { Card } from "@/components/ui/Card";
 
-type ProjectCardProps = {
+type ProjectListItemProps = {
   project: Project;
 };
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectListItem({ project }: ProjectListItemProps) {
   return (
     <Card className="mt-4 group relative flex w-full flex-col gap-5 border border-primary/35 p-4 shadow-[0_0_24px_rgba(139,92,246,0.1)] transition-colors hover:border-primary/70 md:flex-row">
       {/* Gambar Thumbnail */}

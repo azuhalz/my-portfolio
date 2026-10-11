@@ -32,8 +32,8 @@ export default function Experience() {
 
           {/* Daftar pengalaman, diberi jarak ke kiri agar tidak tertimpa garis */}
           <div className="space-y-3 pl-10">
-            {experiences.map((exp, index) => (
-              <div key={index} className="relative">
+            {experiences.map((exp) => (
+              <div key={`${exp.company}-${exp.period}`} className="relative">
                 {/* Titik bulat ungu di garis vertikal */}
                 <div className="absolute -left-7 top-1.5 w-4 h-4 rounded-full bg-primary border-2 border-background" />
 

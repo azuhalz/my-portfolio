@@ -7,28 +7,22 @@ export function useInView(options?: IntersectionObserverInit) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const currentRef = ref.current;
-    if (!currentRef) return;
+    const element = ref.current;
+    if (!element) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Set to true when the element enters the viewport
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          // Optional: Stop observing once it's visible if we only want to animate once
-          observer.unobserve(currentRef);
-        }
+        if (!entry.isIntersecting) return;
+
+        setIsVisible(true);
+        observer.unobserve(element);
       },
-      options || { threshold: 0.1 },
+      options ?? { threshold: 0.1 },
     );
 
-    observer.observe(currentRef);
+    observer.observe(element);
 
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
+    return () => observer.disconnect();
   }, [options]);
 
   return { ref, isVisible };

@@ -18,13 +18,23 @@ export function ProjectHeader({ project }: ProjectHeaderProps) {
       {/* Tombol-tombol: Live Demo, GitHub, Back */}
       <div className="flex flex-wrap gap-4 mb-10">
         {project.liveDemoLink && (
-          <Button href={project.liveDemoLink} variant="primary" target="_blank">
+          <Button
+            href={project.liveDemoLink}
+            variant="primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Live Demo <ExternalLink size={18} />
           </Button>
         )}
 
         {project.githubLink && (
-          <Button href={project.githubLink} variant="outline" target="_blank">
+          <Button
+            href={project.githubLink}
+            variant="outline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             GitHub <FaGithub size={18} />
           </Button>
         )}

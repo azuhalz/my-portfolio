@@ -4,15 +4,17 @@ import { ChartLine, Shield, Zap } from "lucide-react";
 import { DashboardPreview } from "./_components/DashboardPreview";
 import { LoginSidebar } from "./_components/LoginSidebar";
 import { LoginCard } from "./_components/LoginCard";
+import type { LucideIcon } from "lucide-react";
+import type { LoginBenefitIconName } from "./_components/BenefitsList";
 
-const iconMap = {
+const iconMap: Record<LoginBenefitIconName, LucideIcon> = {
   Zap,
   Shield,
   ChartLine,
 };
 
-function getIcon(iconName: string) {
-  return iconMap[iconName as keyof typeof iconMap];
+function getIcon(iconName: LoginBenefitIconName) {
+  return iconMap[iconName];
 }
 
 export default function CmsLoginPage() {

@@ -14,7 +14,7 @@ export type Project = {
 
 export const projectsData: Project[] = [
   {
-    slug: "Billo",
+    slug: "billo",
     title: "Billo",
     type: "Mobile App",
     role: "iOS Developer",
@@ -49,7 +49,7 @@ export const projectsData: Project[] = [
     githubLink: "https://github.com/Final-Challenge-A06/Final-Challenge",
   },
   {
-    slug: "Fille",
+    slug: "fille",
     title: "Fillé",
     type: "Mobile App",
     role: "iOS Developer",
@@ -69,7 +69,7 @@ export const projectsData: Project[] = [
     githubLink: "https://github.com/Filleeeee/Fille",
   },
   {
-    slug: "DrawAndMatch",
+    slug: "draw-and-match",
     title: "Draw and Match",
     type: "Mobile App",
     role: "iOS Developer",
@@ -92,10 +92,9 @@ export const projectsData: Project[] = [
     ],
     image: ["/images/challenge4/banner.png"],
     liveDemoLink: "https://youtube.com/shorts/dxpuoyMNEXk",
-    githubLink: "",
   },
   {
-    slug: "Instacey",
+    slug: "instacey",
     title: "Instacey",
     type: "Mobile App",
     role: "iOS Developer",

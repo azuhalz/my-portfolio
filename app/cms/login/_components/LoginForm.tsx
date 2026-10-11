@@ -1,15 +1,16 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import type { SubmitEvent } from "react";
 import { Lock, Mail } from "lucide-react";
-import { InputField } from "@/app/cms/login/_components/LoginInput";
+import { InputField } from "./LoginInput";
 import { Button } from "@/components/ui/Button";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
   }
 

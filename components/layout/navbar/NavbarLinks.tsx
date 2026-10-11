@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { MouseEvent } from "react";
 import { navLinks, type NavLink } from "@/lib/data/nav-links";
 
 const activeLinkStyle =
@@ -11,7 +12,7 @@ type NavbarLinksProps = {
   activeMenu: string;
   variant?: "desktop" | "mobile";
   onLinkClick: (
-    event: React.MouseEvent,
+    event: MouseEvent<HTMLAnchorElement>,
     link: NavLink,
     isMobile: boolean,
   ) => void;

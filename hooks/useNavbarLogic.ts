@@ -1,5 +1,6 @@
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import type { MouseEvent } from "react";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { navLinks, type NavLink } from "@/lib/data/nav-links";
 
@@ -7,10 +8,12 @@ export function useNavbarLogic() {
   const pathname = usePathname();
   const isProjectsRoute = pathname.startsWith("/projects");
   const [activeMenu, setActiveMenu] = useScrollSpy(navLinks, isProjectsRoute);
-  
+
   // State untuk membuka/menutup menu hamburger di mobile
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [pendingMobileLink, setPendingMobileLink] = useState<NavLink | null>(null);
+  const [pendingMobileLink, setPendingMobileLink] = useState<NavLink | null>(
+    null,
+  );
 
   const scrollToSection = useCallback(
     (link: NavLink) => {
@@ -36,7 +39,7 @@ export function useNavbarLogic() {
   }, [isMenuOpen, pendingMobileLink, scrollToSection]);
 
   function handleNavLinkClick(
-    e: React.MouseEvent,
+    e: MouseEvent<HTMLAnchorElement>,
     link: NavLink,
     isMobile: boolean,
   ) {

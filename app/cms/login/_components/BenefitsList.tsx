@@ -1,6 +1,12 @@
 import { LucideIcon } from "lucide-react";
 
-const benefits = [
+export type LoginBenefitIconName = "Zap" | "Shield" | "ChartLine";
+
+const benefits: {
+  icon: LoginBenefitIconName;
+  title: string;
+  description: string;
+}[] = [
   {
     icon: "Zap",
     title: "Powerful & Fast",
@@ -19,7 +25,7 @@ const benefits = [
 ];
 
 interface BenefitsListProps {
-  getIcon: (iconName: string) => LucideIcon;
+  getIcon: (iconName: LoginBenefitIconName) => LucideIcon;
 }
 
 export function BenefitsList({ getIcon }: BenefitsListProps) {

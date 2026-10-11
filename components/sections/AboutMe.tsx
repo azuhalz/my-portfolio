@@ -5,10 +5,11 @@ import { Card } from "@/components/ui/Card";
 import { InfoCard } from "../ui/InfoCard";
 import { MapPin, Phone, UserRound } from "lucide-react";
 import { FaEnvelope, FaGithub, FaLinkedin, FaBriefcase } from "react-icons/fa";
-import { aboutData } from "@/lib/data/about-data";
+import { aboutData, type AboutIconName } from "@/lib/data/about-data";
+import type { ReactNode } from "react";
 import { useInView } from "@/hooks/useInView";
 
-const iconMap: Record<string, React.ReactNode> = {
+const iconMap: Record<AboutIconName, ReactNode> = {
   MapPin: <MapPin size={24} />,
   Phone: <Phone size={24} />,
   Envelope: <FaEnvelope size={24} />,

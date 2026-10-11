@@ -5,11 +5,11 @@ import { ProjectFilter } from "./_components/ProjectFilter";
 import { ProjectSearch, type ProjectSort } from "./_components/ProjectSearch";
 import { projectsData, type Project } from "@/lib/data/projects-data";
 import { useInView } from "@/hooks/useInView";
-import { ProjectCard } from "./_components/ProjectListItem";
+import { ProjectListItem } from "./_components/ProjectListItem";
 
 const categories = ["All", "Web", "Mobile"];
 
-function AnimatedProjectCard({
+function AnimatedProjectListItem({
   project,
   index,
 }: {
@@ -28,7 +28,7 @@ function AnimatedProjectCard({
           : `opacity-0 ${isEven ? "-translate-x-12" : "translate-x-12"}`
       }`}
     >
-      <ProjectCard project={project} />
+      <ProjectListItem project={project} />
     </div>
   );
 }
@@ -109,7 +109,7 @@ export default function AllProjectsPage() {
       <div className="mt-6 space-y-4">
         {projects.length > 0 ? (
           projects.map((project, index) => (
-            <AnimatedProjectCard
+            <AnimatedProjectListItem
               key={project.slug}
               project={project}
               index={index}
