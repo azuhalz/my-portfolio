@@ -16,10 +16,7 @@ export function DashboardHeader() {
     <header className="sticky top-0 z-10 flex h-21 items-center justify-between border-b border-border bg-background/95 px-8 backdrop-blur">
       <div>
         <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
-        <p className="mt-1 text-sm text-text-secondary">
-          Welcome back, Zhafran! <span aria-hidden="true">👋</span>{" "}
-          {description}
-        </p>
+        <p className="mt-1 text-sm text-text-secondary">{description}</p>
       </div>
 
       <div className="flex items-center gap-5">

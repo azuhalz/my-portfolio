@@ -1,24 +1,41 @@
 "use client";
 
+import { initialHeroData, type HeroFormData } from "@/lib/data/hero-data";
 import { Button } from "@/components/ui/Button";
 
-export function HeroContent() {
+type HeroContentProps = {
+  data?: Pick<
+    HeroFormData,
+    "greetingText" | "displayName" | "headline" | "workButton" | "contactButton"
+  >;
+};
+
+export function HeroContent({ data = initialHeroData }: HeroContentProps) {
   return (
     <div className="flex flex-col justify-center text-center md:text-left">
-      <p className="text-primary text-xl font-medium mb-2">Hi, I&apos;m </p>
-      <h1 className="text-5xl md:text-7xl font-bold text-white">
-        Zhafran<span className="text-primary">.</span>
-      </h1>
-      <p className="text-primary text-xl md:text-2xl mt-2">
-        Fullstack Developer
+      <p className="text-primary text-xl font-medium mb-2">
+        {data.greetingText}
       </p>
-      <div className="flex gap-4 mt-4 justify-center md:justify-start">
-        <Button href="/projects" variant="primary">
-          View My Work ↗
+      <h1 className="text-5xl md:text-7xl font-bold text-white">
+        {data.displayName}
+        <span className="text-primary">.</span>
+      </h1>
+      <p className="text-primary text-xl md:text-2xl mt-2">{data.headline}</p>
+      <div className="flex flex-wrap gap-4 mt-4 justify-center md:justify-start">
+        <Button
+          href="/projects"
+          variant="primary"
+          className="whitespace-nowrap"
+        >
+          {data.workButton}
         </Button>
 
-        <Button href="/#contact" variant="outline">
-          Contact Me ↗
+        <Button
+          href="/#contact"
+          variant="outline"
+          className="whitespace-nowrap"
+        >
+          {data.contactButton}
         </Button>
       </div>
     </div>

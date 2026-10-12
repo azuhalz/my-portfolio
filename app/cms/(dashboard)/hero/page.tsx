@@ -1,10 +1,10 @@
-import { EmptyCmsPage } from "@/app/cms/(dashboard)/_components/EmptyCmsPage";
 import type { Metadata } from "next";
+import { HeroCmsPage } from "./_components/HeroCmsPage";
 
 export const metadata: Metadata = {
   title: "CMS | Hero",
 };
 
 export default function CmsHeroPage() {
-  return <EmptyCmsPage title="Hero Section" />;
+  return <HeroCmsPage />;
 }
