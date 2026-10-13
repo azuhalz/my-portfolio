@@ -12,29 +12,29 @@ type ProjectListItemProps = {
 
 export function ProjectListItem({ project }: ProjectListItemProps) {
   return (
-    <Card className="mt-4 group relative flex w-full flex-col gap-5 border border-primary/35 p-4 shadow-[0_0_24px_rgba(139,92,246,0.1)] transition-colors hover:border-primary/70 md:flex-row">
+    <Card className="mt-4 group relative flex w-full flex-col gap-5 border border-primary/35 p-4 shadow-[0_0_24px_rgba(139,92,246,0.1)] transition-colors hover:border-primary/70 sm:flex-row">
       {/* Gambar Thumbnail */}
-      <div className="relative h-56 w-full shrink-0 overflow-hidden rounded-lg border border-border bg-border md:w-96">
+      <div className="relative h-40 sm:h-auto w-full shrink-0 overflow-hidden rounded-lg border border-border bg-border sm:w-40 md:w-72 lg:w-96">
         <Image
           src={project.image[0]}
           alt={`Preview ${project.title}`}
           fill
-          sizes="(max-width: 768px) 100vw, 384px"
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 160px, (max-width: 1024px) 288px, 384px"
           className="object-cover transition-transform duration-300 group-hover:scale-[1.07]"
         />
       </div>
 
       {/* Konten Kanan */}
-      <div className="flex min-w-0 w-full flex-1 flex-col pr-0 md:pr-16 justify-between">
+      <div className="flex min-w-0 w-full flex-1 flex-col pr-0 md:pr-8 justify-between">
         <div>
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="text-2xl font-semibold text-white">
+              <h2 className="text-xl sm:text-2xl font-semibold text-white">
                 {project.title}
               </h2>
               <Badge>{project.type}</Badge>
             </div>
-            <p className="text-justify mt-3 text-md leading-6 text-text-secondary line-clamp-3">
+            <p className="text-justify mt-3 text-sm sm:text-md leading-6 text-text-secondary line-clamp-3">
               {project.overview}
             </p>
           </div>
@@ -49,7 +49,7 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
         </div>
 
         {/* Tombol-tombol */}
-        <div className="mt-5 grid w-full grid-cols-1 gap-2 sm:grid-cols-3">
+        <div className="mt-5 grid w-full grid-cols-1 min-[480px]:grid-cols-3 sm:grid-cols-1 md:grid-cols-3 gap-2">
           {project.liveDemoLink ? (
             <Button
               href={project.liveDemoLink}

@@ -24,25 +24,26 @@ export const dashboardNavItems: DashboardNavItem[] = [
   {
     label: "Dashboard",
     href: "/cms/dashboard",
-    description: "Here's what's happening with your portfolio.",
+    description:
+      "Welcome back, Zhafran! 👋 Here's what's happening with your portfolio.",
     icon: House,
   },
   {
     label: "Hero Section",
     href: "/cms/hero",
-    description: "Manage your portfolio introduction.",
+    description: "Edit the content of your hero section.",
     icon: CircleUserRound,
   },
   {
     label: "About",
     href: "/cms/about",
-    description: "Manage your personal information.",
+    description: "Edit the content of your about section.",
     icon: UserPen,
   },
   {
     label: "Tech Stack",
     href: "/cms/tech-stack",
-    description: "Manage the technologies you use.",
+    description: "Edit the content of your tech stack section.",
     icon: Layers3,
   },
   {
@@ -54,7 +55,7 @@ export const dashboardNavItems: DashboardNavItem[] = [
   {
     label: "Work Experience",
     href: "/cms/work-experience",
-    description: "Manage your professional experience.",
+    description: "Manage your work experience.",
     icon: BriefcaseBusiness,
   },
   {
@@ -78,7 +79,7 @@ export const dashboardNavItems: DashboardNavItem[] = [
   {
     label: "Contact",
     href: "/cms/contact",
-    description: "Manage your contact information.",
+    description: "Edit the content of your contact section.",
     icon: Mail,
   },
   {

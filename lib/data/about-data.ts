@@ -39,3 +39,30 @@ export const aboutData: AboutInfo = {
     },
   ],
 };
+
+// Tipe form data untuk CMS About Section
+export type AboutFormData = {
+  sectionTitle: string;
+  description: string;
+  location: string;
+  phone: string;
+  email: string;
+  linkedinUrl: string;
+  githubUrl: string;
+  availability: string;
+};
+
+// Data default form About (diambil dari aboutData yang sudah ada)
+export const initialAboutData: AboutFormData = {
+  sectionTitle: "About Me",
+  description: aboutData.description,
+  location: aboutData.details.find((d) => d.title === "Location")?.value ?? "",
+  phone: aboutData.details.find((d) => d.title === "Phone")?.value ?? "",
+  email: aboutData.details.find((d) => d.title === "Email")?.value ?? "",
+  linkedinUrl:
+    aboutData.details.find((d) => d.title === "LinkedIn")?.value ?? "",
+  githubUrl: aboutData.details.find((d) => d.title === "GitHub")?.value ?? "",
+  availability:
+    aboutData.details.find((d) => d.title === "Available")?.value ?? "",
+};
+
