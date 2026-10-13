@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { HeroContentForm } from "./HeroContentForm";
-import { HeroLivePreview } from "./HeroLivePreview";
+import Hero from "@/components/sections/hero/Hero";
+import { LivePreview } from "@/components/ui/LivePreview";
 import { initialHeroData, type HeroFormData } from "@/lib/data/hero-data";
 
 export type { HeroFormData };
@@ -52,8 +53,11 @@ export function HeroCmsPage() {
           onImageChange={handleImageChange}
           onSave={handleSave}
         />
-        <HeroLivePreview data={formData} />
+        <LivePreview>
+          <Hero data={formData} />
+        </LivePreview>
       </div>
     </div>
   );
 }
+

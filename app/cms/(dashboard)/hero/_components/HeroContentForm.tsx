@@ -53,10 +53,6 @@ const HERO_TEXT_FIELDS: readonly HeroTextFieldConfig[] = [
   },
 ];
 
-/**
- * Panel formulir untuk mengedit data Hero Section di CMS.
- * Berisi input teks yang dirender via map, upload gambar, social links, dan tombol Save Changes.
- */
 export function HeroContentForm({
   formData,
   onFieldChange,
@@ -68,7 +64,6 @@ export function HeroContentForm({
     <Card className="flex flex-col gap-5 p-6 bg-card/60">
       <h2 className="text-base font-semibold text-text-primary">Content</h2>
 
-      {/* Render input teks menggunakan map agar modular dan clean */}
       {HERO_TEXT_FIELDS.map((field) => (
         <TextInputField
           key={field.key}
@@ -79,13 +74,11 @@ export function HeroContentForm({
         />
       ))}
 
-      {/* Bagian Social Links */}
       <HeroSocialLinksForm
         socials={formData.socials}
         onChange={onSocialChange}
       />
 
-      {/* Input: Hero Image Upload */}
       <ImageUploadField
         label="Hero Image"
         imageUrl={formData.profileImageUrl}
@@ -93,7 +86,6 @@ export function HeroContentForm({
         onChange={onImageChange}
       />
 
-      {/* Tombol Simpan Perubahan */}
       <div className="pt-2">
         <Button
           type="button"
