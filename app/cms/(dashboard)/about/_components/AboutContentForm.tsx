@@ -79,42 +79,50 @@ export function AboutContentForm({
   onSave,
 }: AboutContentFormProps) {
   return (
-    <Card className="flex flex-col gap-5 p-6 bg-card/60">
-      <h2 className="text-base font-semibold text-text-primary">Content</h2>
+    <Card className="flex flex-col gap-6 p-6 md:p-8 bg-card/60">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+        {/* Kolom Kiri: Title & Bio */}
+        <div className="flex flex-col gap-4">
+          <TextInputField
+            label="Section Title"
+            value={formData.sectionTitle}
+            onChange={(val) => onFieldChange("sectionTitle", val)}
+            placeholder="About Me"
+          />
 
-      <TextInputField
-        label="Section Title"
-        value={formData.sectionTitle}
-        onChange={(val) => onFieldChange("sectionTitle", val)}
-        placeholder="About Me"
-      />
+          <TextAreaField
+            label="About Paragraph"
+            value={formData.description}
+            onChange={(val) => onFieldChange("description", val)}
+            placeholder="Deskripsi profil..."
+            rows={8}
+          />
+        </div>
 
-      <TextAreaField
-        label="About Paragraph"
-        value={formData.description}
-        onChange={(val) => onFieldChange("description", val)}
-        placeholder="Deskripsi profil..."
-        rows={6}
-      />
+        {/* Kolom Kanan: Contact Details & Info */}
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3.5">
+            {ABOUT_ICON_FIELDS.map((field) => (
+              <IconInputField
+                key={field.key}
+                label={field.label}
+                icon={field.icon}
+                value={formData[field.key]}
+                onChange={(val) => onFieldChange(field.key, val)}
+                placeholder={field.placeholder}
+                type={field.type}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
 
-      {ABOUT_ICON_FIELDS.map((field) => (
-        <IconInputField
-          key={field.key}
-          label={field.label}
-          icon={field.icon}
-          value={formData[field.key]}
-          onChange={(val) => onFieldChange(field.key, val)}
-          placeholder={field.placeholder}
-          type={field.type}
-        />
-      ))}
-
-      <div className="pt-2">
+      <div className="pt-4 border-t border-border/60 flex justify-end">
         <Button
           type="button"
           onClick={onSave}
           variant="primary"
-          className="w-full justify-center py-2.5 cursor-pointer"
+          className="w-full sm:w-auto px-6 py-2.5 cursor-pointer"
         >
           <Save size={18} />
           <span>Save Changes</span>

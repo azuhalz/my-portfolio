@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { HeroContentForm } from "./HeroContentForm";
-import Hero from "@/components/sections/hero/Hero";
-import { LivePreview } from "@/components/ui/LivePreview";
 import { initialHeroData, type HeroFormData } from "@/lib/data/hero-data";
 
 export type { HeroFormData };
@@ -44,20 +42,14 @@ export function HeroCmsPage() {
   };
 
   return (
-    <div className="p-6 md:p-8">
-      <div className="grid grid-cols-1 xl:grid-cols-[440px_1fr] items-start gap-6">
-        <HeroContentForm
-          formData={formData}
-          onFieldChange={handleFieldChange}
-          onSocialChange={handleSocialChange}
-          onImageChange={handleImageChange}
-          onSave={handleSave}
-        />
-        <LivePreview>
-          <Hero data={formData} />
-        </LivePreview>
-      </div>
+    <div className="p-6 md:p-8 max-w-5xl">
+      <HeroContentForm
+        formData={formData}
+        onFieldChange={handleFieldChange}
+        onSocialChange={handleSocialChange}
+        onImageChange={handleImageChange}
+        onSave={handleSave}
+      />
     </div>
   );
 }
-

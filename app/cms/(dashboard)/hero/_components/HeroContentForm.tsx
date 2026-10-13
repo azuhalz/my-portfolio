@@ -61,37 +61,43 @@ export function HeroContentForm({
   onSave,
 }: HeroContentFormProps) {
   return (
-    <Card className="flex flex-col gap-5 p-6 bg-card/60">
-      <h2 className="text-base font-semibold text-text-primary">Content</h2>
+    <Card className="flex flex-col gap-6 p-6 md:p-8 bg-card/60">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+        {/* Kolom Kiri: Teks & Informasi Utama */}
+        <div className="flex flex-col gap-4">
+          {HERO_TEXT_FIELDS.map((field) => (
+            <TextInputField
+              key={field.key}
+              label={field.label}
+              value={formData[field.key]}
+              onChange={(val) => onFieldChange(field.key, val)}
+              placeholder={field.placeholder}
+            />
+          ))}
+        </div>
 
-      {HERO_TEXT_FIELDS.map((field) => (
-        <TextInputField
-          key={field.key}
-          label={field.label}
-          value={formData[field.key]}
-          onChange={(val) => onFieldChange(field.key, val)}
-          placeholder={field.placeholder}
-        />
-      ))}
+        {/* Kolom Kanan: Social Links & Hero Image */}
+        <div className="flex flex-col gap-5">
+          <HeroSocialLinksForm
+            socials={formData.socials}
+            onChange={onSocialChange}
+          />
 
-      <HeroSocialLinksForm
-        socials={formData.socials}
-        onChange={onSocialChange}
-      />
+          <ImageUploadField
+            label="Hero Image"
+            imageUrl={formData.profileImageUrl}
+            fileName={formData.profileImageName}
+            onChange={onImageChange}
+          />
+        </div>
+      </div>
 
-      <ImageUploadField
-        label="Hero Image"
-        imageUrl={formData.profileImageUrl}
-        fileName={formData.profileImageName}
-        onChange={onImageChange}
-      />
-
-      <div className="pt-2">
+      <div className="pt-4 border-t border-border/60 flex justify-end">
         <Button
           type="button"
           onClick={onSave}
           variant="primary"
-          className="w-full justify-center py-2.5 cursor-pointer"
+          className="w-full sm:w-auto px-6 py-2.5 cursor-pointer"
         >
           <Save size={18} />
           <span>Save Changes</span>
