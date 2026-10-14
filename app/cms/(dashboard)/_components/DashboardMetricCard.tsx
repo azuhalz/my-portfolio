@@ -4,23 +4,29 @@ interface DashboardMetricCardProps {
   label: string;
   value: string;
   icon?: LucideIcon;
+  caption?: string;
   trend?: string;
   trendLabel?: string;
   sparkline?: string;
   detail?: string;
+  className?: string;
 }
 
 export function DashboardMetricCard({
   label,
   value,
   icon: Icon,
+  caption,
   trend,
   trendLabel,
   sparkline,
   detail,
+  className = "",
 }: DashboardMetricCardProps) {
   return (
-    <article className="relative min-h-49 overflow-hidden rounded-xl border border-border bg-card/65 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.025)]">
+    <article
+      className={`relative min-h-49 overflow-hidden rounded-xl border border-border bg-card/65 px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.025)] ${className}`}
+    >
       <div className="flex items-start gap-4">
         {Icon && (
           <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary shadow-[0_0_24px_rgba(139,92,246,0.12)]">
@@ -33,6 +39,10 @@ export function DashboardMetricCard({
           <p className="mt-1 text-2xl font-medium tracking-tight text-text-primary">
             {value}
           </p>
+
+          {caption && (
+            <p className="mt-1 text-xs text-text-secondary">{caption}</p>
+          )}
 
           {(sparkline || trend) && (
             <div className="mt-3 flex flex-col gap-1.5">
