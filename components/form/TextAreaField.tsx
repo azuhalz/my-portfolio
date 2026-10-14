@@ -2,6 +2,7 @@ import React, { useId } from "react";
 
 export type TextAreaFieldProps = {
   label: string;
+  hideLabel?: boolean;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
@@ -14,6 +15,7 @@ export type TextAreaFieldProps = {
 
 export function TextAreaField({
   label,
+  hideLabel = false,
   value,
   onChange,
   placeholder = "",
@@ -30,7 +32,9 @@ export function TextAreaField({
     <div className={`flex flex-col gap-1.5 ${className}`}>
       <label
         htmlFor={inputId}
-        className="text-sm font-medium text-text-secondary"
+        className={`text-sm font-medium text-text-secondary ${
+          hideLabel ? "sr-only" : ""
+        }`}
       >
         {label}
         {required && <span className="text-red-400 ml-1">*</span>}

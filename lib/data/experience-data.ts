@@ -37,3 +37,20 @@ export const experiencesData: Experience[] = [
     ],
   },
 ];
+
+// Tipe form data untuk CMS Work Experience (Add/Edit)
+export type ExperienceFormData = {
+  title: string;
+  company: string;
+  startDate: string; // format "YYYY-MM" dari input type="month"
+  endDate: string; // kosong = masih berjalan ("Present")
+  points: string[];
+};
+
+export const initialExperienceFormData: ExperienceFormData = {
+  title: "",
+  company: "",
+  startDate: "",
+  endDate: "",
+  points: [""],
+};
