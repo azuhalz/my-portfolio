@@ -38,13 +38,20 @@
 - Jangan menduplikasi UI, component, logic, styling, atau data structure.
 - Jika terdapat bagian yang sama, gunakan abstraction atau component yang sudah ada.
 
-## 7. Code Quality
+## 7. Extend Existing Files, Don't Create Redundant Ones
+
+- Jika sebuah file data, config, atau utility sudah ada (misalnya `lib/data/projects-data.ts`), tambahkan atau modifikasi di file tersebut — jangan membuat file baru yang memiliki konten serupa (misalnya `project-form-data.ts` yang isinya mirip `projects-data.ts`).
+- File baru hanya dibuat jika memiliki tanggung jawab yang **jelas berbeda** dan tidak bisa digabungkan secara wajar ke file yang sudah ada.
+- Pertimbangkan apakah type, interface, atau data yang baru benar-benar perlu file tersendiri, atau cukup di-extend dari file yang relevan.
+- Tujuannya: satu sumber kebenaran (_single source of truth_) per domain data/config — hindari dua file yang mewakili hal yang sama.
+
+## 8. Code Quality
 
 - Prioritaskan code yang sederhana, readable, maintainable, dan mudah dikembangkan.
 - Hindari over-engineering dan abstraction yang tidak diperlukan.
 - Jangan melakukan perubahan di luar scope yang ditentukan dalam `plan.md`.
 
-## 8. Implementation Discipline
+## 9. Implementation Discipline
 
 - Kerjakan `plan.md` pada satu waktu.
 - Setelah selesai, verifikasi bahwa step tersebut berjalan dengan benar sebelum lanjut ke step berikutnya.
