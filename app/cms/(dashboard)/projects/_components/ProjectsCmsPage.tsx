@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AddProjectView } from "./AddProjectView";
 import { ProjectItems } from "./ProjectItems";
-import { projectsData, type Project } from "@/lib/data/projects-data";
-import type { ProjectFormData } from "@/lib/data/project-form-data";
+import {
+  projectsData,
+  type Project,
+  type ProjectFormData,
+} from "@/lib/data/projects-data";
 import { createProjectFromForm } from "@/lib/utils/project-form";
 
 export function ProjectsCmsPage() {
@@ -32,7 +36,7 @@ export function ProjectsCmsPage() {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-5xl">
+    <CmsPageContainer size={isAdding ? "form" : "list"}>
       {isAdding ? (
         <AddProjectView
           onSubmit={handleCreate}
@@ -46,6 +50,6 @@ export function ProjectsCmsPage() {
           onDelete={handleDelete}
         />
       )}
-    </div>
+    </CmsPageContainer>
   );
 }

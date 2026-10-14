@@ -14,7 +14,7 @@ export type IconInputFieldProps = {
   className?: string;
 };
 
-const ICON_POSITION_STYLES = {
+export const ICON_POSITION_STYLES = {
   left: {
     icon: "absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary/60 pointer-events-none flex items-center justify-center",
     input: "pl-10 pr-3.5",

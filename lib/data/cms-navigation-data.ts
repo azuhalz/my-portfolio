@@ -8,6 +8,7 @@ import {
   House,
   Layers3,
   Mail,
+  Send,
   Settings,
   UserPen,
   UsersRound,
@@ -77,10 +78,16 @@ export const dashboardNavItems: DashboardNavItem[] = [
     icon: Award,
   },
   {
+    label: "Message",
+    href: "/cms/message",
+    description: "Manage your messages.",
+    icon: Mail,
+  },
+  {
     label: "Contact",
     href: "/cms/contact",
     description: "Edit the content of your contact section.",
-    icon: Mail,
+    icon: Send,
   },
   {
     label: "Settings",

@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { AddExperienceView } from "./AddExperienceView";
+import { AddExperienceView } from "@/app/cms/(dashboard)/_components/AddExperienceView";
+import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { ExperienceList } from "./ExperienceList";
 import {
   experiencesData,
+  workExperienceFormLabels,
   type Experience,
   type ExperienceFormData,
 } from "@/lib/data/experience-data";
+import { trimNonEmpty } from "@/lib/utils/array";
 import { formatExperiencePeriod } from "@/lib/utils/format-experience-period";
 
 export function WorkExperienceCmsPage() {
@@ -15,16 +18,11 @@ export function WorkExperienceCmsPage() {
   const [isAdding, setIsAdding] = useState(false);
 
   const handleCreate = (formData: ExperienceFormData) => {
-    if (formData.endDate && formData.endDate < formData.startDate) {
-      alert("End Date tidak boleh lebih awal dari Start Date.");
-      return;
-    }
-
     const newExperience: Experience = {
       title: formData.title.trim(),
       company: formData.company.trim(),
       period: formatExperiencePeriod(formData.startDate, formData.endDate),
-      points: formData.points.map((point) => point.trim()).filter(Boolean),
+      points: trimNonEmpty(formData.points),
     };
 
     setExperiences((prev) => [...prev, newExperience]);
@@ -46,9 +44,10 @@ export function WorkExperienceCmsPage() {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-5xl">
+    <CmsPageContainer size={isAdding ? "form" : "list"}>
       {isAdding ? (
         <AddExperienceView
+          labels={workExperienceFormLabels}
           onSubmit={handleCreate}
           onCancel={() => setIsAdding(false)}
         />
@@ -60,6 +59,6 @@ export function WorkExperienceCmsPage() {
           onDelete={handleDelete}
         />
       )}
-    </div>
+    </CmsPageContainer>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AboutContentForm } from "./AboutContentForm";
 import { initialAboutData, type AboutFormData } from "@/lib/data/about-data";
 
@@ -22,12 +23,12 @@ export function AboutCmsPage() {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-5xl">
+    <CmsPageContainer>
       <AboutContentForm
         formData={formData}
         onFieldChange={handleFieldChange}
         onSave={handleSave}
       />
-    </div>
+    </CmsPageContainer>
   );
 }

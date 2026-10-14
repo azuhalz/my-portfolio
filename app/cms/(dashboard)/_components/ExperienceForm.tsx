@@ -3,10 +3,14 @@ import { FormActions } from "@/components/form/FormActions";
 import { TextInputField } from "@/components/form/TextInputField";
 import { Card } from "@/components/ui/Card";
 import type { ExperienceTextField } from "@/hooks/useExperienceForm";
-import type { ExperienceFormData } from "@/lib/data/experience-data";
+import type {
+  ExperienceFormData,
+  ExperienceFormLabels,
+} from "@/lib/data/experience-data";
 
 type ExperienceFormProps = {
   formData: ExperienceFormData;
+  labels: ExperienceFormLabels;
   onFieldChange: (field: ExperienceTextField, value: string) => void;
   onPointChange: (index: number, value: string) => void;
   onAddPoint: () => void;
@@ -17,6 +21,7 @@ type ExperienceFormProps = {
 
 export function ExperienceForm({
   formData,
+  labels,
   onFieldChange,
   onPointChange,
   onAddPoint,
@@ -33,22 +38,22 @@ export function ExperienceForm({
     >
       <Card className="flex flex-col gap-5 p-6 md:p-8 bg-card/60">
         <h3 className="text-lg font-semibold text-text-primary">
-          Experience Information
+          {labels.heading}
         </h3>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <TextInputField
-            label="Role"
+            label={labels.titleLabel}
             value={formData.title}
             onChange={(val) => onFieldChange("title", val)}
-            placeholder="Tech Learner"
+            placeholder={labels.titlePlaceholder}
             required
           />
           <TextInputField
-            label="Company"
+            label={labels.companyLabel}
             value={formData.company}
             onChange={(val) => onFieldChange("company", val)}
-            placeholder="Apple Developer Academy @ UC"
+            placeholder={labels.companyPlaceholder}
             required
           />
           <TextInputField
@@ -59,7 +64,7 @@ export function ExperienceForm({
             required
           />
           <TextInputField
-            label="End Date"
+            label={labels.endDateLabel}
             type="month"
             value={formData.endDate}
             onChange={(val) => onFieldChange("endDate", val)}
@@ -72,10 +77,10 @@ export function ExperienceForm({
           onChange={onPointChange}
           onAdd={onAddPoint}
           onRemove={onRemovePoint}
-          placeholder="Describe what you did..."
+          placeholder={labels.pointPlaceholder}
         />
 
-        <FormActions submitLabel="Create Experience" onCancel={onCancel} />
+        <FormActions submitLabel={labels.submitLabel} onCancel={onCancel} />
       </Card>
     </form>
   );

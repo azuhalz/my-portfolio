@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   initialProjectFormData,
   type ProjectFormData,
-} from "@/lib/data/project-form-data";
+} from "@/lib/data/projects-data";
 import { removeItemAt, updateItemAt } from "@/lib/utils/array";
 
 export type ProjectStringField = Exclude<

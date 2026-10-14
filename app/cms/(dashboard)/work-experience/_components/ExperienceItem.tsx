@@ -1,5 +1,6 @@
 import { ItemActions } from "@/components/ui/ItemActions";
 import { OrderHandle } from "@/components/ui/OrderHandle";
+import { PointList } from "@/components/ui/PointList";
 import type { Experience } from "@/lib/data/experience-data";
 
 type ExperienceItemProps = {
@@ -37,11 +38,7 @@ export function ExperienceItem({
         </div>
 
         <div className="flex items-start gap-4">
-          <ul className="flex min-w-0 flex-1 list-disc flex-col gap-1.5 pl-4 text-sm leading-relaxed text-text-secondary marker:text-text-secondary/60">
-            {points.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
+          <PointList points={points} />
 
           <ItemActions
             itemName="Experience"
