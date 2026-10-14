@@ -20,16 +20,14 @@ export function AddExperienceView({
   } = useExperienceForm();
 
   return (
-    <div className="flex max-w-2xl flex-col gap-6">
-      <ExperienceForm
-        formData={formData}
-        onFieldChange={handleFieldChange}
-        onPointChange={handlePointChange}
-        onAddPoint={handleAddPoint}
-        onRemovePoint={handleRemovePoint}
-        onSubmit={() => onSubmit(formData)}
-        onCancel={onCancel}
-      />
-    </div>
+    <ExperienceForm
+      formData={formData}
+      onFieldChange={handleFieldChange}
+      onPointChange={handlePointChange}
+      onAddPoint={handleAddPoint}
+      onRemovePoint={handleRemovePoint}
+      onSubmit={() => onSubmit(formData)}
+      onCancel={onCancel}
+    />
   );
 }

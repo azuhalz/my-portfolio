@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { HeroContentForm } from "./HeroContentForm";
 import { initialHeroData, type HeroFormData } from "@/lib/data/hero-data";
 
@@ -42,7 +43,7 @@ export function HeroCmsPage() {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-5xl">
+    <CmsPageContainer>
       <HeroContentForm
         formData={formData}
         onFieldChange={handleFieldChange}
@@ -50,6 +51,6 @@ export function HeroCmsPage() {
         onImageChange={handleImageChange}
         onSave={handleSave}
       />
-    </div>
+    </CmsPageContainer>
   );
 }

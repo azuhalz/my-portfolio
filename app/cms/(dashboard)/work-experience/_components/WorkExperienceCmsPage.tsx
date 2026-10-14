@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AddExperienceView } from "./AddExperienceView";
 import { ExperienceList } from "./ExperienceList";
 import {
@@ -46,7 +47,7 @@ export function WorkExperienceCmsPage() {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-5xl">
+    <CmsPageContainer size={isAdding ? "form" : "list"}>
       {isAdding ? (
         <AddExperienceView
           onSubmit={handleCreate}
@@ -60,6 +61,6 @@ export function WorkExperienceCmsPage() {
           onDelete={handleDelete}
         />
       )}
-    </div>
+    </CmsPageContainer>
   );
 }

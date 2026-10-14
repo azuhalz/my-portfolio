@@ -1,5 +1,5 @@
 import { ImageDropzone } from "@/components/form/ImageDropzone";
-import { MAX_GALLERY_IMAGES } from "@/lib/data/project-form-data";
+import { MAX_GALLERY_IMAGES } from "@/lib/data/projects-data";
 
 type ProjectImagesFieldProps = {
   coverImage: string;

@@ -13,7 +13,7 @@ import type { ProjectFormState } from "@/hooks/useProjectForm";
 import {
   projectRoleOptions,
   projectTypeOptions,
-} from "@/lib/data/project-form-data";
+} from "@/lib/data/projects-data";
 
 type ProjectFormProps = {
   form: ProjectFormState;

@@ -1,5 +1,4 @@
-import type { Project } from "@/lib/data/projects-data";
-import type { ProjectFormData } from "@/lib/data/project-form-data";
+import type { Project, ProjectFormData } from "@/lib/data/projects-data";
 import { createUniqueSlug } from "@/lib/utils/slug";
 
 const cleanList = (items: string[]) =>
