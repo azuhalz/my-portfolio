@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useFormFields } from "@/hooks/useFormFields";
 import {
   initialEducationFormData,
   type EducationFormData,
@@ -9,14 +9,5 @@ export type EducationFormState = ReturnType<typeof useEducationForm>;
 export function useEducationForm(
   initialData: EducationFormData = initialEducationFormData,
 ) {
-  const [formData, setFormData] = useState<EducationFormData>(initialData);
-
-  const handleFieldChange = <K extends keyof EducationFormData>(
-    field: K,
-    value: EducationFormData[K],
-  ) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  return { formData, handleFieldChange };
+  return useFormFields<EducationFormData>(initialData);
 }

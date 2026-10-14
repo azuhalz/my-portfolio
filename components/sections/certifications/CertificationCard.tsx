@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import type { Certification } from "@/lib/data/certifications-data";
+import { formatCertificationDates } from "@/lib/utils/format-certification";
 
 type CertificationCardProps = {
   certification: Certification;
@@ -13,7 +14,9 @@ export function CertificationCard({ certification }: CertificationCardProps) {
       <div>
         <p className="text-white text-lg font-semibold">{certification.name}</p>
         <p className="text-primary">{certification.issuer}</p>
-        <p className="text-text-secondary">{certification.date}</p>
+        <p className="text-text-secondary">
+          {formatCertificationDates(certification)}
+        </p>
       </div>
 
       {/* Tombol Show Credential */}
