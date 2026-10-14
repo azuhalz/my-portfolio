@@ -1,4 +1,4 @@
-import { EmptyCmsPage } from "@/app/cms/(dashboard)/_components/EmptyCmsPage";
+import { MessagesCmsPage } from "./_components/MessagesCmsPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function CmsMessagePage() {
-  return <EmptyCmsPage title="Message" />;
+  return <MessagesCmsPage />;
 }

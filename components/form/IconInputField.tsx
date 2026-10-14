@@ -2,6 +2,7 @@ import React, { useId } from "react";
 
 export type IconInputFieldProps = {
   label: string;
+  hideLabel?: boolean;
   value: string;
   onChange: (value: string) => void;
   icon: React.ReactNode;
@@ -27,6 +28,7 @@ export const ICON_POSITION_STYLES = {
 
 export function IconInputField({
   label,
+  hideLabel = false,
   value,
   onChange,
   icon,
@@ -46,7 +48,9 @@ export function IconInputField({
     <div className={`flex flex-col gap-1.5 ${className}`}>
       <label
         htmlFor={inputId}
-        className="text-sm font-medium text-text-secondary"
+        className={`text-sm font-medium text-text-secondary ${
+          hideLabel ? "sr-only" : ""
+        }`}
       >
         {label}
         {required && <span className="text-red-400 ml-1">*</span>}

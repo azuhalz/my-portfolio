@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 const SIZE_STYLES = {
   list: "max-w-5xl", // daftar item & form lebar (Hero, About)
   form: "max-w-3xl", // form tambah/edit item (Project, Experience, Education)
+  wide: "max-w-7xl", // halaman dua kolom (Message)
 };
 
 type CmsPageContainerProps = {

@@ -17,18 +17,11 @@ export type DashboardMetric = {
   label: string;
   value: string;
   icon: LucideIcon;
+  caption?: string;
   trend?: string;
   trendLabel?: string;
   sparkline?: string;
   detail?: string;
-};
-
-export type RecentMessage = {
-  initials: string;
-  name: string;
-  email: string;
-  excerpt: string;
-  receivedAt: string;
 };
 
 export type QuickAction = {
@@ -70,37 +63,6 @@ export const dashboardMetrics: DashboardMetric[] = [
     value: "May 25, 2025",
     icon: CalendarDays,
     detail: "10:42 PM",
-  },
-];
-
-export const recentMessages: RecentMessage[] = [
-  {
-    initials: "JD",
-    name: "John Doe",
-    email: "john@example.com",
-    excerpt: "Hi Admin, I'm interested in collaborating on a project.",
-    receivedAt: "2h ago",
-  },
-  {
-    initials: "SJ",
-    name: "Sarah Johnson",
-    email: "sarah@example.com",
-    excerpt: "Great portfolio! Can we discuss a potential opportunity?",
-    receivedAt: "1d ago",
-  },
-  {
-    initials: "MS",
-    name: "Michael Smith",
-    email: "michael@example.com",
-    excerpt: "I have a job opportunity that might interest you.",
-    receivedAt: "2d ago",
-  },
-  {
-    initials: "ED",
-    name: "Emily Davis",
-    email: "emily@example.com",
-    excerpt: "Love your work! How did you build the analytics dashboard?",
-    receivedAt: "3d ago",
   },
 ];
 
