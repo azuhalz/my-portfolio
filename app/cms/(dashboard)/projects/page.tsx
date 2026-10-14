@@ -1,4 +1,4 @@
-import { ProjectCmsPage } from "./_components/ProjectsCmsPage";
+import { ProjectsCmsPage } from "./_components/ProjectsCmsPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function CmsProjectsPage() {
-  return <ProjectCmsPage />;
+  return <ProjectsCmsPage />;
 }
