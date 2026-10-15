@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { ContactMessage } from "@/lib/data/contact-data";
 import { sortMessagesNewestFirst } from "@/lib/utils/message";
 
-export const MESSAGES_PER_PAGE = 6;
+export const MESSAGES_PER_PAGE = 5;
 
 export type MessageFilter = "all" | "unread" | "read";
 
@@ -18,7 +18,7 @@ function matchesQuery(message: ContactMessage, query: string) {
   const keyword = query.trim().toLowerCase();
   if (!keyword) return true;
 
-  return [message.name, message.email, message.subject ?? "", message.message]
+  return [message.name, message.email ?? "", message.message]
     .join(" ")
     .toLowerCase()
     .includes(keyword);

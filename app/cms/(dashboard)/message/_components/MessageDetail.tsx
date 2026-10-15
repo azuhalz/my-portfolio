@@ -48,15 +48,6 @@ export function MessageDetail({
         </Badge>
       </header>
 
-      {message.subject && (
-        <p className="text-sm text-text-secondary">
-          Subject:{" "}
-          <span className="font-medium text-text-primary">
-            {message.subject}
-          </span>
-        </p>
-      )}
-
       <div className="whitespace-pre-line rounded-xl border border-border bg-card/40 p-5 text-sm leading-relaxed text-text-primary">
         {message.message}
       </div>

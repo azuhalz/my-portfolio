@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { Save, MapPin, Phone, Clock } from "lucide-react";
+import { MapPin, Phone, Clock } from "lucide-react";
 import { FaEnvelope, FaLinkedin, FaGithub } from "react-icons/fa";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { SaveChangesButton } from "@/components/form/SaveChangesButton";
 import { TextInputField } from "@/components/form/TextInputField";
 import { TextAreaField } from "@/components/form/TextAreaField";
 import { IconInputField } from "@/components/form/IconInputField";
@@ -118,15 +118,7 @@ export function AboutContentForm({
       </div>
 
       <div className="pt-4 border-t border-border/60 flex justify-end">
-        <Button
-          type="button"
-          onClick={onSave}
-          variant="primary"
-          className="w-full sm:w-auto px-6 py-2.5 cursor-pointer"
-        >
-          <Save size={18} />
-          <span>Save Changes</span>
-        </Button>
+        <SaveChangesButton onClick={onSave} className="w-full sm:w-auto" />
       </div>
     </Card>
   );
