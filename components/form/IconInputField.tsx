@@ -9,6 +9,8 @@ export type IconInputFieldProps = {
   iconPosition?: "left" | "right";
   placeholder?: string;
   type?: string;
+  autoComplete?: string;
+  endAdornment?: React.ReactNode; // elemen di sisi kanan input, dipakai bersama ikon kiri
   id?: string;
   disabled?: boolean;
   required?: boolean;
@@ -35,6 +37,8 @@ export function IconInputField({
   iconPosition = "left",
   placeholder = "",
   type = "text",
+  autoComplete,
+  endAdornment,
   id,
   disabled = false,
   required = false,
@@ -43,6 +47,7 @@ export function IconInputField({
   const generatedId = useId();
   const inputId = id || generatedId;
   const positionStyles = ICON_POSITION_STYLES[iconPosition];
+  const inputPadding = endAdornment ? "pl-10 pr-11" : positionStyles.input;
 
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
@@ -61,13 +66,19 @@ export function IconInputField({
         <input
           id={inputId}
           type={type}
+          autoComplete={autoComplete}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           disabled={disabled}
           required={required}
-          className={`w-full rounded-lg border border-border bg-card ${positionStyles.input} py-2.5 text-sm text-text-primary placeholder:text-text-secondary/50 focus:border-primary focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
+          className={`w-full rounded-lg border border-border bg-card ${inputPadding} py-2.5 text-sm text-text-primary placeholder:text-text-secondary/50 focus:border-primary focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
         />
+        {endAdornment && (
+          <span className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center">
+            {endAdornment}
+          </span>
+        )}
       </div>
     </div>
   );
