@@ -1,5 +1,4 @@
-import { AddItemHeader } from "@/components/ui/AddItemHeader";
-import { Card } from "@/components/ui/Card";
+import { ItemListCard } from "@/app/cms/(dashboard)/_components/ItemListCard";
 import { CertificationItem } from "./CertificationItem";
 import type { Certification } from "@/lib/data/certifications-data";
 
@@ -17,20 +16,19 @@ export function CertificationList({
   onDelete,
 }: CertificationListProps) {
   return (
-    <Card className="flex flex-col gap-5 p-5 bg-card/40 border-border">
-      <AddItemHeader addLabel="Add Certification" onAdd={onAdd} />
-
-      <div className="flex flex-col gap-3">
-        {certifications.map((certification, index) => (
-          <CertificationItem
-            key={certification.credentialUrl}
-            certification={certification}
-            order={index + 1}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
-      </div>
-    </Card>
+    <ItemListCard
+      items={certifications}
+      addLabel="Add Certification"
+      onAdd={onAdd}
+      getKey={(certification) => certification.credentialUrl}
+      renderItem={(certification, order) => (
+        <CertificationItem
+          certification={certification}
+          order={order}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      )}
+    />
   );
 }

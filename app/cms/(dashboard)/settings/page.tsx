@@ -1,4 +1,4 @@
-import { EmptyCmsPage } from "@/app/cms/(dashboard)/_components/EmptyCmsPage";
+import { SettingsCmsPage } from "./_components/SettingsCmsPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function CmsSettingsPage() {
-  return <EmptyCmsPage title="Settings" />;
+  return <SettingsCmsPage />;
 }

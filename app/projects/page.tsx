@@ -1,13 +1,16 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { ProjectFilter } from "./_components/ProjectFilter";
 import { ProjectSearch, type ProjectSort } from "./_components/ProjectSearch";
 import { projectsData, type Project } from "@/lib/data/projects-data";
 import { useInView } from "@/hooks/useInView";
 import { ProjectListItem } from "./_components/ProjectListItem";
+import { Pagination } from "@/components/ui/Pagination";
+import { usePagination } from "@/hooks/usePagination";
 
 const categories = ["All", "Web", "Mobile"];
+const PROJECTS_PER_PAGE = 3;
 
 function AnimatedProjectListItem({
   project,
@@ -72,6 +75,35 @@ export default function AllProjectsPage() {
       });
   }, [activeCategory, query, sort]);
 
+  const {
+    pagedItems: pagedProjects,
+    currentPage,
+    totalPages,
+    setPage,
+  } = usePagination(projects, PROJECTS_PER_PAGE);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // Setiap filter/pencarian/urutan berubah, kembali ke halaman pertama
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    setPage(1);
+  };
+
+  const handleQueryChange = (value: string) => {
+    setQuery(value);
+    setPage(1);
+  };
+
+  const handleSortChange = (value: ProjectSort) => {
+    setSort(value);
+    setPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+    listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <section className="mx-auto w-full max-w-7xl px-4 sm:px-8 py-10 md:py-16">
       <div
@@ -95,20 +127,20 @@ export default function AllProjectsPage() {
       >
         <ProjectSearch
           query={query}
-          onQueryChange={setQuery}
+          onQueryChange={handleQueryChange}
           sort={sort}
-          onSortChange={setSort}
+          onSortChange={handleSortChange}
         />
         <ProjectFilter
           categories={categories}
           activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
+          onCategoryChange={handleCategoryChange}
         />
       </div>
 
-      <div className="mt-6 space-y-4">
+      <div ref={listRef} className="mt-6 scroll-mt-28 space-y-4">
         {projects.length > 0 ? (
-          projects.map((project, index) => (
+          pagedProjects.map((project, index) => (
             <AnimatedProjectListItem
               key={project.slug}
               project={project}
@@ -120,6 +152,14 @@ export default function AllProjectsPage() {
             No projects match your search or filter.
           </div>
         )}
+      </div>
+
+      <div className="mt-8">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </section>
   );

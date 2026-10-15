@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { IconBadge } from "@/components/ui/IconBadge";
 
 interface DashboardMetricCardProps {
   label: string;
@@ -29,9 +30,9 @@ export function DashboardMetricCard({
     >
       <div className="flex items-start gap-4">
         {Icon && (
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary shadow-[0_0_24px_rgba(139,92,246,0.12)]">
+          <IconBadge>
             <Icon size={25} strokeWidth={1.8} />
-          </span>
+          </IconBadge>
         )}
 
         <div className="flex-1">

@@ -41,7 +41,7 @@ export function CertificationsCmsPage() {
   };
 
   return (
-    <CmsPageContainer size={isAdding ? "form" : "list"}>
+    <CmsPageContainer size="form">
       {isAdding ? (
         <AddCertificationView
           onSubmit={handleCreate}
