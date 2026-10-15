@@ -1,11 +1,10 @@
 "use client";
 
-import { Save } from "lucide-react";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { SaveChangesButton } from "@/components/form/SaveChangesButton";
+import { SocialLinksField } from "@/components/form/SocialLinksField";
 import { TextInputField } from "@/components/form/TextInputField";
 import { ImageUploadField } from "@/components/form/ImageUploadField";
-import { HeroSocialLinksForm } from "./HeroSocialLinksForm";
 import type { HeroFormData } from "@/lib/data/hero-data";
 
 type HeroContentFormProps = {
@@ -78,7 +77,7 @@ export function HeroContentForm({
 
         {/* Kolom Kanan: Social Links & Hero Image */}
         <div className="flex flex-col gap-5">
-          <HeroSocialLinksForm
+          <SocialLinksField
             socials={formData.socials}
             onChange={onSocialChange}
           />
@@ -93,15 +92,7 @@ export function HeroContentForm({
       </div>
 
       <div className="pt-4 border-t border-border/60 flex justify-end">
-        <Button
-          type="button"
-          onClick={onSave}
-          variant="primary"
-          className="w-full sm:w-auto px-6 py-2.5 cursor-pointer"
-        >
-          <Save size={18} />
-          <span>Save Changes</span>
-        </Button>
+        <SaveChangesButton onClick={onSave} className="w-full sm:w-auto" />
       </div>
     </Card>
   );
