@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { usePagination } from "@/hooks/usePagination";
 import type { ContactMessage } from "@/lib/data/contact-data";
 import { sortMessagesNewestFirst } from "@/lib/utils/message";
 
@@ -28,7 +29,6 @@ export function useMessageInbox(initialMessages: ContactMessage[]) {
   const [messages, setMessages] = useState<ContactMessage[]>(initialMessages);
   const [filter, setFilter] = useState<MessageFilter>("all");
   const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
   const [selectedId, setSelectedId] = useState<string | null>(
     sortMessagesNewestFirst(initialMessages)[0]?.id ?? null,
   );
@@ -42,15 +42,12 @@ export function useMessageInbox(initialMessages: ContactMessage[]) {
   const filteredMessages = inboxMessages.filter(
     (message) => matchesFilter(message, filter) && matchesQuery(message, query),
   );
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredMessages.length / MESSAGES_PER_PAGE),
-  );
-  const currentPage = Math.min(page, totalPages);
-  const pagedMessages = filteredMessages.slice(
-    (currentPage - 1) * MESSAGES_PER_PAGE,
-    currentPage * MESSAGES_PER_PAGE,
-  );
+  const {
+    pagedItems: pagedMessages,
+    currentPage,
+    totalPages,
+    setPage,
+  } = usePagination(filteredMessages, MESSAGES_PER_PAGE);
 
   const selectedMessage =
     inboxMessages.find((message) => message.id === selectedId) ?? null;

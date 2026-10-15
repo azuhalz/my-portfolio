@@ -22,7 +22,7 @@ export function ProjectFilter({
             variant={isActive ? "primary" : "outline"}
             onClick={() => onCategoryChange(category)}
             aria-pressed={isActive}
-            className="px-4! py-1! text-sm transition-colors duration-300"
+            className="px-4! py-1! text-sm hover:-translate-y-1!"
           >
             {category}
           </Button>

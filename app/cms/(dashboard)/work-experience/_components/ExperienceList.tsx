@@ -1,5 +1,4 @@
-import { AddItemHeader } from "@/components/ui/AddItemHeader";
-import { Card } from "@/components/ui/Card";
+import { ItemListCard } from "@/app/cms/(dashboard)/_components/ItemListCard";
 import { ExperienceItem } from "./ExperienceItem";
 import type { Experience } from "@/lib/data/experience-data";
 
@@ -17,20 +16,19 @@ export function ExperienceList({
   onDelete,
 }: ExperienceListProps) {
   return (
-    <Card className="flex flex-col gap-5 p-5 bg-card/40 border-border">
-      <AddItemHeader addLabel="Add Experience" onAdd={onAdd} />
-
-      <div className="flex flex-col gap-3">
-        {experiences.map((experience, index) => (
-          <ExperienceItem
-            key={`${experience.company}-${experience.period}`}
-            experience={experience}
-            order={index + 1}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
-      </div>
-    </Card>
+    <ItemListCard
+      items={experiences}
+      addLabel="Add Experience"
+      onAdd={onAdd}
+      getKey={(experience) => `${experience.company}-${experience.period}`}
+      renderItem={(experience, order) => (
+        <ExperienceItem
+          experience={experience}
+          order={order}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      )}
+    />
   );
 }

@@ -1,5 +1,4 @@
-import { AddItemHeader } from "@/components/ui/AddItemHeader";
-import { Card } from "@/components/ui/Card";
+import { ItemListCard } from "@/app/cms/(dashboard)/_components/ItemListCard";
 import { ProjectItem } from "./ProjectItem";
 import type { Project } from "@/lib/data/projects-data";
 
@@ -17,20 +16,19 @@ export function ProjectItems({
   onDelete,
 }: ProjectItemsProps) {
   return (
-    <Card className="flex flex-col gap-5 p-5 bg-card/40 border-border">
-      <AddItemHeader addLabel="Add Project" onAdd={onAdd} />
-
-      <div className="flex flex-col gap-3">
-        {projects.map((project, index) => (
-          <ProjectItem
-            key={project.slug}
-            project={project}
-            order={index + 1}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
-      </div>
-    </Card>
+    <ItemListCard
+      items={projects}
+      addLabel="Add Project"
+      onAdd={onAdd}
+      getKey={(project) => project.slug}
+      renderItem={(project, order) => (
+        <ProjectItem
+          project={project}
+          order={order}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      )}
+    />
   );
 }
