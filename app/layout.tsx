@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar/Navbar";
 import Footer from "@/components/layout/Footer";
-import { MouseBackground } from "@/components/ui/MouseBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +26,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-white antialiased md:max-w-[1600px] mx-auto">
-        <MouseBackground />
         <Navbar />
         <main className="flex-1 overflow-x-hidden overflow-y-hidden">
           {children}
