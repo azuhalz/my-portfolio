@@ -1,15 +1,21 @@
-export type Experience = {
-  title: string;
-  company: string;
-  period: string;
-  points: string[];
+// Satu-satunya definisi bentuk data pengalaman kerja: nilai kosong ini juga dipakai
+// sebagai nilai awal form, dan type Experience diturunkan darinya.
+export const emptyExperience = {
+  title: "",
+  company: "",
+  startDate: "", // format "YYYY-MM"
+  endDate: "", // format "YYYY-MM", kosong = masih berjalan ("Present")
+  points: [""],
 };
+
+export type Experience = typeof emptyExperience;
 
 export const experiencesData: Experience[] = [
   {
     title: "iOS Developer",
     company: "Apple Developer Academy @ UC",
-    period: "March – December 2025",
+    startDate: "2025-03",
+    endDate: "2025-12",
     points: [
       "Developed iOS applications using SwiftUI and Swift.",
       "Implemented MVVM architecture with clear separation of concerns.",
@@ -20,7 +26,8 @@ export const experiencesData: Experience[] = [
   {
     title: "Software Quality Assurance",
     company: "PT. Telkom Indonesia",
-    period: "April – September 2024",
+    startDate: "2024-04",
+    endDate: "2024-09",
     points: [
       "Manual testing, automation testing, API testing and performance testing.",
       "Reported bugs and defects accurately.",
@@ -30,30 +37,14 @@ export const experiencesData: Experience[] = [
   {
     title: "Mobile Development Student",
     company: "Bangkit Academy led by Google, Tokopedia, Gojek, & Traveloka",
-    period: "February – July 2023",
+    startDate: "2023-02",
+    endDate: "2023-07",
     points: [
       "Developed Android applications using Kotlin.",
       "Improved soft skills and English proficiency with professional mentors.",
     ],
   },
 ];
-
-// Tipe form data untuk CMS Work Experience (Add/Edit)
-export type ExperienceFormData = {
-  title: string;
-  company: string;
-  startDate: string; // format "YYYY-MM" dari input type="month"
-  endDate: string; // kosong = masih berjalan ("Present")
-  points: string[];
-};
-
-export const initialExperienceFormData: ExperienceFormData = {
-  title: "",
-  company: "",
-  startDate: "",
-  endDate: "",
-  points: [""],
-};
 
 // Teks form yang bisa dipakai ulang oleh Work Experience & Organizational Experience
 export type ExperienceFormLabels = {

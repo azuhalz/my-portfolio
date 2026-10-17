@@ -1,12 +1,12 @@
 import { CertificationForm } from "./CertificationForm";
 import { useFormFields } from "@/hooks/useFormFields";
 import {
-  initialCertificationFormData,
-  type CertificationFormData,
+  emptyCertification,
+  type Certification,
 } from "@/lib/data/certifications-data";
 
 type AddCertificationViewProps = {
-  onSubmit: (formData: CertificationFormData) => void;
+  onSubmit: (formData: Certification) => void;
   onCancel: () => void;
 };
 
@@ -14,9 +14,8 @@ export function AddCertificationView({
   onSubmit,
   onCancel,
 }: AddCertificationViewProps) {
-  const { formData, handleFieldChange } = useFormFields<CertificationFormData>(
-    initialCertificationFormData,
-  );
+  const { formData, handleFieldChange } =
+    useFormFields<Certification>(emptyCertification);
 
   const handleSubmit = () => {
     if (formData.expiryDate && formData.expiryDate < formData.issuedDate) {

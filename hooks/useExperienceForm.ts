@@ -1,16 +1,11 @@
 import { useState } from "react";
-import {
-  initialExperienceFormData,
-  type ExperienceFormData,
-} from "@/lib/data/experience-data";
+import { emptyExperience, type Experience } from "@/lib/data/experience-data";
 import { removeItemAt, updateItemAt } from "@/lib/utils/array";
 
-export type ExperienceTextField = Exclude<keyof ExperienceFormData, "points">;
+export type ExperienceTextField = Exclude<keyof Experience, "points">;
 
-export function useExperienceForm(
-  initialData: ExperienceFormData = initialExperienceFormData,
-) {
-  const [formData, setFormData] = useState<ExperienceFormData>(initialData);
+export function useExperienceForm(initialData: Experience = emptyExperience) {
+  const [formData, setFormData] = useState<Experience>(initialData);
 
   const handleFieldChange = (field: ExperienceTextField, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

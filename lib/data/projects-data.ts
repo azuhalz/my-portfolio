@@ -134,7 +134,7 @@ export const projectRoleOptions = [
   "Fullstack Developer",
   "iOS Developer",
   "Android Developer",
-  "UI/UX Designer",
+  "Game Developer",
 ];
 
 export type ProjectFormData = {

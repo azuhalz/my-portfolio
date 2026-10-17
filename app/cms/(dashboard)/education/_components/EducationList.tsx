@@ -23,7 +23,7 @@ export function EducationList({
       <div className="flex flex-col gap-3">
         {educations.map((education, index) => (
           <EducationItem
-            key={`${education.institution}-${education.period}`}
+            key={`${education.institution}-${education.startYear}`}
             education={education}
             order={index + 1}
             onEdit={onEdit}

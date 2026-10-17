@@ -2,10 +2,10 @@ import { SaveChangesButton } from "@/components/form/SaveChangesButton";
 import { SocialLinksField } from "@/components/form/SocialLinksField";
 import { TextAreaField } from "@/components/form/TextAreaField";
 import { Card } from "@/components/ui/Card";
-import type { ContactFormData } from "@/lib/data/contact-data";
+import type { ContactContent } from "@/lib/data/contact-data";
 
 type ContactContentFormProps = {
-  formData: ContactFormData;
+  formData: ContactContent;
   onDescriptionChange: (value: string) => void;
   onSocialChange: (index: number, url: string) => void;
   onSave: () => void;

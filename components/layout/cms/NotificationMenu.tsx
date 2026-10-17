@@ -4,7 +4,7 @@ import { Bell } from "lucide-react";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { NotificationPanel } from "./NotificationPanel";
 import { useMessageNotifications } from "@/hooks/useMessageNotifications";
-import { messagesData } from "@/lib/data/contact-data";
+import { messagesData } from "@/lib/data/message-data";
 
 export function NotificationMenu() {
   const { unreadCount, recentMessages, markAllAsRead } =

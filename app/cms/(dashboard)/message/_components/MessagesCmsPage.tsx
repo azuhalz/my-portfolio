@@ -5,7 +5,7 @@ import { MessageDetail } from "./MessageDetail";
 import { MessageInbox } from "./MessageInbox";
 import { MessageStats } from "./MessageStats";
 import { useMessageInbox } from "@/hooks/useMessageInbox";
-import { messagesData } from "@/lib/data/contact-data";
+import { messagesData } from "@/lib/data/message-data";
 
 export function MessagesCmsPage() {
   const inbox = useMessageInbox(messagesData);

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AddExperienceView } from "@/app/cms/(dashboard)/_components/AddExperienceView";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { OrganizationList } from "./OrganizationList";
-import type { ExperienceFormData } from "@/lib/data/experience-data";
+import type { Experience } from "@/lib/data/experience-data";
 import {
   organizationFormLabels,
   organizationsData,
@@ -18,7 +18,7 @@ export function OrganizationalCmsPage() {
     useState<Organization[]>(organizationsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: ExperienceFormData) => {
+  const handleCreate = (formData: Experience) => {
     const newOrganization: Organization = {
       role: formData.title.trim(),
       organization: formData.company.trim(),

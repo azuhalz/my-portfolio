@@ -6,6 +6,7 @@ import { Card } from "../ui/Card";
 import { useInView } from "@/hooks/useInView";
 
 import { experiencesData as experiences } from "@/lib/data/experience-data";
+import { formatExperiencePeriod } from "@/lib/utils/format-experience-period";
 
 export default function Experience() {
   const { ref, isVisible } = useInView();
@@ -33,7 +34,7 @@ export default function Experience() {
           {/* Daftar pengalaman, diberi jarak ke kiri agar tidak tertimpa garis */}
           <div className="space-y-3 pl-10">
             {experiences.map((exp) => (
-              <div key={`${exp.company}-${exp.period}`} className="relative">
+              <div key={`${exp.company}-${exp.startDate}`} className="relative">
                 {/* Titik bulat ungu di garis vertikal */}
                 <div className="absolute -left-7 top-1.5 w-4 h-4 rounded-full bg-primary border-2 border-background" />
 
@@ -41,7 +42,7 @@ export default function Experience() {
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1">
                   <h2 className="text-white font-semibold">{exp.title}</h2>
                   <p className="text-text-secondary text-sm shrink-0">
-                    {exp.period}
+                    {formatExperiencePeriod(exp.startDate, exp.endDate)}
                   </p>
                 </div>
                 <p className="text-primary mb-1">{exp.company}</p>

@@ -1,13 +1,13 @@
 import { ExperienceForm } from "./ExperienceForm";
 import { useExperienceForm } from "@/hooks/useExperienceForm";
 import type {
-  ExperienceFormData,
+  Experience,
   ExperienceFormLabels,
 } from "@/lib/data/experience-data";
 
 type AddExperienceViewProps = {
   labels: ExperienceFormLabels;
-  onSubmit: (formData: ExperienceFormData) => void;
+  onSubmit: (formData: Experience) => void;
   onCancel: () => void;
 };
 

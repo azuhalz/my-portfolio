@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Avatar } from "@/components/ui/Avatar";
-import type { ContactMessage } from "@/lib/data/contact-data";
+import type { ContactMessage } from "@/lib/data/message-data";
 import { formatRelativeTime, getMessagePreview } from "@/lib/utils/message";
 
 type NotificationItemProps = {

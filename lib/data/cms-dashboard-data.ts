@@ -12,6 +12,7 @@ import {
   Settings,
   UserPen,
 } from "lucide-react";
+import { messagesData } from "@/lib/data/message-data";
 
 export type DashboardMetric = {
   label: string;
@@ -52,7 +53,7 @@ export const dashboardMetrics: DashboardMetric[] = [
   },
   {
     label: "Messages",
-    value: "7",
+    value: String(messagesData.length),
     icon: Mail,
     trend: "3",
     trendLabel: "from last month",

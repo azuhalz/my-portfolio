@@ -1,11 +1,11 @@
 import { FormActions } from "@/components/form/FormActions";
 import { TextInputField } from "@/components/form/TextInputField";
 import { Card } from "@/components/ui/Card";
-import type { CertificationFormData } from "@/lib/data/certifications-data";
+import type { Certification } from "@/lib/data/certifications-data";
 
 type CertificationFormProps = {
-  formData: CertificationFormData;
-  onFieldChange: (field: keyof CertificationFormData, value: string) => void;
+  formData: Certification;
+  onFieldChange: (field: keyof Certification, value: string) => void;
   onSubmit: () => void;
   onCancel: () => void;
 };
@@ -54,7 +54,7 @@ export function CertificationForm({
           <TextInputField
             label="Expiration Date (Optional)"
             type="month"
-            value={formData.expiryDate}
+            value={formData.expiryDate ?? ""}
             onChange={(val) => onFieldChange("expiryDate", val)}
           />
         </div>

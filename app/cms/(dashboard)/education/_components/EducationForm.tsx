@@ -4,24 +4,27 @@ import { FormActions } from "@/components/form/FormActions";
 import { SelectField } from "@/components/form/SelectField";
 import { TextInputField } from "@/components/form/TextInputField";
 import { Card } from "@/components/ui/Card";
-import type { EducationFormState } from "@/hooks/useEducationForm";
 import {
+  EDUCATION_ONGOING,
   educationLevelOptions,
   educationYearOptions,
+  type Education,
 } from "@/lib/data/education-data";
 
 type EducationFormProps = {
-  form: EducationFormState;
+  formData: Education;
+  onFieldChange: (field: keyof Education, value: string) => void;
   onSubmit: () => void;
   onCancel: () => void;
 };
 
 export function EducationForm({
-  form,
+  formData,
+  onFieldChange,
   onSubmit,
   onCancel,
 }: EducationFormProps) {
-  const { formData, handleFieldChange } = form;
+  const isCurrentlyStudying = formData.endYear === EDUCATION_ONGOING;
 
   return (
     <form
@@ -40,7 +43,7 @@ export function EducationForm({
             className="sm:col-span-2"
             label="Institution Name"
             value={formData.institution}
-            onChange={(val) => handleFieldChange("institution", val)}
+            onChange={(val) => onFieldChange("institution", val)}
             placeholder="e.g., Universitas Brawijaya"
             required
           />
@@ -50,13 +53,13 @@ export function EducationForm({
             options={educationLevelOptions}
             placeholder="Select degree / level"
             value={formData.level}
-            onChange={(val) => handleFieldChange("level", val)}
+            onChange={(val) => onFieldChange("level", val)}
             required
           />
           <TextInputField
             label="Field of Study"
             value={formData.fieldOfStudy}
-            onChange={(val) => handleFieldChange("fieldOfStudy", val)}
+            onChange={(val) => onFieldChange("fieldOfStudy", val)}
             placeholder="e.g., Informatics Engineering"
             required
           />
@@ -67,7 +70,7 @@ export function EducationForm({
             options={educationYearOptions}
             placeholder="Select start year"
             value={formData.startYear}
-            onChange={(val) => handleFieldChange("startYear", val)}
+            onChange={(val) => onFieldChange("startYear", val)}
             required
           />
           <div className="flex flex-col gap-2.5">
@@ -75,18 +78,18 @@ export function EducationForm({
               label="End Year (or Expected)"
               icon={<Calendar size={16} />}
               options={educationYearOptions}
-              placeholder="Select end year"
-              value={formData.endYear}
-              onChange={(val) => handleFieldChange("endYear", val)}
-              disabled={formData.isCurrentlyStudying}
-              required={!formData.isCurrentlyStudying}
+              placeholder={isCurrentlyStudying ? "Present" : "Select end year"}
+              value={isCurrentlyStudying ? "" : formData.endYear}
+              onChange={(val) => onFieldChange("endYear", val)}
+              disabled={isCurrentlyStudying}
+              required={!isCurrentlyStudying}
             />
             <CheckboxField
               label="Currently studying here"
               hint="Centang jika masih berkuliah atau bersekolah. Periode akan tampil sebagai Present."
-              checked={formData.isCurrentlyStudying}
+              checked={isCurrentlyStudying}
               onChange={(checked) =>
-                handleFieldChange("isCurrentlyStudying", checked)
+                onFieldChange("endYear", checked ? EDUCATION_ONGOING : "")
               }
             />
           </div>
@@ -94,7 +97,7 @@ export function EducationForm({
           <TextInputField
             label="GPA (Optional)"
             value={formData.gpa}
-            onChange={(val) => handleFieldChange("gpa", val)}
+            onChange={(val) => onFieldChange("gpa", val)}
             placeholder="e.g., 3.75 / 4.00"
           />
         </div>

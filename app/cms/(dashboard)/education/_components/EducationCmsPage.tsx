@@ -4,27 +4,23 @@ import { useState } from "react";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AddEducationView } from "./AddEducationView";
 import { EducationList } from "./EducationList";
-import {
-  educationsData,
-  type Education,
-  type EducationFormData,
-} from "@/lib/data/education-data";
-import { createEducationFromForm } from "@/lib/utils/education-form";
+import { educationsData, type Education } from "@/lib/data/education-data";
 
 export function EducationCmsPage() {
   const [educations, setEducations] = useState<Education[]>(educationsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: EducationFormData) => {
-    if (
-      !formData.isCurrentlyStudying &&
-      Number(formData.endYear) < Number(formData.startYear)
-    ) {
-      alert("End Year tidak boleh lebih awal dari Start Year.");
-      return;
-    }
+  const handleCreate = (formData: Education) => {
+    const newEducation: Education = {
+      institution: formData.institution.trim(),
+      level: formData.level,
+      fieldOfStudy: formData.fieldOfStudy.trim(),
+      startYear: formData.startYear,
+      endYear: formData.endYear,
+      gpa: formData.gpa.trim(),
+    };
 
-    setEducations((prev) => [...prev, createEducationFromForm(formData)]);
+    setEducations((prev) => [...prev, newEducation]);
     setIsAdding(false);
   };
 

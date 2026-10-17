@@ -8,20 +8,19 @@ import {
   experiencesData,
   workExperienceFormLabels,
   type Experience,
-  type ExperienceFormData,
 } from "@/lib/data/experience-data";
 import { trimNonEmpty } from "@/lib/utils/array";
-import { formatExperiencePeriod } from "@/lib/utils/format-experience-period";
 
 export function WorkExperienceCmsPage() {
   const [experiences, setExperiences] = useState<Experience[]>(experiencesData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: ExperienceFormData) => {
+  const handleCreate = (formData: Experience) => {
     const newExperience: Experience = {
       title: formData.title.trim(),
       company: formData.company.trim(),
-      period: formatExperiencePeriod(formData.startDate, formData.endDate),
+      startDate: formData.startDate,
+      endDate: formData.endDate,
       points: trimNonEmpty(formData.points),
     };
 
