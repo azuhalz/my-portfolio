@@ -7,7 +7,6 @@ import { CertificationList } from "./CertificationList";
 import {
   certificationsData,
   type Certification,
-  type CertificationFormData,
 } from "@/lib/data/certifications-data";
 
 export function CertificationsCmsPage() {
@@ -15,7 +14,7 @@ export function CertificationsCmsPage() {
     useState<Certification[]>(certificationsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: CertificationFormData) => {
+  const handleCreate = (formData: Certification) => {
     const newCertification: Certification = {
       name: formData.name.trim(),
       issuer: formData.issuer.trim(),

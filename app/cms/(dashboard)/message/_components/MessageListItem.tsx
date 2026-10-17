@@ -1,5 +1,5 @@
 import { Avatar } from "@/components/ui/Avatar";
-import type { ContactMessage } from "@/lib/data/contact-data";
+import type { ContactMessage } from "@/lib/data/message-data";
 import {
   formatMessageDate,
   formatMessageTime,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { ContactMessage } from "@/lib/data/contact-data";
+import type { ContactMessage } from "@/lib/data/message-data";
 import { sortMessagesNewestFirst } from "@/lib/utils/message";
 
 const NOTIFICATIONS_LIMIT = 4;

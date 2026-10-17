@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { usePagination } from "@/hooks/usePagination";
-import type { ContactMessage } from "@/lib/data/contact-data";
+import type { ContactMessage } from "@/lib/data/message-data";
 import { sortMessagesNewestFirst } from "@/lib/utils/message";
 
 export const MESSAGES_PER_PAGE = 5;

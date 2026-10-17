@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 import { ExternalLink } from "lucide-react";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
-import type { SocialIconType, SocialLinkInput } from "@/lib/data/contact-data";
+import type { SocialIconType, SocialLink } from "@/lib/data/contact-data";
 
 type SocialLinksFieldProps = {
-  socials: SocialLinkInput[];
+  socials: SocialLink[];
   onChange: (index: number, newUrl: string) => void;
   variant?: "plain" | "boxed";
 };

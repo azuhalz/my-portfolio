@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 import { NotificationItem } from "./NotificationItem";
-import type { ContactMessage } from "@/lib/data/contact-data";
+import type { ContactMessage } from "@/lib/data/message-data";
 
 type NotificationPanelProps = {
   unreadCount: number;

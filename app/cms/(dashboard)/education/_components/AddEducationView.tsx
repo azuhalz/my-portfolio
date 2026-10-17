@@ -1,9 +1,9 @@
 import { EducationForm } from "./EducationForm";
-import { useEducationForm } from "@/hooks/useEducationForm";
-import type { EducationFormData } from "@/lib/data/education-data";
+import { useFormFields } from "@/hooks/useFormFields";
+import { emptyEducation, type Education } from "@/lib/data/education-data";
 
 type AddEducationViewProps = {
-  onSubmit: (formData: EducationFormData) => void;
+  onSubmit: (formData: Education) => void;
   onCancel: () => void;
 };
 
@@ -11,12 +11,24 @@ export function AddEducationView({
   onSubmit,
   onCancel,
 }: AddEducationViewProps) {
-  const form = useEducationForm();
+  const { formData, handleFieldChange } =
+    useFormFields<Education>(emptyEducation);
+
+  const handleSubmit = () => {
+    // endYear "Present" bukan angka, jadi tidak ikut diperiksa
+    if (Number(formData.endYear) < Number(formData.startYear)) {
+      alert("End Year tidak boleh lebih awal dari Start Year.");
+      return;
+    }
+
+    onSubmit(formData);
+  };
 
   return (
     <EducationForm
-      form={form}
-      onSubmit={() => onSubmit(form.formData)}
+      formData={formData}
+      onFieldChange={handleFieldChange}
+      onSubmit={handleSubmit}
       onCancel={onCancel}
     />
   );

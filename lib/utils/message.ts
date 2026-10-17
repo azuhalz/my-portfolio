@@ -1,4 +1,4 @@
-import type { ContactMessage } from "@/lib/data/contact-data";
+import type { ContactMessage } from "@/lib/data/message-data";
 
 const DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
   month: "short",

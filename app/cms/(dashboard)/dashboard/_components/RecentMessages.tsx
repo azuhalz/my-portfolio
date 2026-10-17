@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
-import { messagesData } from "@/lib/data/contact-data";
+import { messagesData } from "@/lib/data/message-data";
 import {
   formatMessageShortDate,
   getMessagePreview,

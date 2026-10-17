@@ -2,6 +2,7 @@ import { ItemActions } from "@/components/ui/ItemActions";
 import { OrderHandle } from "@/components/ui/OrderHandle";
 import { PointList } from "@/components/ui/PointList";
 import type { Experience } from "@/lib/data/experience-data";
+import { formatExperiencePeriod } from "@/lib/utils/format-experience-period";
 
 type ExperienceItemProps = {
   experience: Experience;
@@ -16,7 +17,7 @@ export function ExperienceItem({
   onEdit,
   onDelete,
 }: ExperienceItemProps) {
-  const { title, company, period, points } = experience;
+  const { title, company, startDate, endDate, points } = experience;
 
   return (
     <div className="flex gap-3 rounded-xl border border-border bg-card/60 p-4 transition-all hover:border-primary/40 hover:bg-card/80">
@@ -34,7 +35,9 @@ export function ExperienceItem({
           <h3 className="text-sm font-semibold text-text-primary">
             {title}, {company}
           </h3>
-          <span className="shrink-0 text-xs text-text-secondary">{period}</span>
+          <span className="shrink-0 text-xs text-text-secondary">
+            {formatExperiencePeriod(startDate, endDate)}
+          </span>
         </div>
 
         <div className="flex items-start gap-4">

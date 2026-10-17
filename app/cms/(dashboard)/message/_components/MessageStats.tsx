@@ -1,7 +1,7 @@
 import { CalendarDays, CircleCheck, CircleDot, Mail } from "lucide-react";
 import { DashboardMetricCard } from "@/app/cms/(dashboard)/_components/DashboardMetricCard";
 import type { DashboardMetric } from "@/lib/data/cms-dashboard-data";
-import type { ContactMessage } from "@/lib/data/contact-data";
+import type { ContactMessage } from "@/lib/data/message-data";
 import {
   formatMessageDate,
   formatMessageTime,

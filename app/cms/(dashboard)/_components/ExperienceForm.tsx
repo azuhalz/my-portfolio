@@ -4,12 +4,12 @@ import { TextInputField } from "@/components/form/TextInputField";
 import { Card } from "@/components/ui/Card";
 import type { ExperienceTextField } from "@/hooks/useExperienceForm";
 import type {
-  ExperienceFormData,
+  Experience,
   ExperienceFormLabels,
 } from "@/lib/data/experience-data";
 
 type ExperienceFormProps = {
-  formData: ExperienceFormData;
+  formData: Experience;
   labels: ExperienceFormLabels;
   onFieldChange: (field: ExperienceTextField, value: string) => void;
   onPointChange: (index: number, value: string) => void;

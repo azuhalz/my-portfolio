@@ -1,9 +1,17 @@
 export type Certification = {
   name: string;
   issuer: string;
-  issuedDate: string; // format "YYYY-MM"
-  expiryDate?: string; // format "YYYY-MM", kosong = tidak ada masa berlaku
+  issuedDate: string;
+  expiryDate?: string;
   credentialUrl: string;
+};
+
+export const emptyCertification: Certification = {
+  name: "",
+  issuer: "",
+  issuedDate: "",
+  expiryDate: "",
+  credentialUrl: "",
 };
 
 export const certificationsData: Certification[] = [
@@ -50,21 +58,3 @@ export const certificationsData: Certification[] = [
     credentialUrl: "https://www.dicoding.com/certificates/MEPJK7E4JX3V",
   },
 ];
-
-// ===== Form CMS (Add/Edit Certification) =====
-
-export type CertificationFormData = {
-  name: string;
-  issuer: string;
-  issuedDate: string; // format "YYYY-MM" dari input type="month"
-  expiryDate: string; // kosong = tidak ada masa berlaku
-  credentialUrl: string;
-};
-
-export const initialCertificationFormData: CertificationFormData = {
-  name: "",
-  issuer: "",
-  issuedDate: "",
-  expiryDate: "",
-  credentialUrl: "",
-};

@@ -3,16 +3,12 @@
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { ContactContentForm } from "./ContactContentForm";
 import { useFormFields } from "@/hooks/useFormFields";
-import {
-  initialContactFormData,
-  type ContactFormData,
-} from "@/lib/data/contact-data";
+import { contactInfo, type ContactContent } from "@/lib/data/contact-data";
 import { updateItemAt } from "@/lib/utils/array";
 
 export function ContactCmsPage() {
-  const { formData, handleFieldChange } = useFormFields<ContactFormData>(
-    initialContactFormData,
-  );
+  const { formData, handleFieldChange } =
+    useFormFields<ContactContent>(contactInfo);
 
   const handleSocialChange = (index: number, url: string) => {
     handleFieldChange(
