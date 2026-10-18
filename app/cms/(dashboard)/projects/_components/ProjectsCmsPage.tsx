@@ -4,18 +4,14 @@ import { useState } from "react";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AddProjectView } from "./AddProjectView";
 import { ProjectItems } from "./ProjectItems";
-import {
-  projectsData,
-  type Project,
-  type ProjectFormData,
-} from "@/lib/data/projects-data";
+import { projectsData, type Project } from "@/lib/data/projects-data";
 import { createProjectFromForm } from "@/lib/utils/project-form";
 
 export function ProjectsCmsPage() {
   const [projects, setProjects] = useState<Project[]>(projectsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: ProjectFormData) => {
+  const handleCreate = (formData: Project) => {
     const newProject = createProjectFromForm(
       formData,
       projects.map((project) => project.slug),

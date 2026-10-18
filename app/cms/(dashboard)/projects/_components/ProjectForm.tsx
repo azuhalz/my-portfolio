@@ -124,10 +124,8 @@ export function ProjectForm({ form, onSubmit, onCancel }: ProjectFormProps) {
         />
 
         <ProjectImagesField
-          coverImage={formData.coverImage}
-          galleryImages={formData.galleryImages}
-          onCoverChange={(url) => handleFieldChange("coverImage", url)}
-          onGalleryChange={form.handleGalleryImageChange}
+          images={formData.image}
+          onChange={form.handleImageChange}
         />
 
         <FormActions

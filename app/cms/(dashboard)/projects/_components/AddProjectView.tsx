@@ -1,9 +1,9 @@
 import { ProjectForm } from "./ProjectForm";
 import { useProjectForm } from "@/hooks/useProjectForm";
-import type { ProjectFormData } from "@/lib/data/projects-data";
+import type { Project } from "@/lib/data/projects-data";
 
 type AddProjectViewProps = {
-  onSubmit: (formData: ProjectFormData) => void;
+  onSubmit: (formData: Project) => void;
   onCancel: () => void;
 };
 
