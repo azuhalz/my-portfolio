@@ -1,21 +1,16 @@
 import { useState } from "react";
-import {
-  initialProjectFormData,
-  type ProjectFormData,
-} from "@/lib/data/projects-data";
+import { emptyProject, type Project } from "@/lib/data/projects-data";
 import { removeItemAt, updateItemAt } from "@/lib/utils/array";
 
 export type ProjectStringField = Exclude<
-  keyof ProjectFormData,
-  "techStack" | "learnings" | "galleryImages"
+  keyof Project,
+  "techStack" | "learnings" | "image"
 >;
 
 export type ProjectFormState = ReturnType<typeof useProjectForm>;
 
-export function useProjectForm(
-  initialData: ProjectFormData = initialProjectFormData,
-) {
-  const [formData, setFormData] = useState<ProjectFormData>(initialData);
+export function useProjectForm(initialData: Project = emptyProject) {
+  const [formData, setFormData] = useState<Project>(initialData);
 
   const handleFieldChange = (field: ProjectStringField, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -52,11 +47,11 @@ export function useProjectForm(
     }));
   };
 
-  // Gallery
-  const handleGalleryImageChange = (index: number, url: string) => {
+  // Gambar: index 0 = cover, index 1 dst = gallery
+  const handleImageChange = (index: number, url: string) => {
     setFormData((prev) => ({
       ...prev,
-      galleryImages: updateItemAt(prev.galleryImages, index, url),
+      image: updateItemAt(prev.image, index, url),
     }));
   };
 
@@ -68,6 +63,6 @@ export function useProjectForm(
     handleLearningChange,
     handleAddLearning,
     handleRemoveLearning,
-    handleGalleryImageChange,
+    handleImageChange,
   };
 }

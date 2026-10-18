@@ -1,22 +1,50 @@
-export type Project = {
-  slug: string;
-  title: string;
-  shortDescription?: string;
-  type: string;
-  role: string;
-  timeline: string;
-  overview: string;
-  techStack: string[];
-  learnings: string[];
-  image: string[];
-  liveDemoLink?: string;
-  githubLink?: string;
+// ===== Pilihan pada form CMS (Add/Edit Project) =====
+
+export const MAX_GALLERY_IMAGES = 5;
+
+export const projectTypeOptions = [
+  "Web App",
+  "Mobile App",
+  "Desktop App",
+  "Game",
+  "Other",
+];
+
+export const projectRoleOptions = [
+  "Frontend Developer",
+  "Backend Developer",
+  "Fullstack Developer",
+  "iOS Developer",
+  "Android Developer",
+  "Game Developer",
+];
+
+// Satu-satunya definisi bentuk data project: nilai kosong ini juga dipakai
+// sebagai nilai awal form, dan type Project diturunkan darinya.
+export const emptyProject = {
+  slug: "", // dibuat otomatis dari title saat project disimpan
+  title: "",
+  shortDescription: "",
+  type: projectTypeOptions[0],
+  role: projectRoleOptions[0],
+  timeline: String(new Date().getFullYear()),
+  overview: "",
+  techStack: [] as string[],
+  learnings: ["", "", ""],
+  // Di form: slot [cover, ...gallery], slot kosong = "". Saat project disimpan,
+  // slot kosong dibuang sehingga image[0] selalu cover.
+  image: Array.from({ length: 1 + MAX_GALLERY_IMAGES }, () => ""),
+  liveDemoLink: "", // kosong = tombol Live Demo tidak ditampilkan
+  githubLink: "", // kosong = tombol GitHub tidak ditampilkan
 };
+
+export type Project = typeof emptyProject;
 
 export const projectsData: Project[] = [
   {
     slug: "billo",
     title: "Billo",
+    shortDescription: "",
     type: "Mobile App",
     role: "iOS Developer",
     timeline: "2025",
@@ -52,6 +80,7 @@ export const projectsData: Project[] = [
   {
     slug: "fille",
     title: "Fillé",
+    shortDescription: "",
     type: "Mobile App",
     role: "iOS Developer",
     timeline: "2025",
@@ -72,6 +101,7 @@ export const projectsData: Project[] = [
   {
     slug: "draw-and-match",
     title: "Draw and Match",
+    shortDescription: "",
     type: "Mobile App",
     role: "iOS Developer",
     timeline: "2025",
@@ -93,10 +123,12 @@ export const projectsData: Project[] = [
     ],
     image: ["/images/challenge4/banner.png"],
     liveDemoLink: "https://youtube.com/shorts/dxpuoyMNEXk",
+    githubLink: "",
   },
   {
     slug: "instacey",
     title: "Instacey",
+    shortDescription: "",
     type: "Mobile App",
     role: "iOS Developer",
     timeline: "2025",
@@ -115,54 +147,3 @@ export const projectsData: Project[] = [
     githubLink: "https://github.com/azuhalz/InStacey",
   },
 ];
-
-// ===== Form CMS (Add/Edit Project) =====
-
-export const MAX_GALLERY_IMAGES = 5;
-
-export const projectTypeOptions = [
-  "Web App",
-  "Mobile App",
-  "Desktop App",
-  "Game",
-  "Other",
-];
-
-export const projectRoleOptions = [
-  "Frontend Developer",
-  "Backend Developer",
-  "Fullstack Developer",
-  "iOS Developer",
-  "Android Developer",
-  "Game Developer",
-];
-
-export type ProjectFormData = {
-  title: string;
-  shortDescription: string;
-  techStack: string[];
-  liveDemoLink: string;
-  githubLink: string;
-  type: string;
-  role: string;
-  timeline: string;
-  overview: string;
-  learnings: string[];
-  coverImage: string;
-  galleryImages: string[]; // selalu MAX_GALLERY_IMAGES slot, "" = kosong
-};
-
-export const initialProjectFormData: ProjectFormData = {
-  title: "",
-  shortDescription: "",
-  techStack: [],
-  liveDemoLink: "",
-  githubLink: "",
-  type: projectTypeOptions[0],
-  role: projectRoleOptions[0],
-  timeline: String(new Date().getFullYear()),
-  overview: "",
-  learnings: ["", "", ""],
-  coverImage: "",
-  galleryImages: Array.from({ length: MAX_GALLERY_IMAGES }, () => ""),
-};
