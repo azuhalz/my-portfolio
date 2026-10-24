@@ -4,9 +4,11 @@ import { useState } from "react";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AddEducationView } from "./AddEducationView";
 import { EducationList } from "./EducationList";
+import { useDialog } from "@/hooks/useDialog";
 import { educationsData, type Education } from "@/lib/data/education-data";
 
 export function EducationCmsPage() {
+  const { confirmDelete } = useDialog();
   const [educations, setEducations] = useState<Education[]>(educationsData);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -28,10 +30,8 @@ export function EducationCmsPage() {
     console.log("Edit education:", education);
   };
 
-  const handleDelete = (education: Education) => {
-    if (
-      confirm(`Apakah Anda yakin ingin menghapus "${education.institution}"?`)
-    ) {
+  const handleDelete = async (education: Education) => {
+    if (await confirmDelete("education", education.institution)) {
       setEducations((prev) => prev.filter((item) => item !== education));
     }
   };

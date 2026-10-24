@@ -1,4 +1,5 @@
 import { EducationForm } from "./EducationForm";
+import { useDialog } from "@/hooks/useDialog";
 import { useFormFields } from "@/hooks/useFormFields";
 import { emptyEducation, type Education } from "@/lib/data/education-data";
 
@@ -13,11 +14,16 @@ export function AddEducationView({
 }: AddEducationViewProps) {
   const { formData, handleFieldChange } =
     useFormFields<Education>(emptyEducation);
+  const { notify } = useDialog();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // endYear "Present" bukan angka, jadi tidak ikut diperiksa
     if (Number(formData.endYear) < Number(formData.startYear)) {
-      alert("End Year tidak boleh lebih awal dari Start Year.");
+      await notify({
+        tone: "warning",
+        title: "Invalid year range",
+        description: "End Year cannot be earlier than Start Year.",
+      });
       return;
     }
 

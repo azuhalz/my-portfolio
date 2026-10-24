@@ -2,6 +2,7 @@
 
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { ContactContentForm } from "./ContactContentForm";
+import { useDialog } from "@/hooks/useDialog";
 import { useFormFields } from "@/hooks/useFormFields";
 import { contactInfo, type ContactContent } from "@/lib/data/contact-data";
 import { updateItemAt } from "@/lib/utils/array";
@@ -9,6 +10,7 @@ import { updateItemAt } from "@/lib/utils/array";
 export function ContactCmsPage() {
   const { formData, handleFieldChange } =
     useFormFields<ContactContent>(contactInfo);
+  const { confirmSave, notifySaved } = useDialog();
 
   const handleSocialChange = (index: number, url: string) => {
     handleFieldChange(
@@ -20,9 +22,11 @@ export function ContactCmsPage() {
     );
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!(await confirmSave("Contact section"))) return;
+
     console.log("Saving Contact Data:", formData);
-    alert("Perubahan Contact Section berhasil disimpan (simulasi)!");
+    await notifySaved("Contact section");
   };
 
   return (

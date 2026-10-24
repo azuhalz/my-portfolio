@@ -9,9 +9,11 @@ import {
   workExperienceFormLabels,
   type Experience,
 } from "@/lib/data/experience-data";
+import { useDialog } from "@/hooks/useDialog";
 import { trimNonEmpty } from "@/lib/utils/array";
 
 export function WorkExperienceCmsPage() {
+  const { confirmDelete } = useDialog();
   const [experiences, setExperiences] = useState<Experience[]>(experiencesData);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -32,10 +34,11 @@ export function WorkExperienceCmsPage() {
     console.log("Edit experience:", experience);
   };
 
-  const handleDelete = (experience: Experience) => {
+  const handleDelete = async (experience: Experience) => {
     if (
-      confirm(
-        `Apakah Anda yakin ingin menghapus "${experience.title}, ${experience.company}"?`,
+      await confirmDelete(
+        "experience",
+        `${experience.title}, ${experience.company}`,
       )
     ) {
       setExperiences((prev) => prev.filter((item) => item !== experience));

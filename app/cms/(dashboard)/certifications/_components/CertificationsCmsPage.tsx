@@ -4,12 +4,14 @@ import { useState } from "react";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AddCertificationView } from "./AddCertificationView";
 import { CertificationList } from "./CertificationList";
+import { useDialog } from "@/hooks/useDialog";
 import {
   certificationsData,
   type Certification,
 } from "@/lib/data/certifications-data";
 
 export function CertificationsCmsPage() {
+  const { confirmDelete } = useDialog();
   const [certifications, setCertifications] =
     useState<Certification[]>(certificationsData);
   const [isAdding, setIsAdding] = useState(false);
@@ -31,8 +33,8 @@ export function CertificationsCmsPage() {
     console.log("Edit certification:", certification);
   };
 
-  const handleDelete = (certification: Certification) => {
-    if (confirm(`Apakah Anda yakin ingin menghapus "${certification.name}"?`)) {
+  const handleDelete = async (certification: Certification) => {
+    if (await confirmDelete("certification", certification.name)) {
       setCertifications((prev) =>
         prev.filter((item) => item !== certification),
       );

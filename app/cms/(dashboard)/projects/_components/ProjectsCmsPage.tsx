@@ -5,9 +5,11 @@ import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageConta
 import { AddProjectView } from "./AddProjectView";
 import { ProjectItems } from "./ProjectItems";
 import { projectsData, type Project } from "@/lib/data/projects-data";
+import { useDialog } from "@/hooks/useDialog";
 import { createProjectFromForm } from "@/lib/utils/project-form";
 
 export function ProjectsCmsPage() {
+  const { confirmDelete } = useDialog();
   const [projects, setProjects] = useState<Project[]>(projectsData);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -25,8 +27,8 @@ export function ProjectsCmsPage() {
     console.log("Edit project:", project);
   };
 
-  const handleDelete = (project: Project) => {
-    if (confirm(`Apakah Anda yakin ingin menghapus "${project.title}"?`)) {
+  const handleDelete = async (project: Project) => {
+    if (await confirmDelete("project", project.title)) {
       setProjects((prev) => prev.filter((p) => p.slug !== project.slug));
     }
   };

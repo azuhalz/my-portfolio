@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AboutContentForm } from "./AboutContentForm";
+import { useDialog } from "@/hooks/useDialog";
 import { initialAboutData, type AboutFormData } from "@/lib/data/about-data";
 
 export type { AboutFormData };
 
 export function AboutCmsPage() {
+  const { confirmSave, notifySaved } = useDialog();
   const [formData, setFormData] = useState<AboutFormData>(initialAboutData);
 
   const handleFieldChange = (field: keyof AboutFormData, value: string) => {
@@ -17,9 +19,11 @@ export function AboutCmsPage() {
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!(await confirmSave("About section"))) return;
+
     console.log("Saving About Data:", formData);
-    alert("Perubahan About Section berhasil disimpan (simulasi)!");
+    await notifySaved("About section");
   };
 
   return (

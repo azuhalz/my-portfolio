@@ -5,14 +5,27 @@ import { Mail, Pencil } from "lucide-react";
 import { IconInputField } from "@/components/form/IconInputField";
 import { Button } from "@/components/ui/Button";
 import { SettingsSection } from "./SettingsSection";
+import { useDialog } from "@/hooks/useDialog";
 import { accountData } from "@/lib/data/settings-data";
 
 export function EmailSettingsSection() {
   const [email, setEmail] = useState(accountData.email);
+  const { confirm, notify } = useDialog();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const confirmed = await confirm({
+      title: "Change email address?",
+      description: `Your login and notification email will be changed to ${email}.`,
+      confirmLabel: "Change Email",
+    });
+    if (!confirmed) return;
+
     console.log("Changing email to:", email);
-    alert("Email berhasil diubah (simulasi)!");
+    await notify({
+      tone: "success",
+      title: "Email updated",
+      description: "Your email address has been changed.",
+    });
   };
 
   return (

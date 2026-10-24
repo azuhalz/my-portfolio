@@ -11,7 +11,7 @@ type ButtonAsLink = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 };
 
 type ButtonProps = (ButtonAsButton | ButtonAsLink) & {
-  variant?: "primary" | "outline" | "disabled";
+  variant?: "primary" | "outline" | "disabled" | "danger";
   className?: string;
   children: React.ReactNode;
 };
@@ -31,6 +31,8 @@ export function Button({
       "bg-primary cursor-pointer hover:bg-primary-hover text-white shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_25px_rgba(139,92,246,0.5)]",
     outline:
       "border border-primary text-white hover:bg-primary/30 cursor-pointer",
+    danger:
+      "bg-danger cursor-pointer hover:bg-danger-hover text-white shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)]",
     disabled: "text-text-secondary border border-border",
   };
 
