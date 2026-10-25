@@ -1,6 +1,9 @@
 import { useContext } from "react";
 import { DialogContext } from "@/components/ui/DialogProvider";
 
+const capitalize = (text: string) =>
+  text.charAt(0).toUpperCase() + text.slice(1);
+
 export function useDialog() {
   const context = useContext(DialogContext);
 
@@ -19,6 +22,21 @@ export function useDialog() {
       confirmLabel: "Delete",
     });
 
+  // "Add project?" + nama item; hanya true jika pengguna menekan Add
+  const confirmAdd = (itemType: string, itemName: string) =>
+    confirm({
+      title: `Add ${itemType}?`,
+      description: `"${itemName}" will be added to your portfolio.`,
+      confirmLabel: "Add",
+    });
+
+  const notifyAdded = (itemType: string) =>
+    notify({
+      tone: "success",
+      title: `${capitalize(itemType)} added`,
+      description: `The new ${itemType} has been added to your list.`,
+    });
+
   // Konfirmasi simpan perubahan untuk satu section, contoh: "Hero section"
   const confirmSave = (subject: string) =>
     confirm({
@@ -34,5 +52,13 @@ export function useDialog() {
       description: `The ${subject} has been updated.`,
     });
 
-  return { confirm, notify, confirmDelete, confirmSave, notifySaved };
+  return {
+    confirm,
+    notify,
+    confirmAdd,
+    notifyAdded,
+    confirmDelete,
+    confirmSave,
+    notifySaved,
+  };
 }

@@ -9,18 +9,21 @@ import { useDialog } from "@/hooks/useDialog";
 import { createProjectFromForm } from "@/lib/utils/project-form";
 
 export function ProjectsCmsPage() {
-  const { confirmDelete } = useDialog();
+  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
   const [projects, setProjects] = useState<Project[]>(projectsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: Project) => {
+  const handleCreate = async (formData: Project) => {
     const newProject = createProjectFromForm(
       formData,
       projects.map((project) => project.slug),
     );
 
+    if (!(await confirmAdd("project", newProject.title))) return;
+
     setProjects((prev) => [...prev, newProject]);
     setIsAdding(false);
+    await notifyAdded("project");
   };
 
   const handleEdit = (project: Project) => {

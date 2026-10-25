@@ -13,11 +13,11 @@ import { useDialog } from "@/hooks/useDialog";
 import { trimNonEmpty } from "@/lib/utils/array";
 
 export function WorkExperienceCmsPage() {
-  const { confirmDelete } = useDialog();
+  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
   const [experiences, setExperiences] = useState<Experience[]>(experiencesData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: Experience) => {
+  const handleCreate = async (formData: Experience) => {
     const newExperience: Experience = {
       title: formData.title.trim(),
       company: formData.company.trim(),
@@ -26,8 +26,18 @@ export function WorkExperienceCmsPage() {
       points: trimNonEmpty(formData.points),
     };
 
+    if (
+      !(await confirmAdd(
+        "experience",
+        `${newExperience.title}, ${newExperience.company}`,
+      ))
+    ) {
+      return;
+    }
+
     setExperiences((prev) => [...prev, newExperience]);
     setIsAdding(false);
+    await notifyAdded("experience");
   };
 
   const handleEdit = (experience: Experience) => {

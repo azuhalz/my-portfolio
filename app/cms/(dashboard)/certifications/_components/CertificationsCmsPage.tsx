@@ -11,12 +11,12 @@ import {
 } from "@/lib/data/certifications-data";
 
 export function CertificationsCmsPage() {
-  const { confirmDelete } = useDialog();
+  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
   const [certifications, setCertifications] =
     useState<Certification[]>(certificationsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: Certification) => {
+  const handleCreate = async (formData: Certification) => {
     const newCertification: Certification = {
       name: formData.name.trim(),
       issuer: formData.issuer.trim(),
@@ -25,8 +25,11 @@ export function CertificationsCmsPage() {
       credentialUrl: formData.credentialUrl.trim(),
     };
 
+    if (!(await confirmAdd("certification", newCertification.name))) return;
+
     setCertifications((prev) => [...prev, newCertification]);
     setIsAdding(false);
+    await notifyAdded("certification");
   };
 
   const handleEdit = (certification: Certification) => {

@@ -8,11 +8,11 @@ import { useDialog } from "@/hooks/useDialog";
 import { educationsData, type Education } from "@/lib/data/education-data";
 
 export function EducationCmsPage() {
-  const { confirmDelete } = useDialog();
+  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
   const [educations, setEducations] = useState<Education[]>(educationsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: Education) => {
+  const handleCreate = async (formData: Education) => {
     const newEducation: Education = {
       institution: formData.institution.trim(),
       level: formData.level,
@@ -22,8 +22,11 @@ export function EducationCmsPage() {
       gpa: formData.gpa.trim(),
     };
 
+    if (!(await confirmAdd("education", newEducation.institution))) return;
+
     setEducations((prev) => [...prev, newEducation]);
     setIsAdding(false);
+    await notifyAdded("education");
   };
 
   const handleEdit = (education: Education) => {

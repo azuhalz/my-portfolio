@@ -15,12 +15,12 @@ import { trimNonEmpty } from "@/lib/utils/array";
 import { formatExperiencePeriod } from "@/lib/utils/format-experience-period";
 
 export function OrganizationalCmsPage() {
-  const { confirmDelete } = useDialog();
+  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
   const [organizations, setOrganizations] =
     useState<Organization[]>(organizationsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: Experience) => {
+  const handleCreate = async (formData: Experience) => {
     const newOrganization: Organization = {
       role: formData.title.trim(),
       organization: formData.company.trim(),
@@ -28,8 +28,18 @@ export function OrganizationalCmsPage() {
       points: trimNonEmpty(formData.points),
     };
 
+    if (
+      !(await confirmAdd(
+        "organizational experience",
+        `${newOrganization.role}, ${newOrganization.organization}`,
+      ))
+    ) {
+      return;
+    }
+
     setOrganizations((prev) => [...prev, newOrganization]);
     setIsAdding(false);
+    await notifyAdded("organizational experience");
   };
 
   const handleEdit = (organization: Organization) => {
