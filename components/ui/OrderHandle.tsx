@@ -12,9 +12,10 @@ export function OrderHandle({ order, className = "" }: OrderHandleProps) {
     >
       <button
         type="button"
+        data-drag-handle
         className="cursor-grab active:cursor-grabbing p-0.5 text-text-secondary hover:text-white transition-colors"
-        title="Drag to reorder"
-        aria-label="Drag to reorder"
+        title="Drag to reorder (or use the ↑ ↓ keys)"
+        aria-label="Reorder item. Drag it, or use the up and down arrow keys."
       >
         <GripVertical size={16} />
       </button>

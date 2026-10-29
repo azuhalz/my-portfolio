@@ -5,6 +5,7 @@ import type { Project } from "@/lib/data/projects-data";
 type ProjectItemsProps = {
   projects: Project[];
   onAdd?: () => void;
+  onReorder: (from: number, to: number) => void;
   onEdit?: (project: Project) => void;
   onDelete?: (project: Project) => void;
 };
@@ -12,6 +13,7 @@ type ProjectItemsProps = {
 export function ProjectItems({
   projects,
   onAdd,
+  onReorder,
   onEdit,
   onDelete,
 }: ProjectItemsProps) {
@@ -20,6 +22,7 @@ export function ProjectItems({
       items={projects}
       addLabel="Add Project"
       onAdd={onAdd}
+      onReorder={onReorder}
       getKey={(project) => project.slug}
       renderItem={(project, order) => (
         <ProjectItem

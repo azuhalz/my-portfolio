@@ -10,7 +10,7 @@ import {
   type Experience,
 } from "@/lib/data/experience-data";
 import { useDialog } from "@/hooks/useDialog";
-import { trimNonEmpty } from "@/lib/utils/array";
+import { moveItem, trimNonEmpty } from "@/lib/utils/array";
 
 export function WorkExperienceCmsPage() {
   const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
@@ -40,6 +40,10 @@ export function WorkExperienceCmsPage() {
     await notifyAdded("experience");
   };
 
+  const handleReorder = (from: number, to: number) => {
+    setExperiences((prev) => moveItem(prev, from, to));
+  };
+
   const handleEdit = (experience: Experience) => {
     console.log("Edit experience:", experience);
   };
@@ -67,6 +71,7 @@ export function WorkExperienceCmsPage() {
         <ExperienceList
           experiences={experiences}
           onAdd={() => setIsAdding(true)}
+          onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

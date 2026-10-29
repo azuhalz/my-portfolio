@@ -1,11 +1,11 @@
-import { AddItemHeader } from "@/components/ui/AddItemHeader";
-import { Card } from "@/components/ui/Card";
+import { ItemListCard } from "@/app/cms/(dashboard)/_components/ItemListCard";
 import { EducationItem } from "./EducationItem";
 import type { Education } from "@/lib/data/education-data";
 
 type EducationListProps = {
   educations: Education[];
   onAdd?: () => void;
+  onReorder: (from: number, to: number) => void;
   onEdit?: (education: Education) => void;
   onDelete?: (education: Education) => void;
 };
@@ -13,24 +13,25 @@ type EducationListProps = {
 export function EducationList({
   educations,
   onAdd,
+  onReorder,
   onEdit,
   onDelete,
 }: EducationListProps) {
   return (
-    <Card className="flex flex-col gap-5 p-5 bg-card/40 border-border">
-      <AddItemHeader addLabel="Add Education" onAdd={onAdd} />
-
-      <div className="flex flex-col gap-3">
-        {educations.map((education, index) => (
-          <EducationItem
-            key={`${education.institution}-${education.startYear}`}
-            education={education}
-            order={index + 1}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
-      </div>
-    </Card>
+    <ItemListCard
+      items={educations}
+      addLabel="Add Education"
+      onAdd={onAdd}
+      onReorder={onReorder}
+      getKey={(education) => `${education.institution}-${education.startYear}`}
+      renderItem={(education, order) => (
+        <EducationItem
+          education={education}
+          order={order}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      )}
+    />
   );
 }

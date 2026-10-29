@@ -44,13 +44,6 @@ export function ProjectForm({ form, onSubmit, onCancel }: ProjectFormProps) {
             placeholder="e.g. Dashboard Analytics"
             required
           />
-          <TextAreaField
-            label="Short Description"
-            value={formData.shortDescription}
-            onChange={(val) => handleFieldChange("shortDescription", val)}
-            placeholder="Brief description of your project..."
-            rows={2}
-          />
         </div>
 
         <TagInputField
@@ -125,7 +118,10 @@ export function ProjectForm({ form, onSubmit, onCancel }: ProjectFormProps) {
 
         <ProjectImagesField
           images={formData.image}
-          onChange={form.handleImageChange}
+          onCoverChange={form.handleCoverChange}
+          onGalleryChange={form.handleGalleryChange}
+          onAddGalleryImage={form.handleAddGalleryImage}
+          onRemoveGalleryImage={form.handleRemoveGalleryImage}
         />
 
         <FormActions

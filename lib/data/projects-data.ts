@@ -1,7 +1,5 @@
 // ===== Pilihan pada form CMS (Add/Edit Project) =====
 
-export const MAX_GALLERY_IMAGES = 5;
-
 export const projectTypeOptions = [
   "Web App",
   "Mobile App",
@@ -19,23 +17,18 @@ export const projectRoleOptions = [
   "Game Developer",
 ];
 
-// Satu-satunya definisi bentuk data project: nilai kosong ini juga dipakai
-// sebagai nilai awal form, dan type Project diturunkan darinya.
 export const emptyProject = {
   slug: "", // dibuat otomatis dari title saat project disimpan
   title: "",
-  shortDescription: "",
   type: projectTypeOptions[0],
   role: projectRoleOptions[0],
   timeline: String(new Date().getFullYear()),
   overview: "",
   techStack: [] as string[],
   learnings: ["", "", ""],
-  // Di form: slot [cover, ...gallery], slot kosong = "". Saat project disimpan,
-  // slot kosong dibuang sehingga image[0] selalu cover.
-  image: Array.from({ length: 1 + MAX_GALLERY_IMAGES }, () => ""),
-  liveDemoLink: "", // kosong = tombol Live Demo tidak ditampilkan
-  githubLink: "", // kosong = tombol GitHub tidak ditampilkan
+  image: [] as string[],
+  liveDemoLink: "",
+  githubLink: "",
 };
 
 export type Project = typeof emptyProject;
@@ -44,7 +37,6 @@ export const projectsData: Project[] = [
   {
     slug: "billo",
     title: "Billo",
-    shortDescription: "",
     type: "Mobile App",
     role: "iOS Developer",
     timeline: "2025",
@@ -80,7 +72,6 @@ export const projectsData: Project[] = [
   {
     slug: "fille",
     title: "Fillé",
-    shortDescription: "",
     type: "Mobile App",
     role: "iOS Developer",
     timeline: "2025",
@@ -101,7 +92,6 @@ export const projectsData: Project[] = [
   {
     slug: "draw-and-match",
     title: "Draw and Match",
-    shortDescription: "",
     type: "Mobile App",
     role: "iOS Developer",
     timeline: "2025",
@@ -128,7 +118,6 @@ export const projectsData: Project[] = [
   {
     slug: "instacey",
     title: "Instacey",
-    shortDescription: "",
     type: "Mobile App",
     role: "iOS Developer",
     timeline: "2025",

@@ -11,7 +11,7 @@ import {
   organizationsData,
   type Organization,
 } from "@/lib/data/organizational-data";
-import { trimNonEmpty } from "@/lib/utils/array";
+import { moveItem, trimNonEmpty } from "@/lib/utils/array";
 import { formatExperiencePeriod } from "@/lib/utils/format-experience-period";
 
 export function OrganizationalCmsPage() {
@@ -57,6 +57,10 @@ export function OrganizationalCmsPage() {
     }
   };
 
+  const handleReorder = (from: number, to: number) => {
+    setOrganizations((prev) => moveItem(prev, from, to));
+  };
+
   return (
     <CmsPageContainer size={isAdding ? "form" : "list"}>
       {isAdding ? (
@@ -69,6 +73,7 @@ export function OrganizationalCmsPage() {
         <OrganizationList
           organizations={organizations}
           onAdd={() => setIsAdding(true)}
+          onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

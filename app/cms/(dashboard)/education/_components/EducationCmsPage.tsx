@@ -6,6 +6,7 @@ import { AddEducationView } from "./AddEducationView";
 import { EducationList } from "./EducationList";
 import { useDialog } from "@/hooks/useDialog";
 import { educationsData, type Education } from "@/lib/data/education-data";
+import { moveItem } from "@/lib/utils/array";
 
 export function EducationCmsPage() {
   const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
@@ -39,6 +40,10 @@ export function EducationCmsPage() {
     }
   };
 
+  const handleReorder = (from: number, to: number) => {
+    setEducations((prev) => moveItem(prev, from, to));
+  };
+
   return (
     <CmsPageContainer size={isAdding ? "form" : "list"}>
       {isAdding ? (
@@ -50,6 +55,7 @@ export function EducationCmsPage() {
         <EducationList
           educations={educations}
           onAdd={() => setIsAdding(true)}
+          onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

@@ -7,6 +7,7 @@ import { ProjectItems } from "./ProjectItems";
 import { projectsData, type Project } from "@/lib/data/projects-data";
 import { useDialog } from "@/hooks/useDialog";
 import { createProjectFromForm } from "@/lib/utils/project-form";
+import { moveItem } from "@/lib/utils/array";
 
 export function ProjectsCmsPage() {
   const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
@@ -36,6 +37,10 @@ export function ProjectsCmsPage() {
     }
   };
 
+  const handleReorder = (from: number, to: number) => {
+    setProjects((prev) => moveItem(prev, from, to));
+  };
+
   return (
     <CmsPageContainer size={isAdding ? "form" : "list"}>
       {isAdding ? (
@@ -47,6 +52,7 @@ export function ProjectsCmsPage() {
         <ProjectItems
           projects={projects}
           onAdd={() => setIsAdding(true)}
+          onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

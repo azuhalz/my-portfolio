@@ -9,6 +9,7 @@ import {
   certificationsData,
   type Certification,
 } from "@/lib/data/certifications-data";
+import { moveItem } from "@/lib/utils/array";
 
 export function CertificationsCmsPage() {
   const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
@@ -44,6 +45,10 @@ export function CertificationsCmsPage() {
     }
   };
 
+  const handleReorder = (from: number, to: number) => {
+    setCertifications((prev) => moveItem(prev, from, to));
+  };
+
   return (
     <CmsPageContainer size="form">
       {isAdding ? (
@@ -55,6 +60,7 @@ export function CertificationsCmsPage() {
         <CertificationList
           certifications={certifications}
           onAdd={() => setIsAdding(true)}
+          onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

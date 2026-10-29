@@ -10,7 +10,6 @@ export function createProjectFromForm(
   return {
     slug: createUniqueSlug(formData.title, existingSlugs),
     title: formData.title.trim(),
-    shortDescription: formData.shortDescription.trim(),
     type: formData.type,
     role: formData.role,
     timeline: formData.timeline.trim(),
