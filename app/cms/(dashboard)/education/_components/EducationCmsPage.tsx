@@ -4,13 +4,16 @@ import { useState } from "react";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AddEducationView } from "./AddEducationView";
 import { EducationList } from "./EducationList";
+import { useDialog } from "@/hooks/useDialog";
 import { educationsData, type Education } from "@/lib/data/education-data";
+import { moveItem } from "@/lib/utils/array";
 
 export function EducationCmsPage() {
+  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
   const [educations, setEducations] = useState<Education[]>(educationsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: Education) => {
+  const handleCreate = async (formData: Education) => {
     const newEducation: Education = {
       institution: formData.institution.trim(),
       level: formData.level,
@@ -20,20 +23,25 @@ export function EducationCmsPage() {
       gpa: formData.gpa.trim(),
     };
 
+    if (!(await confirmAdd("education", newEducation.institution))) return;
+
     setEducations((prev) => [...prev, newEducation]);
     setIsAdding(false);
+    await notifyAdded("education");
   };
 
   const handleEdit = (education: Education) => {
     console.log("Edit education:", education);
   };
 
-  const handleDelete = (education: Education) => {
-    if (
-      confirm(`Apakah Anda yakin ingin menghapus "${education.institution}"?`)
-    ) {
+  const handleDelete = async (education: Education) => {
+    if (await confirmDelete("education", education.institution)) {
       setEducations((prev) => prev.filter((item) => item !== education));
     }
+  };
+
+  const handleReorder = (from: number, to: number) => {
+    setEducations((prev) => moveItem(prev, from, to));
   };
 
   return (
@@ -47,6 +55,7 @@ export function EducationCmsPage() {
         <EducationList
           educations={educations}
           onAdd={() => setIsAdding(true)}
+          onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

@@ -1,4 +1,5 @@
 import { CertificationForm } from "./CertificationForm";
+import { useDialog } from "@/hooks/useDialog";
 import { useFormFields } from "@/hooks/useFormFields";
 import {
   emptyCertification,
@@ -16,10 +17,15 @@ export function AddCertificationView({
 }: AddCertificationViewProps) {
   const { formData, handleFieldChange } =
     useFormFields<Certification>(emptyCertification);
+  const { notify } = useDialog();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (formData.expiryDate && formData.expiryDate < formData.issuedDate) {
-      alert("Expiration Date tidak boleh lebih awal dari Issued Date.");
+      await notify({
+        tone: "warning",
+        title: "Invalid date range",
+        description: "Expiration Date cannot be earlier than Issued Date.",
+      });
       return;
     }
 

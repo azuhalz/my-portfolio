@@ -4,17 +4,20 @@ import { useState } from "react";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { AddCertificationView } from "./AddCertificationView";
 import { CertificationList } from "./CertificationList";
+import { useDialog } from "@/hooks/useDialog";
 import {
   certificationsData,
   type Certification,
 } from "@/lib/data/certifications-data";
+import { moveItem } from "@/lib/utils/array";
 
 export function CertificationsCmsPage() {
+  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
   const [certifications, setCertifications] =
     useState<Certification[]>(certificationsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: Certification) => {
+  const handleCreate = async (formData: Certification) => {
     const newCertification: Certification = {
       name: formData.name.trim(),
       issuer: formData.issuer.trim(),
@@ -23,20 +26,27 @@ export function CertificationsCmsPage() {
       credentialUrl: formData.credentialUrl.trim(),
     };
 
+    if (!(await confirmAdd("certification", newCertification.name))) return;
+
     setCertifications((prev) => [...prev, newCertification]);
     setIsAdding(false);
+    await notifyAdded("certification");
   };
 
   const handleEdit = (certification: Certification) => {
     console.log("Edit certification:", certification);
   };
 
-  const handleDelete = (certification: Certification) => {
-    if (confirm(`Apakah Anda yakin ingin menghapus "${certification.name}"?`)) {
+  const handleDelete = async (certification: Certification) => {
+    if (await confirmDelete("certification", certification.name)) {
       setCertifications((prev) =>
         prev.filter((item) => item !== certification),
       );
     }
+  };
+
+  const handleReorder = (from: number, to: number) => {
+    setCertifications((prev) => moveItem(prev, from, to));
   };
 
   return (
@@ -50,6 +60,7 @@ export function CertificationsCmsPage() {
         <CertificationList
           certifications={certifications}
           onAdd={() => setIsAdding(true)}
+          onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

@@ -5,7 +5,6 @@ import { MapPin, Phone, Clock } from "lucide-react";
 import { FaEnvelope, FaLinkedin, FaGithub } from "react-icons/fa";
 import { Card } from "@/components/ui/Card";
 import { SaveChangesButton } from "@/components/form/SaveChangesButton";
-import { TextInputField } from "@/components/form/TextInputField";
 import { TextAreaField } from "@/components/form/TextAreaField";
 import { IconInputField } from "@/components/form/IconInputField";
 import type { AboutFormData } from "@/lib/data/about-data";
@@ -81,21 +80,14 @@ export function AboutContentForm({
   return (
     <Card className="flex flex-col gap-6 p-6 md:p-8 bg-card/60">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
-        {/* Kolom Kiri: Title & Bio */}
+        {/* Kolom Kiri: Bio / Description */}
         <div className="flex flex-col gap-4">
-          <TextInputField
-            label="Section Title"
-            value={formData.sectionTitle}
-            onChange={(val) => onFieldChange("sectionTitle", val)}
-            placeholder="About Me"
-          />
-
           <TextAreaField
             label="About Paragraph"
             value={formData.description}
             onChange={(val) => onFieldChange("description", val)}
             placeholder="Deskripsi profil..."
-            rows={8}
+            rows={10}
           />
         </div>
 

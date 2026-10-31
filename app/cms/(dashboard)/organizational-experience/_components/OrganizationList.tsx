@@ -1,11 +1,11 @@
-import { AddItemHeader } from "@/components/ui/AddItemHeader";
-import { Card } from "@/components/ui/Card";
+import { ItemListCard } from "@/app/cms/(dashboard)/_components/ItemListCard";
 import { OrganizationItem } from "./OrganizationItem";
 import type { Organization } from "@/lib/data/organizational-data";
 
 type OrganizationListProps = {
   organizations: Organization[];
   onAdd?: () => void;
+  onReorder: (from: number, to: number) => void;
   onEdit?: (organization: Organization) => void;
   onDelete?: (organization: Organization) => void;
 };
@@ -13,24 +13,25 @@ type OrganizationListProps = {
 export function OrganizationList({
   organizations,
   onAdd,
+  onReorder,
   onEdit,
   onDelete,
 }: OrganizationListProps) {
   return (
-    <Card className="flex flex-col gap-5 p-5 bg-card/40 border-border">
-      <AddItemHeader addLabel="Add Organizational Experience" onAdd={onAdd} />
-
-      <div className="flex flex-col gap-3">
-        {organizations.map((organization, index) => (
-          <OrganizationItem
-            key={`${organization.role}-${organization.period}`}
-            organization={organization}
-            order={index + 1}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
-      </div>
-    </Card>
+    <ItemListCard
+      items={organizations}
+      addLabel="Add Organizational Experience"
+      onAdd={onAdd}
+      onReorder={onReorder}
+      getKey={(organization) => `${organization.role}-${organization.period}`}
+      renderItem={(organization, order) => (
+        <OrganizationItem
+          organization={organization}
+          order={order}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      )}
+    />
   );
 }

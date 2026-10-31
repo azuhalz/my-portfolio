@@ -4,21 +4,23 @@ import { useState } from "react";
 import { AddExperienceView } from "@/app/cms/(dashboard)/_components/AddExperienceView";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { OrganizationList } from "./OrganizationList";
+import { useDialog } from "@/hooks/useDialog";
 import type { Experience } from "@/lib/data/experience-data";
 import {
   organizationFormLabels,
   organizationsData,
   type Organization,
 } from "@/lib/data/organizational-data";
-import { trimNonEmpty } from "@/lib/utils/array";
+import { moveItem, trimNonEmpty } from "@/lib/utils/array";
 import { formatExperiencePeriod } from "@/lib/utils/format-experience-period";
 
 export function OrganizationalCmsPage() {
+  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
   const [organizations, setOrganizations] =
     useState<Organization[]>(organizationsData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: Experience) => {
+  const handleCreate = async (formData: Experience) => {
     const newOrganization: Organization = {
       role: formData.title.trim(),
       organization: formData.company.trim(),
@@ -26,22 +28,37 @@ export function OrganizationalCmsPage() {
       points: trimNonEmpty(formData.points),
     };
 
+    if (
+      !(await confirmAdd(
+        "organizational experience",
+        `${newOrganization.role}, ${newOrganization.organization}`,
+      ))
+    ) {
+      return;
+    }
+
     setOrganizations((prev) => [...prev, newOrganization]);
     setIsAdding(false);
+    await notifyAdded("organizational experience");
   };
 
   const handleEdit = (organization: Organization) => {
     console.log("Edit organizational experience:", organization);
   };
 
-  const handleDelete = (organization: Organization) => {
+  const handleDelete = async (organization: Organization) => {
     if (
-      confirm(
-        `Apakah Anda yakin ingin menghapus "${organization.role}, ${organization.organization}"?`,
+      await confirmDelete(
+        "organizational experience",
+        `${organization.role}, ${organization.organization}`,
       )
     ) {
       setOrganizations((prev) => prev.filter((item) => item !== organization));
     }
+  };
+
+  const handleReorder = (from: number, to: number) => {
+    setOrganizations((prev) => moveItem(prev, from, to));
   };
 
   return (
@@ -56,6 +73,7 @@ export function OrganizationalCmsPage() {
         <OrganizationList
           organizations={organizations}
           onAdd={() => setIsAdding(true)}
+          onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

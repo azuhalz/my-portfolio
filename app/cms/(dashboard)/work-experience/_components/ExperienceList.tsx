@@ -5,6 +5,7 @@ import type { Experience } from "@/lib/data/experience-data";
 type ExperienceListProps = {
   experiences: Experience[];
   onAdd?: () => void;
+  onReorder: (from: number, to: number) => void;
   onEdit?: (experience: Experience) => void;
   onDelete?: (experience: Experience) => void;
 };
@@ -12,6 +13,7 @@ type ExperienceListProps = {
 export function ExperienceList({
   experiences,
   onAdd,
+  onReorder,
   onEdit,
   onDelete,
 }: ExperienceListProps) {
@@ -20,6 +22,7 @@ export function ExperienceList({
       items={experiences}
       addLabel="Add Experience"
       onAdd={onAdd}
+      onReorder={onReorder}
       getKey={(experience) => `${experience.company}-${experience.startDate}`}
       renderItem={(experience, order) => (
         <ExperienceItem
