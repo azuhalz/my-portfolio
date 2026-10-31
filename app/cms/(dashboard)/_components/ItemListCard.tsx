@@ -68,7 +68,9 @@ export function ItemListCard<T>({
         <SortableList
           items={pagedItems}
           getKey={getKey}
-          renderItem={(item, index) => renderItem(item, startIndex + index + 1)}
+          renderItem={(item, _index, slot) =>
+            renderItem(item, startIndex + slot + 1)
+          }
           onMove={handleMove}
         />
       </div>

@@ -1,17 +1,14 @@
-// Satu-satunya definisi bentuk data pendidikan: nilai kosong ini juga dipakai
-// sebagai nilai awal form, dan type Education diturunkan darinya.
 export const emptyEducation = {
   institution: "",
-  level: "", // salah satu dari educationLevelOptions
+  level: "",
   fieldOfStudy: "",
   startYear: "",
-  endYear: "", // tahun lulus/perkiraan lulus, atau EDUCATION_ONGOING jika masih berjalan
-  gpa: "", // contoh: "3.75 / 4.00", kosong = tidak ada
+  endYear: "",
+  gpa: "",
 };
 
 export type Education = typeof emptyEducation;
 
-// Nilai endYear untuk pendidikan yang masih berjalan
 export const EDUCATION_ONGOING = "Present";
 
 export const educationsData: Education[] = [
