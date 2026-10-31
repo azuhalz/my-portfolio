@@ -9,13 +9,15 @@ import {
   workExperienceFormLabels,
   type Experience,
 } from "@/lib/data/experience-data";
-import { trimNonEmpty } from "@/lib/utils/array";
+import { useDialog } from "@/hooks/useDialog";
+import { moveItem, trimNonEmpty } from "@/lib/utils/array";
 
 export function WorkExperienceCmsPage() {
+  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
   const [experiences, setExperiences] = useState<Experience[]>(experiencesData);
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleCreate = (formData: Experience) => {
+  const handleCreate = async (formData: Experience) => {
     const newExperience: Experience = {
       title: formData.title.trim(),
       company: formData.company.trim(),
@@ -24,18 +26,33 @@ export function WorkExperienceCmsPage() {
       points: trimNonEmpty(formData.points),
     };
 
+    if (
+      !(await confirmAdd(
+        "experience",
+        `${newExperience.title}, ${newExperience.company}`,
+      ))
+    ) {
+      return;
+    }
+
     setExperiences((prev) => [...prev, newExperience]);
     setIsAdding(false);
+    await notifyAdded("experience");
+  };
+
+  const handleReorder = (from: number, to: number) => {
+    setExperiences((prev) => moveItem(prev, from, to));
   };
 
   const handleEdit = (experience: Experience) => {
     console.log("Edit experience:", experience);
   };
 
-  const handleDelete = (experience: Experience) => {
+  const handleDelete = async (experience: Experience) => {
     if (
-      confirm(
-        `Apakah Anda yakin ingin menghapus "${experience.title}, ${experience.company}"?`,
+      await confirmDelete(
+        "experience",
+        `${experience.title}, ${experience.company}`,
       )
     ) {
       setExperiences((prev) => prev.filter((item) => item !== experience));
@@ -54,6 +71,7 @@ export function WorkExperienceCmsPage() {
         <ExperienceList
           experiences={experiences}
           onAdd={() => setIsAdding(true)}
+          onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

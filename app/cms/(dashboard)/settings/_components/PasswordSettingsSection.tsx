@@ -4,6 +4,7 @@ import { Lock } from "lucide-react";
 import { PasswordInputField } from "@/components/form/PasswordInputField";
 import { Button } from "@/components/ui/Button";
 import { SettingsSection } from "./SettingsSection";
+import { useDialog } from "@/hooks/useDialog";
 import { useFormFields } from "@/hooks/useFormFields";
 import {
   initialPasswordFormData,
@@ -15,19 +16,40 @@ export function PasswordSettingsSection() {
   const { formData, handleFieldChange } = useFormFields<PasswordFormData>(
     initialPasswordFormData,
   );
+  const { confirm, notify } = useDialog();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (formData.newPassword.length < MIN_PASSWORD_LENGTH) {
-      alert(`Password minimal ${MIN_PASSWORD_LENGTH} karakter.`);
+      await notify({
+        tone: "warning",
+        title: "Password too short",
+        description: `Your new password must be at least ${MIN_PASSWORD_LENGTH} characters long.`,
+      });
       return;
     }
 
     if (formData.newPassword !== formData.confirmPassword) {
-      alert("Konfirmasi password tidak cocok.");
+      await notify({
+        tone: "warning",
+        title: "Passwords don't match",
+        description:
+          "The confirmation password must be the same as your new password.",
+      });
       return;
     }
 
-    alert("Password berhasil diperbarui (simulasi)!");
+    const confirmed = await confirm({
+      title: "Update password?",
+      description: "You will need the new password the next time you sign in.",
+      confirmLabel: "Update Password",
+    });
+    if (!confirmed) return;
+
+    await notify({
+      tone: "success",
+      title: "Password updated",
+      description: "Your password has been changed successfully.",
+    });
     handleFieldChange("newPassword", "");
     handleFieldChange("confirmPassword", "");
   };

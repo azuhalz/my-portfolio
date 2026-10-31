@@ -1,4 +1,5 @@
 import { ExperienceForm } from "./ExperienceForm";
+import { useDialog } from "@/hooks/useDialog";
 import { useExperienceForm } from "@/hooks/useExperienceForm";
 import type {
   Experience,
@@ -23,10 +24,15 @@ export function AddExperienceView({
     handleAddPoint,
     handleRemovePoint,
   } = useExperienceForm();
+  const { notify } = useDialog();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (formData.endDate && formData.endDate < formData.startDate) {
-      alert("End Date tidak boleh lebih awal dari Start Date.");
+      await notify({
+        tone: "warning",
+        title: "Invalid date range",
+        description: "End Date cannot be earlier than Start Date.",
+      });
       return;
     }
 

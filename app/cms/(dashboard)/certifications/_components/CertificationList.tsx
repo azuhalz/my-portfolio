@@ -5,6 +5,7 @@ import type { Certification } from "@/lib/data/certifications-data";
 type CertificationListProps = {
   certifications: Certification[];
   onAdd?: () => void;
+  onReorder: (from: number, to: number) => void;
   onEdit?: (certification: Certification) => void;
   onDelete?: (certification: Certification) => void;
 };
@@ -12,6 +13,7 @@ type CertificationListProps = {
 export function CertificationList({
   certifications,
   onAdd,
+  onReorder,
   onEdit,
   onDelete,
 }: CertificationListProps) {
@@ -20,6 +22,7 @@ export function CertificationList({
       items={certifications}
       addLabel="Add Certification"
       onAdd={onAdd}
+      onReorder={onReorder}
       getKey={(certification) => certification.credentialUrl}
       renderItem={(certification, order) => (
         <CertificationItem

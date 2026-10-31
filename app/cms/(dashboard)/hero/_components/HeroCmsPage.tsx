@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageContainer";
 import { HeroContentForm } from "./HeroContentForm";
+import { useDialog } from "@/hooks/useDialog";
 import { initialHeroData, type HeroFormData } from "@/lib/data/hero-data";
 
 export type { HeroFormData };
 export function HeroCmsPage() {
+  const { confirmSave, notifySaved } = useDialog();
   const [formData, setFormData] = useState<HeroFormData>(initialHeroData);
   const handleFieldChange = (field: keyof HeroFormData, value: string) => {
     setFormData((prev) => ({
@@ -37,9 +39,11 @@ export function HeroCmsPage() {
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!(await confirmSave("Hero section"))) return;
+
     console.log("Saving Hero Section Data:", formData);
-    alert("Perubahan Hero Section berhasil disimpan (simulasi)!");
+    await notifySaved("Hero section");
   };
 
   return (

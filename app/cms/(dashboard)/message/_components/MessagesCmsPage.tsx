@@ -4,14 +4,19 @@ import { CmsPageContainer } from "@/app/cms/(dashboard)/_components/CmsPageConta
 import { MessageDetail } from "./MessageDetail";
 import { MessageInbox } from "./MessageInbox";
 import { MessageStats } from "./MessageStats";
+import { useDialog } from "@/hooks/useDialog";
 import { useMessageInbox } from "@/hooks/useMessageInbox";
 import { messagesData } from "@/lib/data/message-data";
 
 export function MessagesCmsPage() {
   const inbox = useMessageInbox(messagesData);
+  const { confirmDelete } = useDialog();
 
-  const handleDelete = (id: string) => {
-    if (confirm("Apakah Anda yakin ingin menghapus pesan ini?")) {
+  const handleDelete = async (id: string) => {
+    const message = inbox.messages.find((item) => item.id === id);
+    if (!message) return;
+
+    if (await confirmDelete("message", `Message from ${message.name}`)) {
       inbox.deleteMessage(id);
     }
   };

@@ -48,10 +48,40 @@ export function useProjectForm(initialData: Project = emptyProject) {
   };
 
   // Gambar: index 0 = cover, index 1 dst = gallery
-  const handleImageChange = (index: number, url: string) => {
+  const handleCoverChange = (url: string) => {
+    setFormData((prev) => {
+      const nextImages = [...prev.image];
+      nextImages[0] = url;
+      return { ...prev, image: nextImages };
+    });
+  };
+
+  const handleAddGalleryImage = (url: string = "") => {
+    setFormData((prev) => {
+      const nextImages = prev.image.length === 0 ? ["", url] : [...prev.image, url];
+      return { ...prev, image: nextImages };
+    });
+  };
+
+  const handleGalleryChange = (galleryIndex: number, url: string) => {
+    // galleryIndex 0 berarti index 1 pada prev.image
+    const imageIndex = galleryIndex + 1;
+    setFormData((prev) => {
+      const nextImages = [...prev.image];
+      while (nextImages.length <= imageIndex) {
+        nextImages.push("");
+      }
+      nextImages[imageIndex] = url;
+      return { ...prev, image: nextImages };
+    });
+  };
+
+  const handleRemoveGalleryImage = (galleryIndex: number) => {
+    // galleryIndex 0 berarti index 1 pada prev.image
+    const imageIndex = galleryIndex + 1;
     setFormData((prev) => ({
       ...prev,
-      image: updateItemAt(prev.image, index, url),
+      image: removeItemAt(prev.image, imageIndex),
     }));
   };
 
@@ -63,6 +93,9 @@ export function useProjectForm(initialData: Project = emptyProject) {
     handleLearningChange,
     handleAddLearning,
     handleRemoveLearning,
-    handleImageChange,
+    handleCoverChange,
+    handleAddGalleryImage,
+    handleGalleryChange,
+    handleRemoveGalleryImage,
   };
 }

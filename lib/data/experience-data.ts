@@ -1,10 +1,8 @@
-// Satu-satunya definisi bentuk data pengalaman kerja: nilai kosong ini juga dipakai
-// sebagai nilai awal form, dan type Experience diturunkan darinya.
 export const emptyExperience = {
   title: "",
   company: "",
-  startDate: "", // format "YYYY-MM"
-  endDate: "", // format "YYYY-MM", kosong = masih berjalan ("Present")
+  startDate: "",
+  endDate: "",
   points: [""],
 };
 
