@@ -1,12 +1,14 @@
 package service
 
 import (
+	"context"
+
 	"github.com/azuhalz/my-portfolio/go-backend/internal/model"
 )
 
 type ProjectRepository interface {
-	GetAll() []model.Project
-	GetBySlug(slug string) (model.Project, bool)
+	GetAll(ctx context.Context) ([]model.Project, error)
+	GetBySlug(ctx context.Context, slug string) (model.Project, error)
 }
 
 type ProjectService struct {
@@ -19,10 +21,10 @@ func NewProjectService(repository ProjectRepository) *ProjectService {
 	}
 }
 
-func (s *ProjectService) GetAll() []model.Project {
-	return s.repository.GetAll()
+func (s *ProjectService) GetAll(ctx context.Context) ([]model.Project, error) {
+	return s.repository.GetAll(ctx)
 }
 
-func (s *ProjectService) GetBySlug(slug string) (model.Project, bool) {
-	return s.repository.GetBySlug(slug)
+func (s *ProjectService) GetBySlug(ctx context.Context, slug string) (model.Project, error) {
+	return s.repository.GetBySlug(ctx, slug)
 }

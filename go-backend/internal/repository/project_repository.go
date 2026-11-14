@@ -1,52 +1,152 @@
 package repository
 
-import "github.com/azuhalz/my-portfolio/go-backend/internal/model"
+import (
+	"context"
+	"database/sql"
+	"encoding/json"
+	"fmt"
+
+	"github.com/azuhalz/my-portfolio/go-backend/internal/model"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
+)
 
 type ProjectRepository struct {
-	projects []model.Project
+	db *pgxpool.Pool
 }
 
-func NewProjectRepository() *ProjectRepository {
+func NewProjectRepository(db *pgxpool.Pool) *ProjectRepository {
 	return &ProjectRepository{
-		projects: []model.Project{
-			{
-				ID:          1,
-				Slug:        "my-first-project",
-				Title:       "My First Project",
-				Type:        "Personal Project",
-				Role:        "Fullstack Developer",
-				Timeline:    "2026",
-				Overview:    "A sample project for learning Go backend.",
-				TechStack:   []string{"Next.js", "Go", "PostgreSQL"},
-				LiveDemoURL: "https://example.com",
-				GitHubURL:   "https://github.com/example",
-			},
-			{
-				ID:          2,
-				Slug:        "my-second-project",
-				Title:       "My Second Project",
-				Type:        "Web Application",
-				Role:        "Frontend Developer",
-				Timeline:    "2025",
-				Overview:    "Another sample project.",
-				TechStack:   []string{"React", "TypeScript"},
-				LiveDemoURL: "https://example.com",
-				GitHubURL:   "https://github.com/example",
-			},
-		},
+		db: db,
 	}
 }
 
-func (r *ProjectRepository) GetAll() []model.Project {
-	return r.projects
+func scanProject(row interface {
+	Scan(dest ...any) error
+}) (model.Project, error) {
+	var project model.Project
+
+	var role sql.NullString
+	var liveDemoURL sql.NullString
+	var githubURL sql.NullString
+	var learnings []byte
+	var images []byte
+
+	err := row.Scan(
+		&project.ID,
+		&project.Slug,
+		&project.Title,
+		&project.Type,
+		&role,
+		&project.Timeline,
+		&project.Overview,
+		&project.TechStack,
+		&learnings,
+		&images,
+		&liveDemoURL,
+		&githubURL,
+		&project.SortOrder,
+		&project.CreatedAt,
+		&project.UpdatedAt,
+	)
+	if err != nil {
+		return model.Project{}, err
+	}
+
+	if role.Valid {
+		project.Role = &role.String
+	}
+
+	if liveDemoURL.Valid {
+		project.LiveDemoURL = &liveDemoURL.String
+	}
+
+	if githubURL.Valid {
+		project.GitHubURL = &githubURL.String
+	}
+
+	project.Learnings = json.RawMessage(learnings)
+	project.Images = json.RawMessage(images)
+
+	return project, nil
 }
 
-func (r *ProjectRepository) GetBySlug(slug string) (model.Project, bool) {
-	for _, project := range r.projects {
-		if project.Slug == slug {
-			return project, true
+func (r *ProjectRepository) GetAll(ctx context.Context) ([]model.Project, error) {
+	query := `
+		SELECT
+			id,
+			slug,
+			title,
+			type,
+			role,
+			timeline,
+			overview,
+			tech_stack,
+			learnings,
+			images,
+			live_demo_url,
+			github_url,
+			sort_order,
+			created_at,
+			updated_at
+		FROM projects
+		ORDER BY sort_order ASC, id ASC
+	`
+
+	rows, err := r.db.Query(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get projects: %w", err)
+	}
+	defer rows.Close()
+
+	projects := make([]model.Project, 0)
+
+	for rows.Next() {
+		project, err := scanProject(rows)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan project: %w", err)
 		}
+
+		projects = append(projects, project)
 	}
 
-	return model.Project{}, false
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("failed to iterate projects: %w", err)
+	}
+
+	return projects, nil
+}
+
+func (r *ProjectRepository) GetBySlug(ctx context.Context, slug string) (model.Project, error) {
+	query := `
+		SELECT
+			id,
+			slug,
+			title,
+			type,
+			role,
+			timeline,
+			overview,
+			tech_stack,
+			learnings,
+			images,
+			live_demo_url,
+			github_url,
+			sort_order,
+			created_at,
+			updated_at
+		FROM projects
+		WHERE slug = $1
+	`
+
+	project, err := scanProject(r.db.QueryRow(ctx, query, slug))
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return model.Project{}, pgx.ErrNoRows
+		}
+
+		return model.Project{}, fmt.Errorf("failed to get project by slug: %w", err)
+	}
+
+	return project, nil
 }

@@ -3,23 +3,40 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/azuhalz/my-portfolio/go-backend/internal/database"
 	"github.com/azuhalz/my-portfolio/go-backend/internal/handler"
 	"github.com/azuhalz/my-portfolio/go-backend/internal/repository"
 	"github.com/azuhalz/my-portfolio/go-backend/internal/service"
 )
 
 func main() {
-	// Initialize repository
-	projectRepository := repository.NewProjectRepository()
+	// Get database URL from environment variable.
+	databaseURL := os.Getenv("DATABASE_URL")
+	if databaseURL == "" {
+		log.Fatal("DATABASE_URL environment variable is not set")
+	}
 
-	// Initialize service
+	// Initialize PostgreSQL connection pool.
+	dbPool, err := database.NewPostgresPool(databaseURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer dbPool.Close()
+
+	log.Println("Successfully connected to PostgreSQL!")
+
+	// Initialize repository.
+	projectRepository := repository.NewProjectRepository(dbPool)
+
+	// Initialize service.
 	projectService := service.NewProjectService(projectRepository)
 
-	// Initialize handler
+	// Initialize handler.
 	projectHandler := handler.NewProjectHandler(projectService)
 
-	// Register routes
+	// Register routes.
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /api/health", func(w http.ResponseWriter, r *http.Request) {
