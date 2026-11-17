@@ -27,14 +27,17 @@ func main() {
 
 	log.Println("Successfully connected to PostgreSQL!")
 
-	// Initialize repository.
+	// Initialize repositories.
 	projectRepository := repository.NewProjectRepository(dbPool)
+	heroRepository := repository.NewHeroRepository(dbPool)
 
-	// Initialize service.
+	// Initialize services.
 	projectService := service.NewProjectService(projectRepository)
+	heroService := service.NewHeroService(heroRepository)
 
-	// Initialize handler.
+	// Initialize handlers.
 	projectHandler := handler.NewProjectHandler(projectService)
+	heroHandler := handler.NewHeroHandler(heroService)
 
 	// Register routes.
 	mux := http.NewServeMux()
@@ -44,11 +47,16 @@ func main() {
 		w.Write([]byte(`{"message":"Go backend is running!"}`))
 	})
 
+	// Project API.
 	mux.HandleFunc("GET /api/projects", projectHandler.GetAll)
 	mux.HandleFunc("GET /api/projects/{slug}", projectHandler.GetBySlug)
 	mux.HandleFunc("POST /api/projects", projectHandler.Create)
 	mux.HandleFunc("PUT /api/projects/{slug}", projectHandler.Update)
 	mux.HandleFunc("DELETE /api/projects/{slug}", projectHandler.Delete)
+
+	// Hero API.
+	mux.HandleFunc("GET /api/hero", heroHandler.Get)
+	mux.HandleFunc("PUT /api/hero", heroHandler.Update)
 
 	log.Println("Server running at http://localhost:8080")
 
