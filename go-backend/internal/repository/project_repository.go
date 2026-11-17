@@ -4,12 +4,18 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"regexp"
+	"strings"
 
 	"github.com/azuhalz/my-portfolio/go-backend/internal/model"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
+
+var ErrDuplicateSlug = errors.New("duplicate project slug")
 
 type ProjectRepository struct {
 	db *pgxpool.Pool
@@ -149,4 +155,169 @@ func (r *ProjectRepository) GetBySlug(ctx context.Context, slug string) (model.P
 	}
 
 	return project, nil
+}
+
+func (r *ProjectRepository) Create(
+	ctx context.Context,
+	slug string,
+	request model.CreateProjectRequest,
+) (model.Project, error) {
+	query := `
+        INSERT INTO projects (
+            slug,
+            title,
+            type,
+            role,
+            timeline,
+            overview,
+            tech_stack,
+            learnings,
+            images,
+            live_demo_url,
+            github_url,
+            sort_order,
+            created_at,
+            updated_at
+        )
+        VALUES (
+            $1, $2, $3, $4, $5, $6, $7,
+            COALESCE(NULLIF($8, '')::jsonb, '[]'::jsonb),
+            COALESCE(NULLIF($9, '')::jsonb, '[]'::jsonb),
+            $10, $11,
+            COALESCE((SELECT MAX(sort_order) + 1 FROM projects), 0),
+            NOW(),
+            NOW()
+        )
+        RETURNING
+            id,
+            slug,
+            title,
+            type,
+            role,
+            timeline,
+            overview,
+            tech_stack,
+            learnings,
+            images,
+            live_demo_url,
+            github_url,
+            sort_order,
+            created_at,
+            updated_at
+    `
+
+	project, err := scanProject(
+		r.db.QueryRow(
+			ctx,
+			query,
+			slug,
+			request.Title,
+			request.Type,
+			request.Role,
+			request.Timeline,
+			request.Overview,
+			request.TechStack,
+			string(request.Learnings),
+			string(request.Images),
+			request.LiveDemoURL,
+			request.GitHubURL,
+		),
+	)
+
+	if err != nil {
+		var pgErr *pgconn.PgError
+
+		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
+			return model.Project{}, ErrDuplicateSlug
+		}
+
+		return model.Project{}, fmt.Errorf("failed to create project: %w", err)
+	}
+
+	return project, nil
+}
+
+func (r *ProjectRepository) Update(
+	ctx context.Context,
+	slug string,
+	request model.UpdateProjectRequest,
+) (model.Project, error) {
+	query := `
+        UPDATE projects
+        SET
+            slug = $1,
+            title = $2,
+            type = $3,
+            role = $4,
+            timeline = $5,
+            overview = $6,
+            tech_stack = $7,
+            learnings = COALESCE(NULLIF($8, '')::jsonb, '[]'::jsonb),
+            images = COALESCE(NULLIF($9, '')::jsonb, '[]'::jsonb),
+            live_demo_url = $10,
+            github_url = $11,
+            updated_at = NOW()
+        WHERE slug = $12
+        RETURNING
+            id, slug, title, type, role, timeline, overview, tech_stack,
+            learnings, images, live_demo_url, github_url, sort_order,
+            created_at, updated_at
+    `
+
+	newSlug := strings.ToLower(request.Title)
+	newSlug = strings.TrimSpace(newSlug)
+	nonAlphanumeric := regexp.MustCompile(`[^a-z0-9]+`)
+	newSlug = nonAlphanumeric.ReplaceAllString(newSlug, "-")
+	newSlug = strings.Trim(newSlug, "-")
+
+	project, err := scanProject(
+		r.db.QueryRow(
+			ctx, query,
+			newSlug,
+			request.Title,
+			request.Type,
+			request.Role,
+			request.Timeline,
+			request.Overview,
+			request.TechStack,
+			string(request.Learnings),
+			string(request.Images),
+			request.LiveDemoURL,
+			request.GitHubURL,
+			slug,
+		),
+	)
+
+	if err != nil {
+		var pgErr *pgconn.PgError
+
+		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
+			return model.Project{}, ErrDuplicateSlug
+		}
+
+		return model.Project{}, fmt.Errorf("failed to update project: %w", err)
+	}
+
+	return project, nil
+}
+
+func (r *ProjectRepository) Delete(
+	ctx context.Context,
+	slug string,
+) error {
+	query := `
+        DELETE FROM projects
+        WHERE slug = $1
+    `
+
+	commandTag, err := r.db.Exec(ctx, query, slug)
+	if err != nil {
+		return fmt.Errorf("failed to delete project: %w", err)
+	}
+
+	if commandTag.RowsAffected() == 0 {
+		return pgx.ErrNoRows
+	}
+
+	return nil
 }

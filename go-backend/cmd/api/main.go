@@ -46,6 +46,9 @@ func main() {
 
 	mux.HandleFunc("GET /api/projects", projectHandler.GetAll)
 	mux.HandleFunc("GET /api/projects/{slug}", projectHandler.GetBySlug)
+	mux.HandleFunc("POST /api/projects", projectHandler.Create)
+	mux.HandleFunc("PUT /api/projects/{slug}", projectHandler.Update)
+	mux.HandleFunc("DELETE /api/projects/{slug}", projectHandler.Delete)
 
 	log.Println("Server running at http://localhost:8080")
 
