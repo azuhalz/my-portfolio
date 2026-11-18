@@ -32,6 +32,7 @@ func main() {
 	contactRepository := repository.NewContactRepository(dbPool)
 	experienceRepository := repository.NewExperienceRepository(dbPool)
 	educationRepository := repository.NewEducationRepository(dbPool)
+	certificationRepository := repository.NewCertificationRepository(dbPool)
 
 	// Services
 	projectService := service.NewProjectService(projectRepository)
@@ -40,6 +41,7 @@ func main() {
 	contactService := service.NewContactService(contactRepository)
 	experienceService := service.NewExperienceService(experienceRepository)
 	educationService := service.NewEducationService(educationRepository)
+	certificationService := service.NewCertificationService(certificationRepository)
 
 	// Handlers
 	projectHandler := handler.NewProjectHandler(projectService)
@@ -48,6 +50,7 @@ func main() {
 	contactHandler := handler.NewContactHandler(contactService)
 	experienceHandler := handler.NewExperienceHandler(experienceService)
 	educationHandler := handler.NewEducationHandler(educationService)
+	certificationHandler := handler.NewCertificationHandler(certificationService)
 
 	// Routes
 	mux := http.NewServeMux()
@@ -91,6 +94,13 @@ func main() {
 	mux.HandleFunc("POST /api/educations", educationHandler.Create)
 	mux.HandleFunc("PUT /api/educations/{id}", educationHandler.Update)
 	mux.HandleFunc("DELETE /api/educations/{id}", educationHandler.Delete)
+
+	// Certification API
+	mux.HandleFunc("GET /api/certifications", certificationHandler.GetAll)
+	mux.HandleFunc("GET /api/certifications/{id}", certificationHandler.GetByID)
+	mux.HandleFunc("POST /api/certifications", certificationHandler.Create)
+	mux.HandleFunc("PUT /api/certifications/{id}", certificationHandler.Update)
+	mux.HandleFunc("DELETE /api/certifications/{id}", certificationHandler.Delete)
 
 	log.Println("Server running at http://localhost:8080")
 
