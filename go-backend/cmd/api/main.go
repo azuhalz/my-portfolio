@@ -29,16 +29,19 @@ func main() {
 	projectRepository := repository.NewProjectRepository(dbPool)
 	heroRepository := repository.NewHeroRepository(dbPool)
 	aboutRepository := repository.NewAboutRepository(dbPool)
+	contactRepository := repository.NewContactRepository(dbPool)
 
 	// Services
 	projectService := service.NewProjectService(projectRepository)
 	heroService := service.NewHeroService(heroRepository)
 	aboutService := service.NewAboutService(aboutRepository)
+	contactService := service.NewContactService(contactRepository)
 
 	// Handlers
 	projectHandler := handler.NewProjectHandler(projectService)
 	heroHandler := handler.NewHeroHandler(heroService)
 	aboutHandler := handler.NewAboutHandler(aboutService)
+	contactHandler := handler.NewContactHandler(contactService)
 
 	// Routes
 	mux := http.NewServeMux()
@@ -62,6 +65,12 @@ func main() {
 	// About API
 	mux.HandleFunc("GET /api/about", aboutHandler.Get)
 	mux.HandleFunc("PUT /api/about", aboutHandler.Update)
+
+	// Contact API
+	mux.HandleFunc("GET /api/contact", contactHandler.GetContact)
+	mux.HandleFunc("PUT /api/contact", contactHandler.UpdateContact)
+	mux.HandleFunc("POST /api/contact/cv", contactHandler.UploadCV)
+	mux.HandleFunc("GET /api/contact/cv", contactHandler.GetCV)
 
 	log.Println("Server running at http://localhost:8080")
 
