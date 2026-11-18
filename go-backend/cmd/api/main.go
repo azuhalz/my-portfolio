@@ -30,18 +30,21 @@ func main() {
 	heroRepository := repository.NewHeroRepository(dbPool)
 	aboutRepository := repository.NewAboutRepository(dbPool)
 	contactRepository := repository.NewContactRepository(dbPool)
+	experienceRepository := repository.NewExperienceRepository(dbPool)
 
 	// Services
 	projectService := service.NewProjectService(projectRepository)
 	heroService := service.NewHeroService(heroRepository)
 	aboutService := service.NewAboutService(aboutRepository)
 	contactService := service.NewContactService(contactRepository)
+	experienceService := service.NewExperienceService(experienceRepository)
 
 	// Handlers
 	projectHandler := handler.NewProjectHandler(projectService)
 	heroHandler := handler.NewHeroHandler(heroService)
 	aboutHandler := handler.NewAboutHandler(aboutService)
 	contactHandler := handler.NewContactHandler(contactService)
+	experienceHandler := handler.NewExperienceHandler(experienceService)
 
 	// Routes
 	mux := http.NewServeMux()
@@ -71,6 +74,13 @@ func main() {
 	mux.HandleFunc("PUT /api/contact", contactHandler.UpdateContact)
 	mux.HandleFunc("POST /api/contact/cv", contactHandler.UploadCV)
 	mux.HandleFunc("GET /api/contact/cv", contactHandler.GetCV)
+
+	// Experience API
+	mux.HandleFunc("GET /api/experiences", experienceHandler.GetAll)
+	mux.HandleFunc("GET /api/experiences/{id}", experienceHandler.GetByID)
+	mux.HandleFunc("POST /api/experiences", experienceHandler.Create)
+	mux.HandleFunc("PUT /api/experiences/{id}", experienceHandler.Update)
+	mux.HandleFunc("DELETE /api/experiences/{id}", experienceHandler.Delete)
 
 	log.Println("Server running at http://localhost:8080")
 
