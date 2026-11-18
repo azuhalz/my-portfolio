@@ -33,6 +33,7 @@ func main() {
 	experienceRepository := repository.NewExperienceRepository(dbPool)
 	educationRepository := repository.NewEducationRepository(dbPool)
 	certificationRepository := repository.NewCertificationRepository(dbPool)
+	messageRepository := repository.NewMessageRepository(dbPool)
 
 	// Services
 	projectService := service.NewProjectService(projectRepository)
@@ -42,6 +43,7 @@ func main() {
 	experienceService := service.NewExperienceService(experienceRepository)
 	educationService := service.NewEducationService(educationRepository)
 	certificationService := service.NewCertificationService(certificationRepository)
+	messageService := service.NewMessageService(messageRepository)
 
 	// Handlers
 	projectHandler := handler.NewProjectHandler(projectService)
@@ -51,6 +53,7 @@ func main() {
 	experienceHandler := handler.NewExperienceHandler(experienceService)
 	educationHandler := handler.NewEducationHandler(educationService)
 	certificationHandler := handler.NewCertificationHandler(certificationService)
+	messageHandler := handler.NewMessageHandler(messageService)
 
 	// Routes
 	mux := http.NewServeMux()
@@ -101,6 +104,13 @@ func main() {
 	mux.HandleFunc("POST /api/certifications", certificationHandler.Create)
 	mux.HandleFunc("PUT /api/certifications/{id}", certificationHandler.Update)
 	mux.HandleFunc("DELETE /api/certifications/{id}", certificationHandler.Delete)
+
+	// Message API
+	mux.HandleFunc("GET /api/messages", messageHandler.GetAll)
+	mux.HandleFunc("GET /api/messages/{id}", messageHandler.GetByID)
+	mux.HandleFunc("POST /api/messages", messageHandler.Create)
+	mux.HandleFunc("PUT /api/messages/{id}/status", messageHandler.UpdateStatus)
+	mux.HandleFunc("DELETE /api/messages/{id}", messageHandler.Delete)
 
 	log.Println("Server running at http://localhost:8080")
 
