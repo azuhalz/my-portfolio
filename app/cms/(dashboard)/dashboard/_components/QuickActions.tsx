@@ -11,10 +11,11 @@ export function QuickActions() {
         </span>
         <h2 className="text-base font-medium">Quick Actions</h2>
       </div>
-      <Link href="#" className="grid grid-cols-4 gap-3 p-3">
-        {quickActions.map(({ title, description, icon: Icon }) => (
-          <div
+      <div className="grid grid-cols-4 gap-3 p-3">
+        {quickActions.map(({ title, description, icon: Icon, href }) => (
+          <Link
             key={title}
+            href={href}
             className="flex min-h-35 flex-col items-center justify-center rounded-lg border border-border bg-background/35 px-4 text-center transition hover:border-primary/50 hover:bg-primary/5"
           >
             <Icon size={31} strokeWidth={1.7} className="text-primary" />
@@ -22,12 +23,15 @@ export function QuickActions() {
             <p className="mt-1 text-xs leading-4 text-text-secondary">
               {description}
             </p>
-          </div>
+          </Link>
         ))}
-      </Link>
-      <div className="flex items-center justify-center gap-2 border-t border-border px-4 py-3 text-sm text-primary">
-        Manage All Content <ArrowRight size={17} />
       </div>
+      <Link
+        href="/cms/projects"
+        className="flex items-center justify-center gap-2 border-t border-border px-4 py-3 text-sm text-primary transition hover:bg-primary/5"
+      >
+        Manage All Content <ArrowRight size={17} />
+      </Link>
     </section>
   );
 }

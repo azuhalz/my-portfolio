@@ -29,6 +29,7 @@ export type QuickAction = {
   title: string;
   description: string;
   icon: LucideIcon;
+  href: string;
 };
 
 const upwardSparkline =
@@ -72,40 +73,48 @@ export const quickActions: QuickAction[] = [
     title: "Add Project",
     description: "Create a new project for your portfolio",
     icon: Plus,
+    href: "/cms/projects?action=add",
+  },
+  {
+    title: "Edit Hero",
+    description: "Update your hero section and intro",
+    icon: CircleUserRound,
+    href: "/cms/hero",
   },
   {
     title: "Edit About",
     description: "Update your personal information",
     icon: UserPen,
-  },
-  {
-    title: "Add Tech Stack",
-    description: "Add new technologies you work with",
-    icon: Layers3,
+    href: "/cms/about",
   },
   {
     title: "Add Work Experience",
     description: "Add new work experience",
     icon: BriefcaseBusiness,
+    href: "/cms/work-experience?action=add",
   },
   {
     title: "Add Education",
     description: "Add your educational background",
     icon: GraduationCap,
+    href: "/cms/education?action=add",
   },
   {
     title: "Update Contact",
     description: "Update your contact information",
     icon: Mail,
+    href: "/cms/contact",
   },
   {
     title: "Manage Certifications",
     description: "Add or manage your certifications",
     icon: Award,
+    href: "/cms/certifications",
   },
   {
     title: "Settings",
     description: "Configure CMS preferences",
     icon: Settings,
+    href: "/cms/settings",
   },
 ];

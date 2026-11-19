@@ -7,11 +7,18 @@ import (
 
 	"github.com/azuhalz/my-portfolio/go-backend/internal/database"
 	"github.com/azuhalz/my-portfolio/go-backend/internal/handler"
+	"github.com/azuhalz/my-portfolio/go-backend/internal/middleware"
 	"github.com/azuhalz/my-portfolio/go-backend/internal/repository"
 	"github.com/azuhalz/my-portfolio/go-backend/internal/service"
+	"github.com/joho/godotenv"
+	"github.com/rs/cors"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	databaseURL := os.Getenv("DATABASE_URL")
 	if databaseURL == "" {
 		log.Fatal("DATABASE_URL environment variable is required")
@@ -35,6 +42,7 @@ func main() {
 	certificationRepository := repository.NewCertificationRepository(dbPool)
 	messageRepository := repository.NewMessageRepository(dbPool)
 	adminRepository := repository.NewAdminRepository(dbPool)
+	authRepository := repository.NewAuthRepository(dbPool)
 
 	// Services
 	projectService := service.NewProjectService(projectRepository)
@@ -46,6 +54,7 @@ func main() {
 	certificationService := service.NewCertificationService(certificationRepository)
 	messageService := service.NewMessageService(messageRepository)
 	adminService := service.NewAdminService(adminRepository)
+	authService := service.NewAuthService(authRepository)
 
 	// Handlers
 	projectHandler := handler.NewProjectHandler(projectService)
@@ -57,10 +66,17 @@ func main() {
 	certificationHandler := handler.NewCertificationHandler(certificationService)
 	messageHandler := handler.NewMessageHandler(messageService)
 	adminHandler := handler.NewAdminHandler(adminService)
+	authHandler := handler.NewAuthHandler(authService)
 
 	// Routes
 	mux := http.NewServeMux()
 
+	// Authentication Middleware
+	protect := func(h http.HandlerFunc) http.Handler {
+		return middleware.AuthMiddleware(h)
+	}
+
+	// Health API (Public)
 	mux.HandleFunc("GET /api/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("Go backend is running!"))
@@ -69,60 +85,88 @@ func main() {
 	// Project API
 	mux.HandleFunc("GET /api/projects", projectHandler.GetAll)
 	mux.HandleFunc("GET /api/projects/{slug}", projectHandler.GetBySlug)
-	mux.HandleFunc("POST /api/projects", projectHandler.Create)
-	mux.HandleFunc("PUT /api/projects/{slug}", projectHandler.Update)
-	mux.HandleFunc("DELETE /api/projects/{slug}", projectHandler.Delete)
+	mux.Handle("POST /api/projects", protect(projectHandler.Create))
+	mux.Handle("PUT /api/projects/{slug}", protect(projectHandler.Update))
+	mux.Handle("DELETE /api/projects/{slug}", protect(projectHandler.Delete))
 
 	// Hero API
 	mux.HandleFunc("GET /api/hero", heroHandler.Get)
-	mux.HandleFunc("PUT /api/hero", heroHandler.Update)
+	mux.Handle("PUT /api/hero", protect(heroHandler.Update))
 
 	// About API
 	mux.HandleFunc("GET /api/about", aboutHandler.Get)
-	mux.HandleFunc("PUT /api/about", aboutHandler.Update)
+	mux.Handle("PUT /api/about", protect(aboutHandler.Update))
 
 	// Contact API
 	mux.HandleFunc("GET /api/contact", contactHandler.GetContact)
-	mux.HandleFunc("PUT /api/contact", contactHandler.UpdateContact)
-	mux.HandleFunc("POST /api/contact/cv", contactHandler.UploadCV)
+	mux.Handle("PUT /api/contact", protect(contactHandler.UpdateContact))
+	mux.Handle("POST /api/contact/cv", protect(contactHandler.UploadCV))
 	mux.HandleFunc("GET /api/contact/cv", contactHandler.GetCV)
 
 	// Experience API
 	mux.HandleFunc("GET /api/experiences", experienceHandler.GetAll)
 	mux.HandleFunc("GET /api/experiences/{id}", experienceHandler.GetByID)
-	mux.HandleFunc("POST /api/experiences", experienceHandler.Create)
-	mux.HandleFunc("PUT /api/experiences/{id}", experienceHandler.Update)
-	mux.HandleFunc("DELETE /api/experiences/{id}", experienceHandler.Delete)
+	mux.Handle("POST /api/experiences", protect(experienceHandler.Create))
+	mux.Handle("PUT /api/experiences/{id}", protect(experienceHandler.Update))
+	mux.Handle("DELETE /api/experiences/{id}", protect(experienceHandler.Delete))
 
 	// Education API
 	mux.HandleFunc("GET /api/educations", educationHandler.GetAll)
 	mux.HandleFunc("GET /api/educations/{id}", educationHandler.GetByID)
-	mux.HandleFunc("POST /api/educations", educationHandler.Create)
-	mux.HandleFunc("PUT /api/educations/{id}", educationHandler.Update)
-	mux.HandleFunc("DELETE /api/educations/{id}", educationHandler.Delete)
+	mux.Handle("POST /api/educations", protect(educationHandler.Create))
+	mux.Handle("PUT /api/educations/{id}", protect(educationHandler.Update))
+	mux.Handle("DELETE /api/educations/{id}", protect(educationHandler.Delete))
 
 	// Certification API
 	mux.HandleFunc("GET /api/certifications", certificationHandler.GetAll)
 	mux.HandleFunc("GET /api/certifications/{id}", certificationHandler.GetByID)
-	mux.HandleFunc("POST /api/certifications", certificationHandler.Create)
-	mux.HandleFunc("PUT /api/certifications/{id}", certificationHandler.Update)
-	mux.HandleFunc("DELETE /api/certifications/{id}", certificationHandler.Delete)
+	mux.Handle("POST /api/certifications", protect(certificationHandler.Create))
+	mux.Handle("PUT /api/certifications/{id}", protect(certificationHandler.Update))
+	mux.Handle("DELETE /api/certifications/{id}", protect(certificationHandler.Delete))
 
 	// Message API
-	mux.HandleFunc("GET /api/messages", messageHandler.GetAll)
-	mux.HandleFunc("GET /api/messages/{id}", messageHandler.GetByID)
+	mux.Handle("GET /api/messages", protect(messageHandler.GetAll))
+	mux.Handle("GET /api/messages/{id}", protect(messageHandler.GetByID))
 	mux.HandleFunc("POST /api/messages", messageHandler.Create)
-	mux.HandleFunc("PUT /api/messages/{id}/status", messageHandler.UpdateStatus)
-	mux.HandleFunc("DELETE /api/messages/{id}", messageHandler.Delete)
+	mux.Handle("PUT /api/messages/{id}/status", protect(messageHandler.UpdateStatus))
+	mux.Handle("DELETE /api/messages/{id}", protect(messageHandler.Delete))
 
 	// Admin API
-	mux.HandleFunc("GET /api/admin", adminHandler.Get)
-	mux.HandleFunc("PUT /api/admin/profile", adminHandler.UpdateProfile)
-	mux.HandleFunc("PUT /api/admin/password", adminHandler.UpdatePassword)
+	mux.Handle("GET /api/admin", protect(adminHandler.Get))
+	mux.Handle("PUT /api/admin/profile", protect(adminHandler.UpdateProfile))
+	mux.Handle("PUT /api/admin/password", protect(adminHandler.UpdatePassword))
+
+	// Auth API
+	mux.HandleFunc("POST /api/auth/login", authHandler.Login)
+	mux.HandleFunc("POST /api/auth/logout", authHandler.Logout)
+	mux.HandleFunc("GET /api/auth/csrf", handler.GetCSRFToken)
+
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins: []string{
+			"http://localhost:3000",
+		},
+		AllowedMethods: []string{
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodDelete,
+			http.MethodOptions,
+		},
+		AllowedHeaders: []string{
+			"Content-Type",
+			"Authorization",
+			"X-CSRF-Token",
+		},
+		AllowCredentials: true,
+	})
+
+	csrfHandler := middleware.CSRFMiddleware(mux)
+
+	corsHandlerWithCSRF := corsHandler.Handler(csrfHandler)
 
 	log.Println("Server running at http://localhost:8080")
 
-	if err := http.ListenAndServe(":8080", mux); err != nil {
+	if err := http.ListenAndServe(":8080", corsHandlerWithCSRF); err != nil {
 		log.Fatal(err)
 	}
 }
