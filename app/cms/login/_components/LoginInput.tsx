@@ -29,14 +29,16 @@ export function InputField({
         className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary/50"
         size={21}
       />
+
       <input
         type={showPasswordToggle && showPassword ? "text" : type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         name={name}
-        className="h-13 w-full rounded-lg border border-border bg-background/25 px-12 text-text-primary outline-none transition placeholder:text-text-secondary/35 focus:border-primary focus:ring-2 focus:ring-primary/20"
+        className="cms-login-input h-13 w-full rounded-lg border border-border bg-background/25 px-12 text-text-primary outline-none transition placeholder:text-text-secondary/35 focus:border-primary focus:ring-2 focus:ring-primary/20"
       />
+
       {showPasswordToggle && onTogglePassword && (
         <button
           type="button"

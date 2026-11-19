@@ -2,11 +2,32 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { ChevronDown, LogOut } from "lucide-react";
 import { Dropdown } from "@/components/ui/Dropdown";
+import { apiRequest } from "@/lib/api";
 
 export function ProfileMenu() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogout() {
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      await apiRequest<{ message: string }>("/api/auth/logout", {
+        method: "POST",
+      });
+
+      router.replace("/cms/login");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed:", error);
+      setLoading(false);
+    }
+  }
 
   return (
     <Dropdown
@@ -47,14 +68,15 @@ export function ProfileMenu() {
           <button
             type="button"
             role="menuitem"
+            disabled={loading}
             onClick={() => {
               close();
-              router.push("/cms/login");
+              handleLogout();
             }}
-            className="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text-primary transition-colors hover:bg-primary/10"
+            className="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text-primary transition-colors hover:bg-primary/10 disabled:opacity-50"
           >
             <LogOut size={18} />
-            <span>Logout</span>
+            <span>{loading ? "Logging out..." : "Logout"}</span>
           </button>
         </div>
       )}

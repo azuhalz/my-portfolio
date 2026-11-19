@@ -61,3 +61,14 @@
     color-scheme: dark;
   }
 }
+
+/* Chrome Autofill - CMS Login */
+.cms-login-input:-webkit-autofill,
+.cms-login-input:-webkit-autofill:hover,
+.cms-login-input:-webkit-autofill:focus,
+.cms-login-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #05050a inset;
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #ffffff;
+  transition: background-color 9999s ease-out 0s;
+}
