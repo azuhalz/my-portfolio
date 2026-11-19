@@ -1,11 +1,11 @@
 package model
 
+import "time"
+
 type DashboardStats struct {
-	TotalProjects       int `json:"total_projects"`
-	TotalExperiences    int `json:"total_experiences"`
-	TotalEducations     int `json:"total_educations"`
-	TotalCertifications int `json:"total_certifications"`
-	TotalMessages       int `json:"total_messages"`
-	UnreadMessages      int `json:"unread_messages"`
-	ArchivedMessages    int `json:"archived_messages"`
+	TotalProjects  int64      `json:"total_projects"`
+	TotalViews     int64      `json:"total_views"`
+	TotalMessages  int64      `json:"total_messages"`
+	LastUpdated    *time.Time `json:"last_updated"`
+	RecentMessages []Message  `json:"recent_messages"`
 }

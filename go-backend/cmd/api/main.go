@@ -43,6 +43,8 @@ func main() {
 	messageRepository := repository.NewMessageRepository(dbPool)
 	adminRepository := repository.NewAdminRepository(dbPool)
 	authRepository := repository.NewAuthRepository(dbPool)
+	portfolioViewRepository := repository.NewPortfolioViewRepository(dbPool)
+	dashboardRepository := repository.NewDashboardRepository(dbPool)
 
 	// Services
 	projectService := service.NewProjectService(projectRepository)
@@ -55,6 +57,8 @@ func main() {
 	messageService := service.NewMessageService(messageRepository)
 	adminService := service.NewAdminService(adminRepository)
 	authService := service.NewAuthService(authRepository)
+	portfolioViewService := service.NewPortfolioViewService(portfolioViewRepository)
+	dashboardService := service.NewDashboardService(dashboardRepository)
 
 	// Handlers
 	projectHandler := handler.NewProjectHandler(projectService)
@@ -67,6 +71,8 @@ func main() {
 	messageHandler := handler.NewMessageHandler(messageService)
 	adminHandler := handler.NewAdminHandler(adminService)
 	authHandler := handler.NewAuthHandler(authService)
+	portfolioViewHandler := handler.NewPortfolioViewHandler(portfolioViewService)
+	dashboardHandler := handler.NewDashboardHandler(dashboardService)
 
 	// Routes
 	mux := http.NewServeMux()
@@ -140,6 +146,12 @@ func main() {
 	mux.HandleFunc("POST /api/auth/login", authHandler.Login)
 	mux.HandleFunc("POST /api/auth/logout", authHandler.Logout)
 	mux.HandleFunc("GET /api/auth/csrf", handler.GetCSRFToken)
+
+	// Portfolio View API (Public)
+	mux.HandleFunc("POST /api/views", portfolioViewHandler.Create)
+
+	// Dashboard API (Admin Only)
+	mux.Handle("GET /api/dashboard", protect(dashboardHandler.GetStats))
 
 	corsHandler := cors.New(cors.Options{
 		AllowedOrigins: []string{
