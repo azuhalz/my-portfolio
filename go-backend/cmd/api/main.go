@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
+	"time"
 
 	"github.com/azuhalz/my-portfolio/go-backend/internal/database"
 	"github.com/azuhalz/my-portfolio/go-backend/internal/handler"
@@ -153,10 +155,15 @@ func main() {
 	// Dashboard API (Admin Only)
 	mux.Handle("GET /api/dashboard", protect(dashboardHandler.GetStats))
 
+	// CORS Configuration
+	allowedOrigins := strings.Split(os.Getenv("ALLOWED_ORIGINS"), ",")
+
+	for i := range allowedOrigins {
+		allowedOrigins[i] = strings.TrimSpace(allowedOrigins[i])
+	}
+
 	corsHandler := cors.New(cors.Options{
-		AllowedOrigins: []string{
-			"http://localhost:3000",
-		},
+		AllowedOrigins: allowedOrigins,
 		AllowedMethods: []string{
 			http.MethodGet,
 			http.MethodPost,
@@ -173,12 +180,20 @@ func main() {
 	})
 
 	csrfHandler := middleware.CSRFMiddleware(mux)
-
 	corsHandlerWithCSRF := corsHandler.Handler(csrfHandler)
+
+	server := &http.Server{
+		Addr:              ":8080",
+		Handler:           corsHandlerWithCSRF,
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       10 * time.Second,
+		WriteTimeout:      30 * time.Second,
+		IdleTimeout:       60 * time.Second,
+	}
 
 	log.Println("Server running at http://localhost:8080")
 
-	if err := http.ListenAndServe(":8080", corsHandlerWithCSRF); err != nil {
+	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
 }
