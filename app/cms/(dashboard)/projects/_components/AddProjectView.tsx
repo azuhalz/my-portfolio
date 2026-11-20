@@ -3,7 +3,7 @@ import { useProjectForm } from "@/hooks/useProjectForm";
 import type { Project } from "@/lib/data/projects-data";
 
 type AddProjectViewProps = {
-  onSubmit: (formData: Project) => void;
+  onSubmit: (formData: Project, imageFiles: Record<number, File>) => void;
   onCancel: () => void;
 };
 
@@ -13,7 +13,7 @@ export function AddProjectView({ onSubmit, onCancel }: AddProjectViewProps) {
   return (
     <ProjectForm
       form={form}
-      onSubmit={() => onSubmit(form.formData)}
+      onSubmit={() => onSubmit(form.formData, form.imageFiles)}
       onCancel={onCancel}
     />
   );

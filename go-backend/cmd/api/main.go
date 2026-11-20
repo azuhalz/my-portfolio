@@ -36,6 +36,7 @@ func main() {
 
 	// Repositories
 	projectRepository := repository.NewProjectRepository(dbPool)
+	projectImageRepository := repository.NewProjectImageRepository(dbPool)
 	heroRepository := repository.NewHeroRepository(dbPool)
 	aboutRepository := repository.NewAboutRepository(dbPool)
 	contactRepository := repository.NewContactRepository(dbPool)
@@ -50,6 +51,10 @@ func main() {
 
 	// Services
 	projectService := service.NewProjectService(projectRepository)
+	projectImageService := service.NewProjectImageService(
+		projectRepository,
+		projectImageRepository,
+	)
 	heroService := service.NewHeroService(heroRepository)
 	aboutService := service.NewAboutService(aboutRepository)
 	contactService := service.NewContactService(contactRepository)
@@ -64,6 +69,7 @@ func main() {
 
 	// Handlers
 	projectHandler := handler.NewProjectHandler(projectService)
+	projectImageHandler := handler.NewProjectImageHandler(projectImageService)
 	heroHandler := handler.NewHeroHandler(heroService)
 	aboutHandler := handler.NewAboutHandler(aboutService)
 	contactHandler := handler.NewContactHandler(contactService)
@@ -97,9 +103,17 @@ func main() {
 	mux.Handle("PUT /api/projects/{slug}", protect(projectHandler.Update))
 	mux.Handle("DELETE /api/projects/{slug}", protect(projectHandler.Delete))
 
+	// Project Image API
+	mux.Handle("POST /api/projects/{slug}/images", protect(projectImageHandler.Upload))
+	mux.HandleFunc("GET /api/projects/{slug}/images/{id}", projectImageHandler.GetByID)
+	mux.Handle("DELETE /api/projects/{slug}/images/{id}", protect(projectImageHandler.Delete))
+
 	// Hero API
 	mux.HandleFunc("GET /api/hero", heroHandler.Get)
 	mux.Handle("PUT /api/hero", protect(heroHandler.Update))
+	mux.Handle("POST /api/hero/image", protect(heroHandler.UploadImage))
+	mux.HandleFunc("GET /api/hero/image", heroHandler.GetImage)
+	mux.Handle("DELETE /api/hero/image", protect(heroHandler.DeleteImage))
 
 	// About API
 	mux.HandleFunc("GET /api/about", aboutHandler.Get)

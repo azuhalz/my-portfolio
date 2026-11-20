@@ -161,23 +161,27 @@ func writeJSONError(w http.ResponseWriter, statusCode int, message string) {
 	})
 }
 
+func writeJSON(w http.ResponseWriter, data any) error {
+	return json.NewEncoder(w).Encode(data)
+}
+
 func decodeJSON(r *http.Request, destination any) error {
-    decoder := json.NewDecoder(r.Body)
-    decoder.DisallowUnknownFields()
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
 
-    if err := decoder.Decode(destination); err != nil {
-        return err
-    }
+	if err := decoder.Decode(destination); err != nil {
+		return err
+	}
 
-    var extra any
+	var extra any
 
-    if err := decoder.Decode(&extra); err != io.EOF {
-        if err == nil {
-            return errors.New("request body must contain only one JSON object")
-        }
+	if err := decoder.Decode(&extra); err != io.EOF {
+		if err == nil {
+			return errors.New("request body must contain only one JSON object")
+		}
 
-        return err
-    }
+		return err
+	}
 
-    return nil
+	return nil
 }

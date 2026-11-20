@@ -19,7 +19,13 @@ interface ProjectAPI {
   overview: string;
   tech_stack: string[] | null;
   learnings: string[] | null;
-  images: string[] | null;
+  images:
+    | {
+        id: number;
+        image_url: string;
+        sort_order: number;
+      }[]
+    | null;
   live_demo_url: string | null;
   github_url: string | null;
 }
@@ -34,7 +40,7 @@ function mapProject(project: ProjectAPI): Project {
     overview: project.overview,
     techStack: project.tech_stack ?? [],
     learnings: project.learnings ?? [],
-    image: project.images ?? [],
+    image: project.images?.map((image) => image.image_url) ?? [],
     liveDemoLink: project.live_demo_url ?? "",
     githubLink: project.github_url ?? "",
   };
@@ -64,7 +70,10 @@ export function ProjectsCmsPage() {
     fetchProjects();
   }, []);
 
-  const handleCreate = async (formData: Project) => {
+  const handleCreate = async (
+    formData: Project,
+    imageFiles: Record<number, File>,
+  ) => {
     const confirmed = await confirmAdd("project", formData.title);
 
     if (!confirmed) return;
@@ -82,20 +91,40 @@ export function ProjectsCmsPage() {
           overview: formData.overview.trim(),
           tech_stack: formData.techStack,
           learnings: formData.learnings.filter((item) => item.trim() !== ""),
-          images: [],
           live_demo_url: formData.liveDemoLink || null,
           github_url: formData.githubLink || null,
         },
       });
 
-      setProjects((prev) => [...prev, mapProject(createdProject)]);
+      const uploadedImages = Object.entries(imageFiles).sort(
+        ([a], [b]) => Number(a) - Number(b),
+      );
+
+      for (const [index, file] of uploadedImages) {
+        const imageFormData = new FormData();
+        imageFormData.append("image", file);
+        imageFormData.append("sort_order", index);
+
+        await apiRequest(`/api/projects/${createdProject.slug}/images`, {
+          method: "POST",
+          body: imageFormData,
+        });
+      }
+
+      const updatedProject = await apiRequest<ProjectAPI>(
+        `/api/projects/${createdProject.slug}`,
+      );
+
+      setProjects((prev) => [...prev, mapProject(updatedProject)]);
       setIsAdding(false);
       await notifyAdded("project");
     } catch (err) {
       if (err instanceof ApiError) {
         setFormError(err.message);
       } else {
-        setFormError("Unable to create project. Please try again.");
+        setFormError(
+          "Unable to create project or upload images. Please try again.",
+        );
       }
     }
   };

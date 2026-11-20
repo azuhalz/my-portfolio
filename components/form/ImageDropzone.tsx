@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ChangeEvent } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import Image from "next/image";
 import { CloudUpload, X } from "lucide-react";
 
@@ -9,9 +9,9 @@ export type ImageDropzoneProps = {
   ariaLabel?: string;
   hint?: string;
   imageUrl: string;
-  onChange: (url: string) => void;
+  onChange: (file: File | null) => void;
   accept?: string;
-  className?: string; // atur ukuran (tinggi/lebar) dari luar
+  className?: string;
 };
 
 export function ImageDropzone({
@@ -24,18 +24,38 @@ export function ImageDropzone({
   className = "",
 }: ImageDropzoneProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+
+  const displayedImage = previewUrl || imageUrl;
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // URL sementara untuk preview lokal (belum upload ke server)
-    onChange(URL.createObjectURL(file));
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
+    const newPreviewUrl = URL.createObjectURL(file);
+
+    setSelectedFile(file);
+    setPreviewUrl(newPreviewUrl);
+    onChange(file);
   };
 
   const handleRemove = () => {
-    onChange("");
-    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
+    setSelectedFile(null);
+    setPreviewUrl("");
+    onChange(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -46,12 +66,13 @@ export function ImageDropzone({
         aria-label={ariaLabel ?? label}
         className="relative flex h-full w-full cursor-pointer flex-col items-center justify-center gap-1.5 overflow-hidden rounded-lg border border-dashed border-primary/60 bg-primary/5 p-2 text-center text-primary transition-colors hover:bg-primary/10"
       >
-        {imageUrl ? (
+        {displayedImage ? (
           <Image
-            src={imageUrl}
+            src={displayedImage}
             alt="Uploaded image preview"
             fill
             sizes="240px"
+            unoptimized
             className="object-cover"
           />
         ) : (
@@ -67,12 +88,12 @@ export function ImageDropzone({
         )}
       </button>
 
-      {imageUrl && (
+      {displayedImage && (
         <button
           type="button"
           onClick={handleRemove}
           aria-label="Remove image"
-          className="absolute right-1.5 top-1.5 flex h-6 w-6 cursor-pointer items-center justify-center rounded-md bg-background/80 text-text-primary transition-colors hover:text-red-400"
+          className="absolute right-1.5 top-1.5 z-10 flex h-6 w-6 cursor-pointer items-center justify-center rounded-md bg-background/80 text-text-primary transition-colors hover:text-red-400"
         >
           <X size={14} />
         </button>

@@ -2,10 +2,10 @@ import { Plus } from "lucide-react";
 import { ImageDropzone } from "@/components/form/ImageDropzone";
 
 type ProjectImagesFieldProps = {
-  images: string[]; // index 0 = cover, index 1 dst = gallery
-  onCoverChange: (url: string) => void;
-  onGalleryChange: (galleryIndex: number, url: string) => void;
-  onAddGalleryImage: (url?: string) => void;
+  images: string[];
+  onCoverChange: (file: File | null) => void;
+  onGalleryChange: (galleryIndex: number, file: File) => void;
+  onAddGalleryImage: (file?: File) => void;
   onRemoveGalleryImage: (galleryIndex: number) => void;
 };
 
@@ -29,6 +29,7 @@ export function ProjectImagesField({
         {/* Cover */}
         <div className="flex flex-col gap-1.5 sm:w-2/5">
           <span className="text-xs text-text-secondary">Main Cover Image</span>
+
           <ImageDropzone
             className="h-28"
             label="Upload Main Image"
@@ -41,6 +42,7 @@ export function ProjectImagesField({
         {/* Gallery */}
         <div className="flex flex-1 flex-col gap-1.5">
           <span className="text-xs text-text-secondary">Gallery Images</span>
+
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {galleryImages.map((imageUrl, index) => (
               <ImageDropzone
@@ -49,20 +51,19 @@ export function ProjectImagesField({
                 label="Upload"
                 ariaLabel={`Upload gallery image ${index + 1}`}
                 imageUrl={imageUrl}
-                onChange={(url) => {
-                  if (url === "") {
+                onChange={(file) => {
+                  if (file === null) {
                     onRemoveGalleryImage(index);
                   } else {
-                    onGalleryChange(index, url);
+                    onGalleryChange(index, file);
                   }
                 }}
               />
             ))}
 
-            {/* Tombol Add Image slot baru */}
             <button
               type="button"
-              onClick={() => onAddGalleryImage("")}
+              onClick={() => onAddGalleryImage()}
               className="flex h-28 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-border/80 bg-background/40 p-2 text-text-secondary transition-colors hover:border-primary/60 hover:bg-primary/5 hover:text-primary"
             >
               <Plus size={20} />

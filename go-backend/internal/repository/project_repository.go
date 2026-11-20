@@ -36,7 +36,6 @@ func scanProject(row interface {
 	var liveDemoURL sql.NullString
 	var githubURL sql.NullString
 	var learnings []byte
-	var images []byte
 
 	err := row.Scan(
 		&project.ID,
@@ -48,7 +47,6 @@ func scanProject(row interface {
 		&project.Overview,
 		&project.TechStack,
 		&learnings,
-		&images,
 		&liveDemoURL,
 		&githubURL,
 		&project.SortOrder,
@@ -72,9 +70,68 @@ func scanProject(row interface {
 	}
 
 	project.Learnings = json.RawMessage(learnings)
-	project.Images = json.RawMessage(images)
+	project.Images = make([]model.ProjectImage, 0)
 
 	return project, nil
+}
+
+func (r *ProjectRepository) loadImages(
+	ctx context.Context,
+	project *model.Project,
+) error {
+	query := `
+		SELECT
+			id,
+			project_id,
+			mime_type,
+			file_name,
+			sort_order,
+			created_at
+		FROM project_images
+		WHERE project_id = $1
+		ORDER BY sort_order ASC, id ASC
+	`
+
+	rows, err := r.db.Query(ctx, query, project.ID)
+	if err != nil {
+		return fmt.Errorf("failed to get project images: %w", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var image model.ProjectImage
+		var fileName sql.NullString
+
+		err := rows.Scan(
+			&image.ID,
+			&image.ProjectID,
+			&image.MimeType,
+			&fileName,
+			&image.SortOrder,
+			&image.CreatedAt,
+		)
+		if err != nil {
+			return fmt.Errorf("failed to scan project image: %w", err)
+		}
+
+		if fileName.Valid {
+			image.FileName = &fileName.String
+		}
+
+		image.ImageURL = fmt.Sprintf(
+			"/api/projects/%s/images/%d",
+			project.Slug,
+			image.ID,
+		)
+
+		project.Images = append(project.Images, image)
+	}
+
+	if err := rows.Err(); err != nil {
+		return fmt.Errorf("failed to iterate project images: %w", err)
+	}
+
+	return nil
 }
 
 func (r *ProjectRepository) GetAll(ctx context.Context) ([]model.Project, error) {
@@ -89,7 +146,6 @@ func (r *ProjectRepository) GetAll(ctx context.Context) ([]model.Project, error)
 			overview,
 			tech_stack,
 			learnings,
-			images,
 			live_demo_url,
 			github_url,
 			sort_order,
@@ -120,10 +176,19 @@ func (r *ProjectRepository) GetAll(ctx context.Context) ([]model.Project, error)
 		return nil, fmt.Errorf("failed to iterate projects: %w", err)
 	}
 
+	for i := range projects {
+		if err := r.loadImages(ctx, &projects[i]); err != nil {
+			return nil, err
+		}
+	}
+
 	return projects, nil
 }
 
-func (r *ProjectRepository) GetBySlug(ctx context.Context, slug string) (model.Project, error) {
+func (r *ProjectRepository) GetBySlug(
+	ctx context.Context,
+	slug string,
+) (model.Project, error) {
 	query := `
 		SELECT
 			id,
@@ -135,7 +200,6 @@ func (r *ProjectRepository) GetBySlug(ctx context.Context, slug string) (model.P
 			overview,
 			tech_stack,
 			learnings,
-			images,
 			live_demo_url,
 			github_url,
 			sort_order,
@@ -147,11 +211,15 @@ func (r *ProjectRepository) GetBySlug(ctx context.Context, slug string) (model.P
 
 	project, err := scanProject(r.db.QueryRow(ctx, query, slug))
 	if err != nil {
-		if err == pgx.ErrNoRows {
+		if errors.Is(err, pgx.ErrNoRows) {
 			return model.Project{}, pgx.ErrNoRows
 		}
 
 		return model.Project{}, fmt.Errorf("failed to get project by slug: %w", err)
+	}
+
+	if err := r.loadImages(ctx, &project); err != nil {
+		return model.Project{}, err
 	}
 
 	return project, nil
@@ -163,48 +231,45 @@ func (r *ProjectRepository) Create(
 	request model.CreateProjectRequest,
 ) (model.Project, error) {
 	query := `
-        INSERT INTO projects (
-            slug,
-            title,
-            type,
-            role,
-            timeline,
-            overview,
-            tech_stack,
-            learnings,
-            images,
-            live_demo_url,
-            github_url,
-            sort_order,
-            created_at,
-            updated_at
-        )
-        VALUES (
-            $1, $2, $3, $4, $5, $6, $7,
-            COALESCE(NULLIF($8, '')::jsonb, '[]'::jsonb),
-            COALESCE(NULLIF($9, '')::jsonb, '[]'::jsonb),
-            $10, $11,
-            COALESCE((SELECT MAX(sort_order) + 1 FROM projects), 0),
-            NOW(),
-            NOW()
-        )
-        RETURNING
-            id,
-            slug,
-            title,
-            type,
-            role,
-            timeline,
-            overview,
-            tech_stack,
-            learnings,
-            images,
-            live_demo_url,
-            github_url,
-            sort_order,
-            created_at,
-            updated_at
-    `
+		INSERT INTO projects (
+			slug,
+			title,
+			type,
+			role,
+			timeline,
+			overview,
+			tech_stack,
+			learnings,
+			live_demo_url,
+			github_url,
+			sort_order,
+			created_at,
+			updated_at
+		)
+		VALUES (
+			$1, $2, $3, $4, $5, $6, $7,
+			COALESCE(NULLIF($8, '')::jsonb, '[]'::jsonb),
+			$9, $10,
+			COALESCE((SELECT MAX(sort_order) + 1 FROM projects), 0),
+			NOW(),
+			NOW()
+		)
+		RETURNING
+			id,
+			slug,
+			title,
+			type,
+			role,
+			timeline,
+			overview,
+			tech_stack,
+			learnings,
+			live_demo_url,
+			github_url,
+			sort_order,
+			created_at,
+			updated_at
+	`
 
 	project, err := scanProject(
 		r.db.QueryRow(
@@ -218,7 +283,6 @@ func (r *ProjectRepository) Create(
 			request.Overview,
 			request.TechStack,
 			string(request.Learnings),
-			string(request.Images),
 			request.LiveDemoURL,
 			request.GitHubURL,
 		),
@@ -243,36 +307,46 @@ func (r *ProjectRepository) Update(
 	request model.UpdateProjectRequest,
 ) (model.Project, error) {
 	query := `
-        UPDATE projects
-        SET
-            slug = $1,
-            title = $2,
-            type = $3,
-            role = $4,
-            timeline = $5,
-            overview = $6,
-            tech_stack = $7,
-            learnings = COALESCE(NULLIF($8, '')::jsonb, '[]'::jsonb),
-            images = COALESCE(NULLIF($9, '')::jsonb, '[]'::jsonb),
-            live_demo_url = $10,
-            github_url = $11,
-            updated_at = NOW()
-        WHERE slug = $12
-        RETURNING
-            id, slug, title, type, role, timeline, overview, tech_stack,
-            learnings, images, live_demo_url, github_url, sort_order,
-            created_at, updated_at
-    `
+		UPDATE projects
+		SET
+			slug = $1,
+			title = $2,
+			type = $3,
+			role = $4,
+			timeline = $5,
+			overview = $6,
+			tech_stack = $7,
+			learnings = COALESCE(NULLIF($8, '')::jsonb, '[]'::jsonb),
+			live_demo_url = $9,
+			github_url = $10,
+			updated_at = NOW()
+		WHERE slug = $11
+		RETURNING
+			id,
+			slug,
+			title,
+			type,
+			role,
+			timeline,
+			overview,
+			tech_stack,
+			learnings,
+			live_demo_url,
+			github_url,
+			sort_order,
+			created_at,
+			updated_at
+	`
 
-	newSlug := strings.ToLower(request.Title)
-	newSlug = strings.TrimSpace(newSlug)
+	newSlug := strings.ToLower(strings.TrimSpace(request.Title))
 	nonAlphanumeric := regexp.MustCompile(`[^a-z0-9]+`)
 	newSlug = nonAlphanumeric.ReplaceAllString(newSlug, "-")
 	newSlug = strings.Trim(newSlug, "-")
 
 	project, err := scanProject(
 		r.db.QueryRow(
-			ctx, query,
+			ctx,
+			query,
 			newSlug,
 			request.Title,
 			request.Type,
@@ -281,7 +355,6 @@ func (r *ProjectRepository) Update(
 			request.Overview,
 			request.TechStack,
 			string(request.Learnings),
-			string(request.Images),
 			request.LiveDemoURL,
 			request.GitHubURL,
 			slug,
@@ -295,7 +368,15 @@ func (r *ProjectRepository) Update(
 			return model.Project{}, ErrDuplicateSlug
 		}
 
+		if errors.Is(err, pgx.ErrNoRows) {
+			return model.Project{}, pgx.ErrNoRows
+		}
+
 		return model.Project{}, fmt.Errorf("failed to update project: %w", err)
+	}
+
+	if err := r.loadImages(ctx, &project); err != nil {
+		return model.Project{}, err
 	}
 
 	return project, nil
@@ -306,9 +387,9 @@ func (r *ProjectRepository) Delete(
 	slug string,
 ) error {
 	query := `
-        DELETE FROM projects
-        WHERE slug = $1
-    `
+		DELETE FROM projects
+		WHERE slug = $1
+	`
 
 	commandTag, err := r.db.Exec(ctx, query, slug)
 	if err != nil {

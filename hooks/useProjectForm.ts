@@ -12,6 +12,12 @@ export type ProjectFormState = ReturnType<typeof useProjectForm>;
 export function useProjectForm(initialData: Project = emptyProject) {
   const [formData, setFormData] = useState<Project>(initialData);
 
+  // File baru yang dipilih, berdasarkan index gambar.
+  const [imageFiles, setImageFiles] = useState<Record<number, File>>({});
+
+  // URL gambar lama yang perlu dihapus dari database.
+  const [removedImages, setRemovedImages] = useState<string[]>([]);
+
   const handleFieldChange = (field: ProjectStringField, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -48,45 +54,100 @@ export function useProjectForm(initialData: Project = emptyProject) {
   };
 
   // Gambar: index 0 = cover, index 1 dst = gallery
-  const handleCoverChange = (url: string) => {
-    setFormData((prev) => {
-      const nextImages = [...prev.image];
-      nextImages[0] = url;
-      return { ...prev, image: nextImages };
-    });
-  };
+  const handleCoverChange = (file: File | null) => {
+    const currentImage = formData.image[0];
 
-  const handleAddGalleryImage = (url: string = "") => {
-    setFormData((prev) => {
-      const nextImages = prev.image.length === 0 ? ["", url] : [...prev.image, url];
-      return { ...prev, image: nextImages };
-    });
-  };
+    if (file && currentImage) {
+      setRemovedImages((prev) =>
+        prev.includes(currentImage) ? prev : [...prev, currentImage],
+      );
+    }
 
-  const handleGalleryChange = (galleryIndex: number, url: string) => {
-    // galleryIndex 0 berarti index 1 pada prev.image
-    const imageIndex = galleryIndex + 1;
-    setFormData((prev) => {
-      const nextImages = [...prev.image];
-      while (nextImages.length <= imageIndex) {
-        nextImages.push("");
+    if (!file && currentImage) {
+      setRemovedImages((prev) =>
+        prev.includes(currentImage) ? prev : [...prev, currentImage],
+      );
+    }
+
+    setImageFiles((prev) => {
+      const next = { ...prev };
+
+      if (file) {
+        next[0] = file;
+      } else {
+        delete next[0];
       }
-      nextImages[imageIndex] = url;
-      return { ...prev, image: nextImages };
+
+      return next;
     });
+
+    if (!file) {
+      setFormData((prev) => ({
+        ...prev,
+        image: prev.image.map((url, index) => (index === 0 ? "" : url)),
+      }));
+    }
+  };
+
+  const handleAddGalleryImage = () => {
+    setFormData((prev) => ({
+      ...prev,
+      image: [...prev.image, ""],
+    }));
+  };
+
+  const handleGalleryChange = (galleryIndex: number, file: File) => {
+    const imageIndex = galleryIndex + 1;
+    const currentImage = formData.image[imageIndex];
+
+    if (currentImage) {
+      setRemovedImages((prev) =>
+        prev.includes(currentImage) ? prev : [...prev, currentImage],
+      );
+    }
+
+    setImageFiles((prev) => ({
+      ...prev,
+      [imageIndex]: file,
+    }));
   };
 
   const handleRemoveGalleryImage = (galleryIndex: number) => {
-    // galleryIndex 0 berarti index 1 pada prev.image
     const imageIndex = galleryIndex + 1;
+    const currentImage = formData.image[imageIndex];
+
+    if (currentImage) {
+      setRemovedImages((prev) =>
+        prev.includes(currentImage) ? prev : [...prev, currentImage],
+      );
+    }
+
     setFormData((prev) => ({
       ...prev,
       image: removeItemAt(prev.image, imageIndex),
     }));
+
+    setImageFiles((prev) => {
+      const next: Record<number, File> = {};
+
+      Object.entries(prev).forEach(([index, file]) => {
+        const oldIndex = Number(index);
+
+        if (oldIndex < imageIndex) {
+          next[oldIndex] = file;
+        } else if (oldIndex > imageIndex) {
+          next[oldIndex - 1] = file;
+        }
+      });
+
+      return next;
+    });
   };
 
   return {
     formData,
+    imageFiles,
+    removedImages,
     handleFieldChange,
     handleAddTech,
     handleRemoveTech,
