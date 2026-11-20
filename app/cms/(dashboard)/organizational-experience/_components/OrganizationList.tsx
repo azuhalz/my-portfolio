@@ -23,7 +23,11 @@ export function OrganizationList({
       addLabel="Add Organizational Experience"
       onAdd={onAdd}
       onReorder={onReorder}
-      getKey={(organization) => `${organization.role}-${organization.period}`}
+      getKey={(organization) =>
+        organization.id !== undefined
+          ? String(organization.id)
+          : `${organization.role}-${organization.period}`
+      }
       renderItem={(organization, order) => (
         <OrganizationItem
           organization={organization}

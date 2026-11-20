@@ -1,9 +1,12 @@
 import type { ExperienceFormLabels } from "@/lib/data/experience-data";
 
 export type Organization = {
+  id?: number;
   role: string;
   organization: string;
   period: string;
+  startDate?: string;
+  endDate?: string;
   points: string[];
 };
 
@@ -29,7 +32,6 @@ export const organizationsData: Organization[] = [
   },
 ];
 
-// Form CMS memakai ulang ExperienceFormData (struktur field-nya sama), hanya teksnya berbeda
 export const organizationFormLabels: ExperienceFormLabels = {
   heading: "Add New Organizational Experience",
   titleLabel: "Position / Role",
