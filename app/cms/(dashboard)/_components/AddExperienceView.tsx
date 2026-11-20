@@ -8,12 +8,14 @@ import type {
 
 type AddExperienceViewProps = {
   labels: ExperienceFormLabels;
+  initialData?: Experience;
   onSubmit: (formData: Experience) => void;
   onCancel: () => void;
 };
 
 export function AddExperienceView({
   labels,
+  initialData,
   onSubmit,
   onCancel,
 }: AddExperienceViewProps) {
@@ -23,7 +25,7 @@ export function AddExperienceView({
     handlePointChange,
     handleAddPoint,
     handleRemovePoint,
-  } = useExperienceForm();
+  } = useExperienceForm(initialData);
   const { notify } = useDialog();
 
   const handleSubmit = async () => {

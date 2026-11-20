@@ -6,7 +6,9 @@ export const emptyExperience = {
   points: [""],
 };
 
-export type Experience = typeof emptyExperience;
+export type Experience = typeof emptyExperience & {
+  id?: number;
+};
 
 export const experiencesData: Experience[] = [
   {
