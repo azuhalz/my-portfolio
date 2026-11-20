@@ -5,6 +5,7 @@ import { emptyProject, type Project } from "@/lib/data/projects-data";
 type AddProjectViewProps = {
   initialData?: Project;
   initialImageIds?: (number | null)[];
+  isEditing?: boolean;
   onSubmit: (
     formData: Project,
     imageFiles: Record<number, File>,
@@ -16,6 +17,7 @@ type AddProjectViewProps = {
 export function AddProjectView({
   initialData = emptyProject,
   initialImageIds = [],
+  isEditing = false,
   onSubmit,
   onCancel,
 }: AddProjectViewProps) {
@@ -24,6 +26,7 @@ export function AddProjectView({
   return (
     <ProjectForm
       form={form}
+      isEditing={isEditing}
       onSubmit={() =>
         onSubmit(form.formData, form.imageFiles, form.removedImageIds)
       }

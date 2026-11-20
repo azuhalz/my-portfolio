@@ -1,4 +1,4 @@
-import { Calendar, CirclePlus, ExternalLink } from "lucide-react";
+import { Calendar, CirclePlus, ExternalLink, Save } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { BulletListField } from "@/components/form/BulletListField";
 import { FormActions } from "@/components/form/FormActions";
@@ -17,11 +17,17 @@ import {
 
 type ProjectFormProps = {
   form: ProjectFormState;
+  isEditing?: boolean;
   onSubmit: () => void;
   onCancel: () => void;
 };
 
-export function ProjectForm({ form, onSubmit, onCancel }: ProjectFormProps) {
+export function ProjectForm({
+  form,
+  isEditing = false,
+  onSubmit,
+  onCancel,
+}: ProjectFormProps) {
   const { formData, handleFieldChange } = form;
 
   return (
@@ -125,8 +131,8 @@ export function ProjectForm({ form, onSubmit, onCancel }: ProjectFormProps) {
         />
 
         <FormActions
-          submitLabel="Create Project"
-          submitIcon={<CirclePlus size={18} />}
+          submitLabel={isEditing ? "Save Changes" : "Create Project"}
+          submitIcon={isEditing ? <Save size={18} /> : <CirclePlus size={18} />}
           onCancel={onCancel}
         />
       </Card>

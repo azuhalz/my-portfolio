@@ -47,8 +47,14 @@ function mapProject(project: ProjectAPI): Project {
 }
 
 export function ProjectsCmsPage() {
-  const { confirmAdd, notifyAdded, confirmDelete, confirmSave, notifySaved } =
-    useDialog();
+  const {
+    confirmAdd,
+    notifyAdded,
+    confirmDelete,
+    confirmSave,
+    notifySaved,
+    notify,
+  } = useDialog();
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [isAdding, setIsAdding] = useState(false);
@@ -228,8 +234,31 @@ export function ProjectsCmsPage() {
   };
 
   const handleDelete = async (project: Project) => {
-    if (await confirmDelete("project", project.title)) {
+    const confirmed = await confirmDelete("project", project.title);
+
+    if (!confirmed) return;
+
+    try {
+      await apiRequest(`/api/projects/${project.slug}`, {
+        method: "DELETE",
+      });
+
       setProjects((prev) => prev.filter((item) => item.slug !== project.slug));
+
+      await notify({
+        tone: "success",
+        title: "Project deleted",
+        description: `"${project.title}" has been permanently deleted.`,
+      });
+    } catch (err) {
+      await notify({
+        tone: "danger",
+        title: "Delete failed",
+        description:
+          err instanceof ApiError
+            ? err.message
+            : "Unable to delete project. Please try again.",
+      });
     }
   };
 
