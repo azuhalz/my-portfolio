@@ -137,10 +137,15 @@ func (r *ExperienceRepository) GetByID(
 	return experience, nil
 }
 
-func (r *ExperienceRepository) Create(ctx context.Context, request model.CreateExperienceRequest) (model.Experience, error) {
+func (r *ExperienceRepository) Create(
+	ctx context.Context,
+	request model.CreateExperienceRequest,
+) (model.Experience, error) {
 	pointsJSON, err := json.Marshal(request.Points)
 	if err != nil {
-		return model.Experience{}, fmt.Errorf("failed to encode experience points: %w", err)
+		return model.Experience{}, fmt.Errorf(
+			"failed to encode experience points: %w", err,
+		)
 	}
 
 	query := `INSERT INTO experiences (
@@ -155,7 +160,9 @@ func (r *ExperienceRepository) Create(ctx context.Context, request model.CreateE
 		NOW(), NOW()
 	) RETURNING ` + experienceColumns
 
-	experience, err := scanExperience(r.db.QueryRow(ctx, query,
+	experience, err := scanExperience(r.db.QueryRow(
+		ctx,
+		query,
 		request.Type,
 		request.Title,
 		request.Organization,
@@ -165,7 +172,9 @@ func (r *ExperienceRepository) Create(ctx context.Context, request model.CreateE
 	))
 
 	if err != nil {
-		return model.Experience{}, fmt.Errorf("failed to create experience: %w", err)
+		return model.Experience{}, fmt.Errorf(
+			"failed to create experience: %w", err,
+		)
 	}
 
 	return experience, nil
@@ -240,6 +249,44 @@ func (r *ExperienceRepository) Delete(
 
 	if result.RowsAffected() == 0 {
 		return pgx.ErrNoRows
+	}
+
+	return nil
+}
+
+func (r *ExperienceRepository) Reorder(
+	ctx context.Context,
+	experienceType string,
+	ids []int16,
+) error {
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to begin reorder transaction: %w", err)
+	}
+	defer tx.Rollback(ctx)
+
+	query := `
+		UPDATE experiences AS e
+		SET
+			sort_order = ordered.position - 1,
+			updated_at = NOW()
+		FROM unnest($1::smallint[]) WITH ORDINALITY
+			AS ordered(id, position)
+		WHERE e.id = ordered.id
+		AND e.type = $2
+	`
+
+	commandTag, err := tx.Exec(ctx, query, ids, experienceType)
+	if err != nil {
+		return fmt.Errorf("failed to reorder experiences: %w", err)
+	}
+
+	if commandTag.RowsAffected() != int64(len(ids)) {
+		return fmt.Errorf("experience count does not match submitted order")
+	}
+
+	if err := tx.Commit(ctx); err != nil {
+		return fmt.Errorf("failed to commit experience order: %w", err)
 	}
 
 	return nil

@@ -34,3 +34,8 @@ type UpdateExperienceRequest struct {
 	Points       []string   `json:"points"`
 	SortOrder    int        `json:"sort_order"`
 }
+
+type ReorderExperiencesRequest struct {
+	Type string  `json:"type"`
+	IDs  []int16 `json:"ids"`
+}

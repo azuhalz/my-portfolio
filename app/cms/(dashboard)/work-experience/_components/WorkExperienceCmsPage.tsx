@@ -20,7 +20,7 @@ export function WorkExperienceCmsPage() {
   const handleCreate = async (formData: Experience) => {
     const newExperience: Experience = {
       title: formData.title.trim(),
-      company: formData.company.trim(),
+      organization: formData.organization.trim(),
       startDate: formData.startDate,
       endDate: formData.endDate,
       points: trimNonEmpty(formData.points),
@@ -29,7 +29,7 @@ export function WorkExperienceCmsPage() {
     if (
       !(await confirmAdd(
         "experience",
-        `${newExperience.title}, ${newExperience.company}`,
+        `${newExperience.title}, ${newExperience.organization}`,
       ))
     ) {
       return;
@@ -52,7 +52,7 @@ export function WorkExperienceCmsPage() {
     if (
       await confirmDelete(
         "experience",
-        `${experience.title}, ${experience.company}`,
+        `${experience.title}, ${experience.organization}`,
       )
     ) {
       setExperiences((prev) => prev.filter((item) => item !== experience));

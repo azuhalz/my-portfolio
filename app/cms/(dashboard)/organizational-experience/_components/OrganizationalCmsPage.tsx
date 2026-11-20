@@ -23,7 +23,7 @@ export function OrganizationalCmsPage() {
   const handleCreate = async (formData: Experience) => {
     const newOrganization: Organization = {
       role: formData.title.trim(),
-      organization: formData.company.trim(),
+      organization: formData.organization.trim(),
       period: formatExperiencePeriod(formData.startDate, formData.endDate),
       points: trimNonEmpty(formData.points),
     };

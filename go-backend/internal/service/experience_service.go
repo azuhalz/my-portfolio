@@ -28,6 +28,8 @@ type ExperienceRepository interface {
 	) (model.Experience, error)
 
 	Delete(ctx context.Context, id int16) error
+
+	Reorder(ctx context.Context, experienceType string, ids []int16) error
 }
 
 type ExperienceService struct {
@@ -142,6 +144,46 @@ func (s *ExperienceService) Delete(
 	}
 
 	return s.repository.Delete(ctx, id)
+}
+
+func (s *ExperienceService) Reorder(
+	ctx context.Context,
+	experienceType string,
+	ids []int16,
+) error {
+	experienceType = strings.TrimSpace(experienceType)
+
+	if experienceType != "work" && experienceType != "organization" {
+		return &ValidationError{
+			Message: "type must be work or organization",
+		}
+	}
+
+	if len(ids) == 0 {
+		return &ValidationError{
+			Message: "experience order cannot be empty",
+		}
+	}
+
+	seen := make(map[int16]bool, len(ids))
+
+	for _, id := range ids {
+		if id <= 0 {
+			return &ValidationError{
+				Message: "experience ID must be greater than zero",
+			}
+		}
+
+		if seen[id] {
+			return &ValidationError{
+				Message: "duplicate experience ID",
+			}
+		}
+
+		seen[id] = true
+	}
+
+	return s.repository.Reorder(ctx, experienceType, ids)
 }
 
 func validateExperience(

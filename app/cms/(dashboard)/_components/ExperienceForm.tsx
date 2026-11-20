@@ -49,13 +49,15 @@ export function ExperienceForm({
             placeholder={labels.titlePlaceholder}
             required
           />
+
           <TextInputField
             label={labels.companyLabel}
-            value={formData.company}
-            onChange={(val) => onFieldChange("company", val)}
+            value={formData.organization}
+            onChange={(val) => onFieldChange("organization", val)}
             placeholder={labels.companyPlaceholder}
             required
           />
+
           <TextInputField
             label="Start Date"
             type="month"
@@ -63,6 +65,7 @@ export function ExperienceForm({
             onChange={(val) => onFieldChange("startDate", val)}
             required
           />
+
           <TextInputField
             label={labels.endDateLabel}
             type="month"

@@ -1,6 +1,6 @@
 export const emptyExperience = {
   title: "",
-  company: "",
+  organization: "",
   startDate: "",
   endDate: "",
   points: [""],
@@ -11,7 +11,7 @@ export type Experience = typeof emptyExperience;
 export const experiencesData: Experience[] = [
   {
     title: "iOS Developer",
-    company: "Apple Developer Academy @ UC",
+    organization: "Apple Developer Academy @ UC",
     startDate: "2025-03",
     endDate: "2025-12",
     points: [
@@ -23,7 +23,7 @@ export const experiencesData: Experience[] = [
   },
   {
     title: "Software Quality Assurance",
-    company: "PT. Telkom Indonesia",
+    organization: "PT. Telkom Indonesia",
     startDate: "2024-04",
     endDate: "2024-09",
     points: [
@@ -34,7 +34,8 @@ export const experiencesData: Experience[] = [
   },
   {
     title: "Mobile Development Student",
-    company: "Bangkit Academy led by Google, Tokopedia, Gojek, & Traveloka",
+    organization:
+      "Bangkit Academy led by Google, Tokopedia, Gojek, & Traveloka",
     startDate: "2023-02",
     endDate: "2023-07",
     points: [
@@ -44,7 +45,6 @@ export const experiencesData: Experience[] = [
   },
 ];
 
-// Teks form yang bisa dipakai ulang oleh Work Experience & Organizational Experience
 export type ExperienceFormLabels = {
   heading: string;
   titleLabel: string;

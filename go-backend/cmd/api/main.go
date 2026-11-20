@@ -130,6 +130,7 @@ func main() {
 	mux.HandleFunc("GET /api/experiences", experienceHandler.GetAll)
 	mux.HandleFunc("GET /api/experiences/{id}", experienceHandler.GetByID)
 	mux.Handle("POST /api/experiences", protect(experienceHandler.Create))
+	mux.Handle("PUT /api/experiences/reorder", protect(experienceHandler.Reorder))
 	mux.Handle("PUT /api/experiences/{id}", protect(experienceHandler.Update))
 	mux.Handle("DELETE /api/experiences/{id}", protect(experienceHandler.Delete))
 

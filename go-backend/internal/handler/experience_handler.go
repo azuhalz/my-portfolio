@@ -179,6 +179,38 @@ func (h *ExperienceHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+func (h *ExperienceHandler) Reorder(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	var request model.ReorderExperiencesRequest
+
+	if err := decodeJSON(r, &request); err != nil {
+		writeJSONError(w, http.StatusBadRequest, "Invalid JSON request")
+		return
+	}
+
+	if err := h.service.Reorder(
+		r.Context(),
+		request.Type,
+		request.IDs,
+	); err != nil {
+		var validationErr *service.ValidationError
+
+		if errors.As(err, &validationErr) {
+			writeJSONError(w, http.StatusBadRequest, validationErr.Error())
+			return
+		}
+
+		log.Printf("Failed to reorder experiences: %v", err)
+		writeJSONError(w, http.StatusInternalServerError, "Internal server error")
+		return
+	}
+
+	writeJSON(w, map[string]string{
+		"message": "Experience order updated successfully",
+	})
+}
+
 func parseExperienceID(r *http.Request) (int16, error) {
 	id, err := strconv.ParseInt(r.PathValue("id"), 10, 16)
 	if err != nil {

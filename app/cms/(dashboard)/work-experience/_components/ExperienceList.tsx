@@ -23,7 +23,9 @@ export function ExperienceList({
       addLabel="Add Experience"
       onAdd={onAdd}
       onReorder={onReorder}
-      getKey={(experience) => `${experience.company}-${experience.startDate}`}
+      getKey={(experience) =>
+        `${experience.organization}-${experience.startDate}`
+      }
       renderItem={(experience, order) => (
         <ExperienceItem
           experience={experience}
