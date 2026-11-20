@@ -402,3 +402,39 @@ func (r *ProjectRepository) Delete(
 
 	return nil
 }
+
+func (r *ProjectRepository) Reorder(
+	ctx context.Context,
+	slugs []string,
+) error {
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to begin reorder transaction: %w", err)
+	}
+	defer tx.Rollback(ctx)
+
+	query := `
+		UPDATE projects AS p
+		SET
+			sort_order = ordered.position - 1,
+			updated_at = NOW()
+		FROM unnest($1::text[]) WITH ORDINALITY
+			AS ordered(slug, position)
+		WHERE p.slug = ordered.slug
+	`
+
+	commandTag, err := tx.Exec(ctx, query, slugs)
+	if err != nil {
+		return fmt.Errorf("failed to reorder projects: %w", err)
+	}
+
+	if commandTag.RowsAffected() != int64(len(slugs)) {
+		return fmt.Errorf("project count does not match submitted order")
+	}
+
+	if err := tx.Commit(ctx); err != nil {
+		return fmt.Errorf("failed to commit project order: %w", err)
+	}
+
+	return nil
+}

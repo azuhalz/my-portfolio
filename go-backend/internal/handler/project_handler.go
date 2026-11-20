@@ -152,6 +152,34 @@ func (h *ProjectHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+func (h *ProjectHandler) Reorder(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	var request model.ReorderProjectsRequest
+
+	if err := decodeJSON(r, &request); err != nil {
+		writeJSONError(w, http.StatusBadRequest, "Invalid JSON request")
+		return
+	}
+
+	if err := h.service.Reorder(r.Context(), request.Slugs); err != nil {
+		var validationErr *service.ValidationError
+
+		if errors.As(err, &validationErr) {
+			writeJSONError(w, http.StatusBadRequest, validationErr.Error())
+			return
+		}
+
+		log.Printf("Failed to reorder projects: %v", err)
+		writeJSONError(w, http.StatusInternalServerError, "Internal server error")
+		return
+	}
+
+	writeJSON(w, map[string]string{
+		"message": "Project order updated successfully",
+	})
+}
+
 func writeJSONError(w http.ResponseWriter, statusCode int, message string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)

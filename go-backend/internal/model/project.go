@@ -57,3 +57,7 @@ type UpdateProjectRequest struct {
 	LiveDemoURL *string         `json:"live_demo_url"`
 	GitHubURL   *string         `json:"github_url"`
 }
+
+type ReorderProjectsRequest struct {
+	Slugs []string `json:"slugs"`
+}

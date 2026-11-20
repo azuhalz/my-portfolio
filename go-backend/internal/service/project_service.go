@@ -31,14 +31,13 @@ type ProjectRepository interface {
 		slug string,
 		request model.CreateProjectRequest,
 	) (model.Project, error)
-
 	Update(
 		ctx context.Context,
 		slug string,
 		request model.UpdateProjectRequest,
 	) (model.Project, error)
-
 	Delete(ctx context.Context, slug string) error
+	Reorder(ctx context.Context, slugs []string) error
 }
 
 type ProjectService struct {
@@ -141,14 +140,46 @@ func (s *ProjectService) Update(
 	return project, nil
 }
 
+func (s *ProjectService) Reorder(
+	ctx context.Context,
+	slugs []string,
+) error {
+	if len(slugs) == 0 {
+		return &ValidationError{
+			Message: "project order cannot be empty",
+		}
+	}
+
+	seen := make(map[string]bool, len(slugs))
+
+	for i, slug := range slugs {
+		slug = strings.TrimSpace(slug)
+
+		if slug == "" {
+			return &ValidationError{
+				Message: "project slug cannot be empty",
+			}
+		}
+
+		if seen[slug] {
+			return &ValidationError{
+				Message: "duplicate project slug",
+			}
+		}
+
+		seen[slug] = true
+		slugs[i] = slug
+	}
+
+	return s.repository.Reorder(ctx, slugs)
+}
+
 func generateSlug(title string) string {
 	slug := strings.ToLower(title)
-
 	slug = strings.TrimSpace(slug)
 
 	nonAlphanumeric := regexp.MustCompile(`[^a-z0-9]+`)
 	slug = nonAlphanumeric.ReplaceAllString(slug, "-")
-
 	slug = strings.Trim(slug, "-")
 
 	return slug

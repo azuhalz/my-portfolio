@@ -196,7 +196,6 @@ export function ProjectsCmsPage() {
         },
       );
 
-      // Hapus gambar lama yang diganti atau dihilangkan.
       for (const imageId of removedImageIds) {
         await apiRequest(
           `/api/projects/${updatedProject.slug}/images/${imageId}`,
@@ -204,10 +203,8 @@ export function ProjectsCmsPage() {
         );
       }
 
-      // Upload gambar baru.
       await uploadImages(updatedProject.slug, imageFiles);
 
-      // Ambil data terbaru beserta metadata gambarnya.
       const refreshedProject = await apiRequest<ProjectAPI>(
         `/api/projects/${updatedProject.slug}`,
       );
@@ -262,8 +259,31 @@ export function ProjectsCmsPage() {
     }
   };
 
-  const handleReorder = (from: number, to: number) => {
-    setProjects((prev) => moveItem(prev, from, to));
+  const handleReorder = async (from: number, to: number) => {
+    const previousProjects = projects;
+    const reorderedProjects = moveItem(projects, from, to);
+
+    setProjects(reorderedProjects);
+
+    try {
+      await apiRequest("/api/projects/reorder", {
+        method: "PUT",
+        body: {
+          slugs: reorderedProjects.map((project) => project.slug),
+        },
+      });
+    } catch (err) {
+      setProjects(previousProjects);
+
+      await notify({
+        tone: "danger",
+        title: "Reorder failed",
+        description:
+          err instanceof ApiError
+            ? err.message
+            : "Unable to save project order. Please try again.",
+      });
+    }
   };
 
   const handleCancel = () => {

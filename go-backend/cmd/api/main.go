@@ -102,6 +102,7 @@ func main() {
 	mux.Handle("POST /api/projects", protect(projectHandler.Create))
 	mux.Handle("PUT /api/projects/{slug}", protect(projectHandler.Update))
 	mux.Handle("DELETE /api/projects/{slug}", protect(projectHandler.Delete))
+	mux.Handle("PUT /api/projects/reorder", protect(projectHandler.Reorder))
 
 	// Project Image API
 	mux.Handle("POST /api/projects/{slug}/images", protect(projectImageHandler.Upload))
