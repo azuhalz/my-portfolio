@@ -9,14 +9,22 @@ export type ProjectStringField = Exclude<
 
 export type ProjectFormState = ReturnType<typeof useProjectForm>;
 
-export function useProjectForm(initialData: Project = emptyProject) {
+export function useProjectForm(
+  initialData: Project = emptyProject,
+  initialImageIds: (number | null)[] = [],
+) {
   const [formData, setFormData] = useState<Project>(initialData);
-
-  // File baru yang dipilih, berdasarkan index gambar.
   const [imageFiles, setImageFiles] = useState<Record<number, File>>({});
+  const [imageIds, setImageIds] = useState<(number | null)[]>(initialImageIds);
+  const [removedImageIds, setRemovedImageIds] = useState<number[]>([]);
 
-  // URL gambar lama yang perlu dihapus dari database.
-  const [removedImages, setRemovedImages] = useState<string[]>([]);
+  const markImageAsRemoved = (imageId: number | null | undefined) => {
+    if (imageId == null) return;
+
+    setRemovedImageIds((prev) =>
+      prev.includes(imageId) ? prev : [...prev, imageId],
+    );
+  };
 
   const handleFieldChange = (field: ProjectStringField, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -53,30 +61,21 @@ export function useProjectForm(initialData: Project = emptyProject) {
     }));
   };
 
-  // Gambar: index 0 = cover, index 1 dst = gallery
+  // Images: index 0 = cover, index 1 dst = gallery
   const handleCoverChange = (file: File | null) => {
-    const currentImage = formData.image[0];
+    markImageAsRemoved(imageIds[0]);
 
-    if (file && currentImage) {
-      setRemovedImages((prev) =>
-        prev.includes(currentImage) ? prev : [...prev, currentImage],
-      );
-    }
-
-    if (!file && currentImage) {
-      setRemovedImages((prev) =>
-        prev.includes(currentImage) ? prev : [...prev, currentImage],
-      );
-    }
+    setImageIds((prev) => {
+      const next = [...prev];
+      next[0] = null;
+      return next;
+    });
 
     setImageFiles((prev) => {
       const next = { ...prev };
 
-      if (file) {
-        next[0] = file;
-      } else {
-        delete next[0];
-      }
+      if (file) next[0] = file;
+      else delete next[0];
 
       return next;
     });
@@ -94,17 +93,20 @@ export function useProjectForm(initialData: Project = emptyProject) {
       ...prev,
       image: [...prev.image, ""],
     }));
+
+    setImageIds((prev) => [...prev, null]);
   };
 
   const handleGalleryChange = (galleryIndex: number, file: File) => {
     const imageIndex = galleryIndex + 1;
-    const currentImage = formData.image[imageIndex];
 
-    if (currentImage) {
-      setRemovedImages((prev) =>
-        prev.includes(currentImage) ? prev : [...prev, currentImage],
-      );
-    }
+    markImageAsRemoved(imageIds[imageIndex]);
+
+    setImageIds((prev) => {
+      const next = [...prev];
+      next[imageIndex] = null;
+      return next;
+    });
 
     setImageFiles((prev) => ({
       ...prev,
@@ -114,18 +116,15 @@ export function useProjectForm(initialData: Project = emptyProject) {
 
   const handleRemoveGalleryImage = (galleryIndex: number) => {
     const imageIndex = galleryIndex + 1;
-    const currentImage = formData.image[imageIndex];
 
-    if (currentImage) {
-      setRemovedImages((prev) =>
-        prev.includes(currentImage) ? prev : [...prev, currentImage],
-      );
-    }
+    markImageAsRemoved(imageIds[imageIndex]);
 
     setFormData((prev) => ({
       ...prev,
       image: removeItemAt(prev.image, imageIndex),
     }));
+
+    setImageIds((prev) => removeItemAt(prev, imageIndex));
 
     setImageFiles((prev) => {
       const next: Record<number, File> = {};
@@ -133,11 +132,8 @@ export function useProjectForm(initialData: Project = emptyProject) {
       Object.entries(prev).forEach(([index, file]) => {
         const oldIndex = Number(index);
 
-        if (oldIndex < imageIndex) {
-          next[oldIndex] = file;
-        } else if (oldIndex > imageIndex) {
-          next[oldIndex - 1] = file;
-        }
+        if (oldIndex < imageIndex) next[oldIndex] = file;
+        else if (oldIndex > imageIndex) next[oldIndex - 1] = file;
       });
 
       return next;
@@ -147,7 +143,8 @@ export function useProjectForm(initialData: Project = emptyProject) {
   return {
     formData,
     imageFiles,
-    removedImages,
+    imageIds,
+    removedImageIds,
     handleFieldChange,
     handleAddTech,
     handleRemoveTech,

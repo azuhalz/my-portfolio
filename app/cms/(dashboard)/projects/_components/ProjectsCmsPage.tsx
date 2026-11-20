@@ -47,19 +47,27 @@ function mapProject(project: ProjectAPI): Project {
 }
 
 export function ProjectsCmsPage() {
-  const { confirmAdd, notifyAdded, confirmDelete } = useDialog();
+  const { confirmAdd, notifyAdded, confirmDelete, confirmSave, notifySaved } =
+    useDialog();
 
   const [projects, setProjects] = useState<Project[]>([]);
   const [isAdding, setIsAdding] = useState(false);
+  const [editingProject, setEditingProject] = useState<ProjectAPI | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [formError, setFormError] = useState("");
 
+  const isFormOpen = isAdding || editingProject !== null;
+
+  const fetchProjects = async () => {
+    const data = await apiRequest<ProjectAPI[]>("/api/projects");
+    setProjects((data ?? []).map(mapProject));
+  };
+
   useEffect(() => {
-    async function fetchProjects() {
+    async function loadProjects() {
       try {
-        const data = await apiRequest<ProjectAPI[]>("/api/projects");
-        setProjects((data ?? []).map(mapProject));
+        await fetchProjects();
       } catch {
         setError("Unable to load projects. Please try again.");
       } finally {
@@ -67,8 +75,28 @@ export function ProjectsCmsPage() {
       }
     }
 
-    fetchProjects();
+    loadProjects();
   }, []);
+
+  const uploadImages = async (
+    slug: string,
+    imageFiles: Record<number, File>,
+  ) => {
+    const uploadedImages = Object.entries(imageFiles).sort(
+      ([a], [b]) => Number(a) - Number(b),
+    );
+
+    for (const [index, file] of uploadedImages) {
+      const imageFormData = new FormData();
+      imageFormData.append("image", file);
+      imageFormData.append("sort_order", index);
+
+      await apiRequest(`/api/projects/${slug}/images`, {
+        method: "POST",
+        body: imageFormData,
+      });
+    }
+  };
 
   const handleCreate = async (
     formData: Project,
@@ -96,20 +124,7 @@ export function ProjectsCmsPage() {
         },
       });
 
-      const uploadedImages = Object.entries(imageFiles).sort(
-        ([a], [b]) => Number(a) - Number(b),
-      );
-
-      for (const [index, file] of uploadedImages) {
-        const imageFormData = new FormData();
-        imageFormData.append("image", file);
-        imageFormData.append("sort_order", index);
-
-        await apiRequest(`/api/projects/${createdProject.slug}/images`, {
-          method: "POST",
-          body: imageFormData,
-        });
-      }
+      await uploadImages(createdProject.slug, imageFiles);
 
       const updatedProject = await apiRequest<ProjectAPI>(
         `/api/projects/${createdProject.slug}`,
@@ -129,8 +144,87 @@ export function ProjectsCmsPage() {
     }
   };
 
-  const handleEdit = (project: Project) => {
-    console.log("Edit project:", project);
+  const handleEdit = async (project: Project) => {
+    setFormError("");
+
+    try {
+      const data = await apiRequest<ProjectAPI>(
+        `/api/projects/${project.slug}`,
+      );
+
+      setEditingProject(data);
+      setIsAdding(false);
+    } catch {
+      setFormError("Unable to load project details. Please try again.");
+    }
+  };
+
+  const handleUpdate = async (
+    currentProject: ProjectAPI,
+    formData: Project,
+    imageFiles: Record<number, File>,
+    removedImageIds: number[],
+  ) => {
+    const confirmed = await confirmSave("project");
+
+    if (!confirmed) return;
+
+    setFormError("");
+
+    try {
+      const updatedProject = await apiRequest<ProjectAPI>(
+        `/api/projects/${currentProject.slug}`,
+        {
+          method: "PUT",
+          body: {
+            title: formData.title.trim(),
+            type: formData.type,
+            role: formData.role || null,
+            timeline: formData.timeline.trim(),
+            overview: formData.overview.trim(),
+            tech_stack: formData.techStack,
+            learnings: formData.learnings.filter((item) => item.trim() !== ""),
+            live_demo_url: formData.liveDemoLink || null,
+            github_url: formData.githubLink || null,
+          },
+        },
+      );
+
+      // Hapus gambar lama yang diganti atau dihilangkan.
+      for (const imageId of removedImageIds) {
+        await apiRequest(
+          `/api/projects/${updatedProject.slug}/images/${imageId}`,
+          { method: "DELETE" },
+        );
+      }
+
+      // Upload gambar baru.
+      await uploadImages(updatedProject.slug, imageFiles);
+
+      // Ambil data terbaru beserta metadata gambarnya.
+      const refreshedProject = await apiRequest<ProjectAPI>(
+        `/api/projects/${updatedProject.slug}`,
+      );
+
+      setProjects((prev) =>
+        prev.map((project) =>
+          project.slug === currentProject.slug
+            ? mapProject(refreshedProject)
+            : project,
+        ),
+      );
+
+      setEditingProject(null);
+      await notifySaved("project");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setFormError(err.message);
+      } else {
+        setFormError(
+          "Unable to update project or upload images. Please try again.",
+        );
+      }
+    }
   };
 
   const handleDelete = async (project: Project) => {
@@ -141,6 +235,12 @@ export function ProjectsCmsPage() {
 
   const handleReorder = (from: number, to: number) => {
     setProjects((prev) => moveItem(prev, from, to));
+  };
+
+  const handleCancel = () => {
+    setIsAdding(false);
+    setEditingProject(null);
+    setFormError("");
   };
 
   if (loading) {
@@ -160,25 +260,43 @@ export function ProjectsCmsPage() {
   }
 
   return (
-    <CmsPageContainer size={isAdding ? "form" : "list"}>
-      {isAdding ? (
+    <CmsPageContainer size={isFormOpen ? "form" : "list"}>
+      {isFormOpen ? (
         <>
           {formError && (
             <p className="mb-4 text-sm text-red-400">{formError}</p>
           )}
 
           <AddProjectView
-            onSubmit={handleCreate}
-            onCancel={() => {
-              setIsAdding(false);
-              setFormError("");
+            key={editingProject?.slug ?? "new-project"}
+            initialData={
+              editingProject ? mapProject(editingProject) : undefined
+            }
+            initialImageIds={
+              editingProject?.images?.map((image) => image.id) ?? []
+            }
+            onSubmit={(formData, imageFiles, removedImageIds) => {
+              if (editingProject) {
+                return handleUpdate(
+                  editingProject,
+                  formData,
+                  imageFiles,
+                  removedImageIds,
+                );
+              }
+
+              return handleCreate(formData, imageFiles);
             }}
+            onCancel={handleCancel}
           />
         </>
       ) : (
         <ProjectItems
           projects={projects}
-          onAdd={() => setIsAdding(true)}
+          onAdd={() => {
+            setFormError("");
+            setIsAdding(true);
+          }}
           onReorder={handleReorder}
           onEdit={handleEdit}
           onDelete={handleDelete}
